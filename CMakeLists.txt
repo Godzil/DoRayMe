@@ -17,6 +17,12 @@ ExternalProject_Add(googletest
         TEST_COMMAND      ""
 )
 
+# LodePNG don't make a .a or .so, so let's build a library here
+add_library(LodePNG STATIC)
+set(LODEPNG_INCLUDE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/external/lodepng)
+target_sources(LodePNG PRIVATE external/lodepng/lodepng.cpp external/lodepng/lodepng.h)
+
+
 # Main app
 add_subdirectory(source)
 # Unit Tests
