@@ -7,6 +7,7 @@
  *
  */
 
+#include <stdio.h>
 #include <matrix.h>
 #include <tuples.h>
 #include <math_helper.h>
@@ -15,7 +16,7 @@ Matrix::Matrix(int width)
 {
     int i;
 
-    this->width = width;
+    this->size = width;
 
     for(i = 0; i < width*width; i++)
     {
@@ -27,13 +28,13 @@ Matrix::Matrix(double values[], int width)
 {
     int x, y;
 
-    this->width = width;
+    this->size = width;
 
-    for(y = 0; y < this->width; y++)
+    for(y = 0; y < this->size; y++)
     {
-        for (x = 0 ; x < this->width ; x++)
+        for (x = 0 ; x < this->size ; x++)
         {
-            this->data[this->width * x + y] = values[this->width * x + y];
+            this->data[this->size * x + y] = values[this->size * x + y];
         }
     }
 };
@@ -41,13 +42,13 @@ Matrix::Matrix(double values[], int width)
 bool Matrix::operator==(const Matrix &b) const
 {
     int i;
-    if (this->width != b.width)
+    if (this->size != b.size)
     {
         /* If they are not the same size don't even bother */
         return false;
     }
 
-    for(i = 0; i < this->width*this->width; i++)
+    for(i = 0; i < this->size*this->size; i++)
     {
         if (!double_equal(this->data[i], b.data[i]))
         {
@@ -61,13 +62,13 @@ bool Matrix::operator==(const Matrix &b) const
 bool Matrix::operator!=(const Matrix &b) const
 {
     int i;
-    if (this->width != b.width)
+    if (this->size != b.size)
     {
         /* If they are not the same size don't even bother */
         return true;
     }
 
-    for(i = 0; i < this->width*this->width; i++)
+    for(i = 0; i < this->size*this->size; i++)
     {
         if (!double_equal(this->data[i], b.data[i]))
         {
@@ -80,16 +81,16 @@ bool Matrix::operator!=(const Matrix &b) const
 Matrix Matrix::operator*(const Matrix &b) const
 {
     int x, y, k;
-    Matrix ret = Matrix(this->width);
+    Matrix ret = Matrix(this->size);
 
-    if (this->width == b.width)
+    if (this->size == b.size)
     {
-        for (y = 0 ; y < this->width ; y++)
+        for (y = 0 ; y < this->size ; y++)
         {
-            for (x = 0 ; x < this->width ; x++)
+            for (x = 0 ; x < this->size ; x++)
             {
                 double v = 0;
-                for (k = 0 ; k < this->width ; k++)
+                for (k = 0 ; k < this->size ; k++)
                 {
                     v += this->get(x, k) * b.get(k, y);
                 }
@@ -111,7 +112,7 @@ Tuple Matrix::operator*(const Tuple &b) const
 Matrix Matrix::identity()
 {
     int i;
-    for(i = 0; i < this->width; i++)
+    for(i = 0; i < this->size; i++)
     {
         this->set(i, i, 1);
     }
@@ -121,13 +122,80 @@ Matrix Matrix::identity()
 Matrix Matrix::transpose()
 {
     int x, y;
-    Matrix ret = Matrix(this->width);
-    for (y = 0 ; y < this->width ; y++)
+    Matrix ret = Matrix(this->size);
+    for (y = 0 ; y < this->size ; y++)
     {
-        for (x = 0 ; x < this->width ; x++)
+        for (x = 0 ; x < this->size ; x++)
         {
             ret.set(y, x, this->get(x, y));
         }
     }
+    return ret;
+}
+
+Matrix Matrix::submatrix(int row, int column)
+{
+    int i, j;
+    int x = 0, y = 0;
+    Matrix ret = Matrix(this->size - 1);
+    for (i = 0 ; i < this->size ; i++)
+    {
+        if (i == row)
+        {
+            /* Skip that row */
+            continue;
+        }
+        y = 0;
+        for (j = 0 ; j < this->size ; j++)
+        {
+            if (j == column)
+            {
+                /* skip that column */
+                continue;
+            }
+            ret.set(x, y, this->get(i, j));
+            y++;
+        }
+        x++;
+    }
+    return ret;
+}
+
+double Matrix::determinant()
+{
+    double det = 0;
+    if (this->size == 2)
+    {
+        det = this->data[0] * this->data[3] - this->data[1] * this->data[2];
+    }
+    else
+    {
+        int col;
+        for(col = 0; col < this->size; col++)
+        {
+            det = det + this->get(0, col) * this->cofactor(0, col);
+        }
+    }
+    return det;
+}
+
+Matrix Matrix::inverse()
+{
+    Matrix ret = Matrix(this->size);
+
+    if (this->isInvertible())
+    {
+        int row, col;
+        double c;
+        for (row = 0; row < this->size; row++)
+        {
+            for (col = 0; col < this->size; col++)
+            {
+                c = this->cofactor(row, col);
+                ret.set(col, row, c / this->determinant());
+            }
+        }
+    }
+
     return ret;
 }
