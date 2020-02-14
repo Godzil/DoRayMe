@@ -10,6 +10,7 @@
 #ifndef DORAYME_MATH_HELPER_H
 #define DORAYME_MATH_HELPER_H
 
+void set_equal_precision(double v);
 bool double_equal(double a, double b);
 
 #endif //DORAYME_MATH_HELPER_H

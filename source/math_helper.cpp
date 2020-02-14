@@ -11,7 +11,14 @@
 #include <float.h>
 #include <math_helper.h>
 
+static double current_precision = FLT_EPSILON;
+
+void set_equal_precision(double v)
+{
+    current_precision = v;
+}
+
 bool double_equal(double a, double b)
 {
-    return fabs(a - b) < DBL_EPSILON;
+    return fabs(a - b) < current_precision;
 }
