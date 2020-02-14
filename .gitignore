@@ -1,4 +1,8 @@
-# Created by .ignore support plugin (hsz.mobi)
+# Build folders
+build*/
+cmake-*/
+.idea/
+
 ### C template
 # Prerequisites
 *.d
@@ -78,3 +82,5 @@ _deps
 # Compiled Static libraries
 *.lai
 
+# Other
+*.swp
