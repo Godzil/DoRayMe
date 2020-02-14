@@ -19,54 +19,14 @@ private:
     int width;
 
 public:
-    Matrix(int width) : width(width)
-    {
-        int i;
-        for(i = 0; i < width*width; i++)
-        {
-            this->data[i] = 0;
-        }
-    };
-    Matrix(double values[], int width)
-    {
-        int x, y;
+    Matrix(int width);
+    Matrix(double values[], int width);
 
-        this->width = width;
-
-        for(y = 0; y < this->width; y++)
-        {
-            for (x = 0 ; x < this->width ; x++)
-            {
-                this->data[this->width * x + y] = values[this->width * x + y];
-            }
-        }
-    };
     double get(int x, int y) const { return this->data[this->width * x + y]; };
     void set(int x, int y, double v) { this->data[this->width * x + y] = v; };
 
-    Matrix identity()
-    {
-        int i;
-        for(i = 0; i < this->width; i++)
-        {
-            this->set(i, i, 1);
-        }
-        return *this;
-    }
-
-    Matrix transpose()
-    {
-        int x, y;
-        Matrix ret = Matrix(this->width);
-        for(y = 0; y < this->width; y++)
-        {
-            for (x = 0 ; x < this->width ; x++)
-            {
-                ret.set(y, x, this->get(x, y));
-            }
-        }
-        return ret;
-    }
+    Matrix identity();
+    Matrix transpose();
 
     bool operator==(const Matrix &b) const;
     bool operator!=(const Matrix &b) const;

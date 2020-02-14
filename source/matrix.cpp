@@ -11,6 +11,33 @@
 #include <tuples.h>
 #include <math_helper.h>
 
+Matrix::Matrix(int width)
+{
+    int i;
+
+    this->width = width;
+
+    for(i = 0; i < width*width; i++)
+    {
+        this->data[i] = 0;
+    }
+};
+
+Matrix::Matrix(double values[], int width)
+{
+    int x, y;
+
+    this->width = width;
+
+    for(y = 0; y < this->width; y++)
+    {
+        for (x = 0 ; x < this->width ; x++)
+        {
+            this->data[this->width * x + y] = values[this->width * x + y];
+        }
+    }
+};
+
 bool Matrix::operator==(const Matrix &b) const
 {
     int i;
@@ -79,4 +106,28 @@ Tuple Matrix::operator*(const Tuple &b) const
                  b.x * this->get(1, 0) + b.y * this->get(1, 1) + b.z * this->get(1, 2) + b.w * this->get(1, 3),
                  b.x * this->get(2, 0) + b.y * this->get(2, 1) + b.z * this->get(2, 2) + b.w * this->get(2, 3),
                  b.x * this->get(3, 0) + b.y * this->get(3, 1) + b.z * this->get(3, 2) + b.w * this->get(3, 3));
+}
+
+Matrix Matrix::identity()
+{
+    int i;
+    for(i = 0; i < this->width; i++)
+    {
+        this->set(i, i, 1);
+    }
+    return *this;
+}
+
+Matrix Matrix::transpose()
+{
+    int x, y;
+    Matrix ret = Matrix(this->width);
+    for (y = 0 ; y < this->width ; y++)
+    {
+        for (x = 0 ; x < this->width ; x++)
+        {
+            ret.set(y, x, this->get(x, y));
+        }
+    }
+    return ret;
 }
