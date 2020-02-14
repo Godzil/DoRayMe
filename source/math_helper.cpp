@@ -22,3 +22,8 @@ bool double_equal(double a, double b)
 {
     return fabs(a - b) < current_precision;
 }
+
+double deg_to_rad(double deg)
+{
+   return deg * M_PI / 180.;
+}
