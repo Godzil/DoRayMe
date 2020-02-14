@@ -3,7 +3,7 @@ project(DoRayTested)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-set(TESTS_SRC tuples_test.cpp colour_test.cpp canvas_test.cpp matrix_test.cpp)
+set(TESTS_SRC tuples_test.cpp colour_test.cpp canvas_test.cpp matrix_test.cpp transformation_test.cpp)
 
 add_executable(testMyRays)
 target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
