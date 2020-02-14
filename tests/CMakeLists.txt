@@ -10,3 +10,8 @@ target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest
 target_include_directories(testMyRays PUBLIC ../source/include)
 target_sources(testMyRays PRIVATE ${TESTS_SRC})
 target_link_libraries(testMyRays gtest gtest_main rayonnement Threads::Threads)
+
+gtest_discover_tests(testMyRays
+   WORKING_DIRECTORY ${PROJECT_DIR}
+   PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_DIR}"
+   )
