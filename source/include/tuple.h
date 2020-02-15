@@ -6,8 +6,8 @@
  *  Copyright (c) 2020 986-Studio.
  *
  */
-#ifndef DORAYME_TUPLES_H
-#define DORAYME_TUPLES_H
+#ifndef DORAYME_TUPLE_H
+#define DORAYME_TUPLE_H
 
 #include <math_helper.h>
 
@@ -56,4 +56,4 @@ public:
     Vector cross(const Vector &b) const;
 };
 
-#endif /* DORAYME_TUPLES_H */
+#endif /*DORAYME_TUPLE_H*/

@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <matrix.h>
-#include <tuples.h>
+#include <tuple.h>
 #include <math_helper.h>
 
 Matrix::Matrix(int width)

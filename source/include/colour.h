@@ -9,7 +9,7 @@
 #ifndef DORAYME_COLOUR_H
 #define DORAYME_COLOUR_H
 
-#include <tuples.h>
+#include <tuple.h>
 
 class Colour : public Tuple
 {

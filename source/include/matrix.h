@@ -9,7 +9,7 @@
 #ifndef DORAYME_MATRIX_H
 #define DORAYME_MATRIX_H
 
-#include <tuples.h>
+#include <tuple.h>
 
 class Matrix
 {
