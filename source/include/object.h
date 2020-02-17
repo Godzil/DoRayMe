@@ -12,13 +12,24 @@
 class Object;
 
 #include <ray.h>
+#include <tuple.h>
+#include <matrix.h>
 #include <intersect.h>
 
 /* Base class for all object that can be presented in the world */
 class Object
 {
 public:
+    Matrix transformMatrix;
+    Matrix inverseTransform;
+
+public:
+    Object();
+
     virtual Intersect intersect(Ray r);
+    void setTransform(Matrix transform);
+    Ray transform(Ray r) {  return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
+    Ray invTransform(Ray r) {  return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
 };
 
 #endif //DORAYME_OBJECT_H

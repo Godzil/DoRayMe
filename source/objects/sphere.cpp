@@ -17,10 +17,13 @@ Intersect Sphere::intersect(Ray r)
 {
     Intersect ret;
     double a, b, c, discriminant;
-    Tuple sphere_to_ray = r.origin - Point(0, 0, 0);
 
-    a = r.direction.dot(r.direction);
-    b = 2 * r.direction.dot(sphere_to_ray);
+    Ray transRay = this->invTransform(r);
+
+    Tuple sphere_to_ray = transRay.origin - Point(0, 0, 0);
+
+    a = transRay.direction.dot(transRay.direction);
+    b = 2 * transRay.direction.dot(sphere_to_ray);
     c = sphere_to_ray.dot(sphere_to_ray) - 1;
 
     discriminant = b * b - 4 * a * c;
