@@ -5,8 +5,10 @@ add_library(rayonnement STATIC)
 
 set(RAY_HEADERS include/tuple.h include/math_helper.h include/colour.h include/canvas.h
         include/matrix.h include/transformation.h include/intersect.h include/intersection.h
+        include/light.h include/material.h
         include/object.h include/ray.h include/sphere.h)
 set(RAY_SOURCES tuple.cpp math_helper.cpp colour.cpp canvas.cpp matrix.cpp transformation.cpp intersect.cpp
+        objects/light.cpp objects/material.cpp
         objects/object.cpp objects/ray.cpp objects/sphere.cpp)
 
 target_include_directories(rayonnement PUBLIC include)

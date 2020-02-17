@@ -15,6 +15,7 @@ class Object;
 #include <tuple.h>
 #include <matrix.h>
 #include <intersect.h>
+#include <material.h>
 
 /* Base class for all object that can be presented in the world */
 class Object
@@ -22,6 +23,7 @@ class Object
 public:
     Matrix transformMatrix;
     Matrix inverseTransform;
+    Material material;
 
 public:
     Object();
@@ -30,6 +32,7 @@ public:
     virtual Tuple normalAt(Tuple point);
 
     void setTransform(Matrix transform);
+    void setMaterial(Material material) { this->material = material; };
     Ray transform(Ray r) {  return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
     Ray invTransform(Ray r) {  return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
 };

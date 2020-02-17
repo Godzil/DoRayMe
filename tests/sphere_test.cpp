@@ -8,6 +8,7 @@
  */
 #include <ray.h>
 #include <sphere.h>
+#include <material.h>
 #include <transformation.h>
 #include <gtest/gtest.h>
 
@@ -177,4 +178,24 @@ TEST(SphereTest, Computing_the_normal_on_a_tranformed_sphere)
 
     /* Revert to default */
     set_equal_precision(FLT_EPSILON);
+}
+
+TEST(SphereTest, A_sphere_have_a_default_material)
+{
+    Sphere s = Sphere();
+    Material m = Material();
+
+    ASSERT_EQ(s.material, m);
+}
+
+TEST(SphereTest, A_sphere_may_be_assigned_a_material)
+{
+    Sphere s = Sphere();
+
+    Material m = Material();
+    m.ambient = 1;
+
+    s.setMaterial(m);
+
+    ASSERT_EQ(s.material, m);
 }
