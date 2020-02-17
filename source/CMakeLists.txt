@@ -3,9 +3,11 @@
 # First most is build as a library
 add_library(rayonnement STATIC)
 
-set(RAY_HEADERS include/tuple.h include/math_helper.h include/colour.h include/canvas.h include/matrix.h include/transformation.h
-        include/ray.h)
-set(RAY_SOURCES tuple.cpp math_helper.cpp colour.cpp canvas.cpp matrix.cpp transformation.cpp objects/ray.cpp)
+set(RAY_HEADERS include/tuple.h include/math_helper.h include/colour.h include/canvas.h
+        include/matrix.h include/transformation.h include/intersect.h include/intersection.h
+        include/object.h include/ray.h include/sphere.h)
+set(RAY_SOURCES tuple.cpp math_helper.cpp colour.cpp canvas.cpp matrix.cpp transformation.cpp intersect.cpp
+        objects/object.cpp objects/ray.cpp objects/sphere.cpp)
 
 target_include_directories(rayonnement PUBLIC include)
 target_sources(rayonnement PRIVATE ${RAY_HEADERS} ${RAY_SOURCES})
