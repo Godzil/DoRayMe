@@ -19,3 +19,7 @@ target_link_libraries(rayonnement LodePNG)
 add_executable(dorayme main.cpp)
 target_include_directories(rayonnement PUBLIC include ${LODEPNG_INCLUDE_FOLDER})
 target_link_libraries(dorayme rayonnement)
+
+if (COVERALLS)
+    set(COVERAGE_SRCS ${RAY_HEADERS} ${RAY_SOURCES} ${COVERAGE_SRCS} PARENT_SCOPE)
+endif()

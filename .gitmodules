@@ -10,3 +10,6 @@
 [submodule "external/lodepng"]
 	path = external/lodepng
 	url = https://github.com/lvandeve/lodepng
+[submodule "external/coveralls-cmake"]
+	path = external/coveralls-cmake
+	url = https://github.com/JoakimSoderberg/coveralls-cmake.git
