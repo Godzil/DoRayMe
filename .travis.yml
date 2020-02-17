@@ -18,7 +18,7 @@ script:
    - cd ..
    - mkdir coverage
    - cd coverage
-   - cmake .. -DCOVERALL=ON -DCMAKE_BUILD_TYPE=Debug
+   - cmake .. -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug
    - cmake --build .
    - cmake --build . --target coveralls
  
