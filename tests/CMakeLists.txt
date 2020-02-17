@@ -16,3 +16,9 @@ gtest_discover_tests(testMyRays
    WORKING_DIRECTORY ${PROJECT_DIR}
    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_DIR}"
    )
+
+
+add_executable(ch5_test)
+target_include_directories(ch5_test PUBLIC ../source/include)
+target_sources(ch5_test PRIVATE ch5_test.cpp)
+target_link_libraries(ch5_test rayonnement)
