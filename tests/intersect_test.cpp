@@ -60,3 +60,73 @@ TEST(IntersectTest, Intersect_sets_the_object_on_the_intersection)
     ASSERT_EQ(xs[0].object, (Object *)&s);
     ASSERT_EQ(xs[1].object, (Object *)&s);
 }
+
+TEST(IntersectTest, The_hit_when_all_intersection_have_positive_t)
+{
+    Sphere s = Sphere();
+    Intersect xs = Intersect();
+
+    Intersection i1 = Intersection(1, &s);
+    Intersection i2 = Intersection(2, &s);
+
+    xs.add(i1);
+    xs.add(i2);
+
+    Intersection i = xs.hit();
+
+    ASSERT_EQ(i, i1);
+}
+
+TEST(IntersectTest, The_hit_when_some_intersection_have_negative_t)
+{
+    Sphere s = Sphere();
+    Intersect xs = Intersect();
+
+    Intersection i1 = Intersection(-1, &s);
+    Intersection i2 = Intersection(2, &s);
+    Intersection i3 = Intersection(12, &s);
+
+    xs.add(i1);
+    xs.add(i2);
+    xs.add(i3);
+
+    Intersection i = xs.hit();
+
+    ASSERT_EQ(i, i2);
+}
+
+TEST(IntersectTest, The_hit_when_all_intersection_have_negative_t)
+{
+    Sphere s = Sphere();
+    Intersect xs = Intersect();
+
+    Intersection i1 = Intersection(-2, &s);
+    Intersection i2 = Intersection(-1, &s);
+
+    xs.add(i1);
+    xs.add(i2);
+
+    Intersection i = xs.hit();
+
+    ASSERT_TRUE(i.nothing());
+}
+
+TEST(IntersectTest, The_hit_is_always_the_lowest_nonnegative_intersection)
+{
+    Sphere s = Sphere();
+    Intersect xs = Intersect();
+
+    Intersection i1 = Intersection(5, &s);
+    Intersection i2 = Intersection(7, &s);
+    Intersection i3 = Intersection(-3, &s);
+    Intersection i4 = Intersection(2, &s);
+
+    xs.add(i1);
+    xs.add(i2);
+    xs.add(i3);
+    xs.add(i4);
+
+    Intersection i = xs.hit();
+
+    ASSERT_EQ(i, i4);
+}

@@ -21,6 +21,9 @@ public:
 
 public:
     Intersection(double t, Object *object) : t(t), object(object) { };
+    bool nothing() { return (this->object == nullptr); };
+
+    bool operator==(const Intersection &b) const { return ((this->t == b.t) && (this->object == b.object)); };
 };
 
 #endif //DORAYME_INTERSECTION_H
