@@ -27,6 +27,8 @@ public:
     Object();
 
     virtual Intersect intersect(Ray r);
+    virtual Tuple normalAt(Tuple point);
+
     void setTransform(Matrix transform);
     Ray transform(Ray r) {  return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
     Ray invTransform(Ray r) {  return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };

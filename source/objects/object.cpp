@@ -24,6 +24,11 @@ Intersect Object::intersect(Ray r)
     return Intersect();
 };
 
+Tuple Object::normalAt(Tuple point)
+{
+    return Vector(0, 0, 0);
+}
+
 void Object::setTransform(Matrix transform)
 {
     this->transformMatrix = transform;

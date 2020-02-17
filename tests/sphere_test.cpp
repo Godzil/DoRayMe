@@ -106,3 +106,75 @@ TEST(SphereTest, Intersecting_a_translated_sphere_with_a_ray)
 
     ASSERT_EQ(xs.count(), 0);
 }
+
+TEST(SphereTest, The_normal_on_a_sphere_at_a_point_on_the_X_axis)
+{
+    Sphere s = Sphere();
+    Tuple n = s.normalAt(Point(1, 0, 0));
+
+    ASSERT_EQ(n, Vector(1, 0, 0));
+}
+
+TEST(SphereTest, The_normal_on_a_sphere_at_a_point_on_the_Y_axis)
+{
+    Sphere s = Sphere();
+    Tuple n = s.normalAt(Point(0, 1, 0));
+
+    ASSERT_EQ(n, Vector(0, 1, 0));
+}
+
+TEST(SphereTest, The_normal_on_a_sphere_at_a_point_on_the_Z_axis)
+{
+    Sphere s = Sphere();
+    Tuple n = s.normalAt(Point(0, 0, 1));
+
+    ASSERT_EQ(n, Vector(0, 0, 1));
+}
+
+TEST(SphereTest, The_normal_on_a_sphere_at_a_nonaxial_point)
+{
+    Sphere s = Sphere();
+    Tuple n = s.normalAt(Point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
+
+    ASSERT_EQ(n, Vector(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
+}
+
+TEST(SphereTest, The_normal_is_a_normalise_vector)
+{
+    Sphere s = Sphere();
+    Tuple n = s.normalAt(Point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
+
+    ASSERT_EQ(n, n.normalise());
+}
+
+TEST(SphereTest, Computing_the_normal_on_a_translated_sphere)
+{
+    Sphere s = Sphere();
+
+    s.setTransform(translation(0, 1, 0));
+
+    Tuple n = s.normalAt(Point(0, 1.70711, -0.70711));
+
+    set_equal_precision(0.0001);
+
+    ASSERT_EQ(n, Vector(0, 0.70711, -0.70711));
+
+    /* Revert to default */
+    set_equal_precision(FLT_EPSILON);
+}
+
+TEST(SphereTest, Computing_the_normal_on_a_tranformed_sphere)
+{
+    Sphere s = Sphere();
+
+    s.setTransform(scaling(1, 0.5, 1) * rotation_z(M_PI / 5));
+
+    Tuple n = s.normalAt(Point(0, sqrt(2)/2, -sqrt(2)/2));
+
+    set_equal_precision(0.0001);
+
+    ASSERT_EQ(n, Vector(0, 0.97014, -0.24254));
+
+    /* Revert to default */
+    set_equal_precision(FLT_EPSILON);
+}

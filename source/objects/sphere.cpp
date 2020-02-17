@@ -36,3 +36,15 @@ Intersect Sphere::intersect(Ray r)
 
     return ret;
 }
+
+Tuple Sphere::normalAt(Tuple point)
+{
+    Tuple object_point = this->inverseTransform * point;
+    Tuple object_normal = (object_point - Point(0, 0, 0)).normalise();
+    Tuple world_normal = this->inverseTransform.transpose() * object_normal;
+
+    /* W may get wrong, so hack it. This is perfectly normal as we are using a 4x4 matrix instead of a 3x3 */
+    world_normal.w = 0;
+
+    return world_normal.normalise();
+}

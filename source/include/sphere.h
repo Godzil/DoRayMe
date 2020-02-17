@@ -18,6 +18,7 @@ class Sphere : public Object
 public:
     /* All sphere are at (0, 0, 0) and radius 1 in the object space */
     virtual Intersect intersect(Ray r);
+    virtual Tuple normalAt(Tuple point);
 };
 
 #endif //DORAYME_SPHERE_H
