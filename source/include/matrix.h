@@ -19,7 +19,7 @@ protected:
     int size;
 
 public:
-    Matrix(int size);
+    Matrix(int size = 4);
     Matrix(double values[], int size);
 
     double get(int x, int y) const { return this->data[this->size * x + y]; };
