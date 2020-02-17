@@ -27,8 +27,8 @@ Intersect Sphere::intersect(Ray r)
 
     if (discriminant >= 0)
     {
-        ret.add(newIntersection((-b - sqrt(discriminant)) / (2 * a), this));
-        ret.add(newIntersection((-b + sqrt(discriminant)) / (2 * a), this));
+        ret.add(Intersection((-b - sqrt(discriminant)) / (2 * a), this));
+        ret.add(Intersection((-b + sqrt(discriminant)) / (2 * a), this));
     }
 
     return ret;

@@ -18,8 +18,8 @@ TEST(SphereTest, A_ray_intersect_a_sphere_at_two_points)
     Intersect xs = s.intersect(r);
 
     ASSERT_EQ(xs.count(), 2);
-    ASSERT_EQ(xs[0]->t, 4.0);
-    ASSERT_EQ(xs[1]->t, 6.0);
+    ASSERT_EQ(xs[0].t, 4.0);
+    ASSERT_EQ(xs[1].t, 6.0);
 }
 
 TEST(SphereTest, A_ray_intersect_a_sphere_at_a_tangent)
@@ -29,8 +29,8 @@ TEST(SphereTest, A_ray_intersect_a_sphere_at_a_tangent)
     Intersect xs = s.intersect(r);
 
     ASSERT_EQ(xs.count(), 2);
-    ASSERT_EQ(xs[0]->t, 5.0);
-    ASSERT_EQ(xs[1]->t, 5.0);
+    ASSERT_EQ(xs[0].t, 5.0);
+    ASSERT_EQ(xs[1].t, 5.0);
 }
 
 TEST(SphereTest, A_ray_miss_a_sphere)
@@ -49,8 +49,8 @@ TEST(SphereTest, A_ray_originate_inside_a_sphere)
     Intersect xs = s.intersect(r);
 
     ASSERT_EQ(xs.count(), 2);
-    ASSERT_EQ(xs[0]->t, -1.0);
-    ASSERT_EQ(xs[1]->t, 1.0);
+    ASSERT_EQ(xs[0].t, -1.0);
+    ASSERT_EQ(xs[1].t, 1.0);
 }
 
 TEST(SphereTest, A_sphere_is_behind_a_ray)
@@ -60,6 +60,6 @@ TEST(SphereTest, A_sphere_is_behind_a_ray)
     Intersect xs = s.intersect(r);
 
     ASSERT_EQ(xs.count(), 2);
-    ASSERT_EQ(xs[0]->t, -6.0);
-    ASSERT_EQ(xs[1]->t, -4.0);
+    ASSERT_EQ(xs[0].t, -6.0);
+    ASSERT_EQ(xs[1].t, -4.0);
 }

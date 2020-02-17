@@ -13,31 +13,14 @@
 
 class Object;
 
-struct Intersection
+class Intersection
 {
+public:
     double t;
     Object *object;
+
+public:
+    Intersection(double t, Object *object) : t(t), object(object) { };
 };
-
-static Intersection *newIntersection(double t, Object *object)
-{
-    Intersection *ret = (Intersection *)calloc(sizeof(Intersection), 1);
-
-    if (ret != nullptr)
-    {
-        ret->t = t;
-        ret->object = object;
-    }
-
-    return ret;
-}
-
-static void freeIntersection(Intersection *i)
-{
-    if ( i != nullptr )
-    {
-        free(i);
-    }
-}
 
 #endif //DORAYME_INTERSECTION_H
