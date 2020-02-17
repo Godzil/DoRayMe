@@ -8,6 +8,7 @@ addons:
   apt:
     packages:
       - lcov
+      - gcov-7.4
 
 compiler:
    - clang
