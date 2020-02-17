@@ -34,3 +34,8 @@ Tuple Tuple::cross(const Tuple &b) const
                  this->x * b.y - this->y * b.x,
                  0);
 }
+
+Tuple Tuple::reflect(const Tuple &normal)
+{
+    return *this - normal * 2 * this->dot(normal);
+}

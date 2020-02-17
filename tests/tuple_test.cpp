@@ -181,3 +181,23 @@ TEST(TuplesTests, Cross_product_of_two_vector)
     ASSERT_EQ(a.cross(b), Vector(-1, 2, -1));
     ASSERT_EQ(b.cross(a), Vector(1, -2, 1));
 }
+
+TEST(TuplesTests, Reflecting_a_vector_approaching_at_45)
+{
+    Vector v = Vector(1, -1, 0); /* Vector */
+    Vector n = Vector(0, 1, 0); /* Normal */
+
+    Tuple r = v.reflect(n);
+
+    ASSERT_EQ(r, Vector(1, 1, 0));
+}
+
+TEST(TuplesTests, Reflecting_a_vector_off_a_slanted_surface)
+{
+    Vector v = Vector(0, -1, 0); /* Vector */
+    Vector n = Vector(sqrt(2)/2, sqrt(2)/2, 0); /* Normal */
+
+    Tuple r = v.reflect(n);
+
+    ASSERT_EQ(r, Vector(1, 0, 0));
+}

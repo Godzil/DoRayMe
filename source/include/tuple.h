@@ -41,8 +41,8 @@ public:
     double magnitude();
     Tuple normalise();
     double dot(const Tuple &b);
-
     Tuple cross(const Tuple &b) const;
+    Tuple reflect(const Tuple &normal);
 };
 
 class Point: public Tuple
