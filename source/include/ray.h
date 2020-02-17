@@ -14,10 +14,10 @@
 class Ray
 {
 public:
-    Vector direction;
-    Point origin;
+    Tuple direction;
+    Tuple origin;
 
-    Ray(Point origin, Vector direction) : origin(origin), direction(direction) { };
+    Ray(Tuple origin, Tuple direction) : origin(origin), direction(direction) { };
 
     Tuple position(double t) { return this->origin + this->direction * t; };
 };
