@@ -29,7 +29,7 @@ int main()
         double worldY = (wallSize / 2) - pixelSize * y;
         for(x = 0; x < c.width; x++)
         {
-            double worldX = (wallSize / 2) - pixelSize * x;
+            double worldX = -(wallSize / 2) + pixelSize * x;
             Point position = Point(worldX, worldY, wallDistance);
             Ray r = Ray(cameraOrigin, (position - cameraOrigin).normalise());
             Intersect xs = s.intersect(r);
