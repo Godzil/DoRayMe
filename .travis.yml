@@ -15,8 +15,6 @@ compiler:
 
 
 script:
-   - gcov --version
-   - ls /usr/bin/gcov*
    - mkdir build
    - cd build
    - cmake ..
