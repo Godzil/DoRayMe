@@ -1,26 +1,26 @@
 dist: bionic
 language: c
 os:
-	- linux
-	- osx
+   - linux
+   - osx
 
 compiler:
-	- clang
-	- gcc
+   - clang
+   - gcc
 
 
 script:
-	mkdir build
-	cd build
-	cmake ..
-	make
-	make test
-	cd ..
-	mkdir coverage
-	cd coverage
-	cmake .. -DCOVERALL=ON -DCMAKE_BUILD_TYPE=Debug
-	cmake --build .
-	cmake --build . --target coveralls
-	 
+   - mkdir build
+   - cd build
+   - cmake ..
+   - make
+   - make test
+   - cd ..
+   - mkdir coverage
+   - cd coverage
+   - cmake .. -DCOVERALL=ON -DCMAKE_BUILD_TYPE=Debug
+   - cmake --build .
+   - cmake --build . --target coveralls
+ 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+   - bash <(curl -s https://codecov.io/bash)
