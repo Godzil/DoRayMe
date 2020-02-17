@@ -27,9 +27,10 @@ double Tuple::dot(const Tuple &b)
     return this->x * b.x + this->y * b.y + this->z * b.z + this->w * b.w;
 }
 
-Vector Vector::cross(const Vector &b) const
+Tuple Tuple::cross(const Tuple &b) const
 {
-    return Vector(this->y * b.z - this->z * b.y,
-                  this->z * b.x - this->x * b.z,
-                  this->x * b.y - this->y * b.x);
+    return Tuple(this->y * b.z - this->z * b.y,
+                 this->z * b.x - this->x * b.z,
+                 this->x * b.y - this->y * b.x,
+                 0);
 }

@@ -41,6 +41,8 @@ public:
     double magnitude();
     Tuple normalise();
     double dot(const Tuple &b);
+
+    Tuple cross(const Tuple &b) const;
 };
 
 class Point: public Tuple
@@ -53,7 +55,6 @@ class Vector: public Tuple
 {
 public:
     Vector(double x, double y, double z) : Tuple(x, y, z, 0.0) {};
-    Vector cross(const Vector &b) const;
 };
 
 #endif /*DORAYME_TUPLE_H*/
