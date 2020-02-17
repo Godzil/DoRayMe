@@ -22,3 +22,8 @@ add_executable(ch5_test)
 target_include_directories(ch5_test PUBLIC ../source/include)
 target_sources(ch5_test PRIVATE ch5_test.cpp)
 target_link_libraries(ch5_test rayonnement)
+
+add_executable(ch6_test)
+target_include_directories(ch6_test PUBLIC ../source/include)
+target_sources(ch6_test PRIVATE ch6_test.cpp)
+target_link_libraries(ch6_test rayonnement)
