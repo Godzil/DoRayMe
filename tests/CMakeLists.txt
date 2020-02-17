@@ -27,3 +27,6 @@ add_executable(ch6_test)
 target_include_directories(ch6_test PUBLIC ../source/include)
 target_sources(ch6_test PRIVATE ch6_test.cpp)
 target_link_libraries(ch6_test rayonnement)
+
+add_test(NAME Chapter05_Test COMMAND $<TARGET_FILE:ch5_test>)
+add_test(NAME Chapter06_Test COMMAND $<TARGET_FILE:ch6_test>)
