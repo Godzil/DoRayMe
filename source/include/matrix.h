@@ -11,6 +11,14 @@
 
 #include <tuple.h>
 
+/* Some **** linux distro seems to define "minor" as a macro
+ * and wreak havoc.
+ * Let's make sure we are clean here 
+ */
+#ifdef minor
+#undef minor
+#endif
+
 class Matrix
 {
 protected:
