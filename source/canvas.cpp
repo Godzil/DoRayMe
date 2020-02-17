@@ -48,10 +48,5 @@ bool Canvas::SaveAsPNG(const char *filename)
 {
     uint32_t ret = lodepng_encode24_file(filename, this->bitmap, this->width, this->height);
 
-    if (ret > 0)
-    {
-        printf("lodepng_encode_file returned %d!\n", ret);
-    }
-
     return ret == 0;
 }
