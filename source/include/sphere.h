@@ -9,7 +9,7 @@
 #ifndef DORAYME_SPHERE_H
 #define DORAYME_SPHERE_H
 
-#include <object.h>
+#include <shape.h>
 #include <ray.h>
 #include <intersect.h>
 

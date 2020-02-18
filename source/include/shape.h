@@ -6,8 +6,8 @@
  *  Copyright (c) 2020 986-Studio.
  *
  */
-#ifndef DORAYME_OBJECT_H
-#define DORAYME_OBJECT_H
+#ifndef DORAYME_SHAPE_H
+#define DORAYME_SHAPE_H
 
 class Shape;
 
@@ -37,4 +37,4 @@ public:
     Ray invTransform(Ray r) {  return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
 };
 
-#endif //DORAYME_OBJECT_H
+#endif //DORAYME_SHAPE_H

@@ -8,7 +8,7 @@
  */
 #include <ray.h>
 #include <transformation.h>
-#include <object.h>
+#include <shape.h>
 #include <gtest/gtest.h>
 
 

@@ -8,7 +8,7 @@
  */
 
 #include <ray.h>
-#include <object.h>
+#include <shape.h>
 #include <matrix.h>
 #include <tuple.h>
 #include <intersect.h>
