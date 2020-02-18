@@ -189,3 +189,14 @@ TEST(TransformationTest, Chained_transformation_must_be_applied_in_reverse_order
     Matrix T = C * B * A;
     ASSERT_EQ(T * p, Point(15, 0, 7));
 }
+
+TEST(TransformationTest, Check_that_deg_to_rad_is_working)
+{
+    double angle180 = deg_to_rad(180);
+    double angle90 = deg_to_rad(90);
+    double angle270 = deg_to_rad(270);
+
+    ASSERT_EQ(angle180, M_PI);
+    ASSERT_EQ(angle90, M_PI / 2.);
+    ASSERT_EQ(angle270, M_PI * 1.5);
+}

@@ -30,7 +30,7 @@ TEST(MatrixTest, Constructing_and_inspecting_a_4x4_Matrix)
     ASSERT_EQ(m.get(3, 2), 15.5);
 }
 
-TEST(MatrixTest, A_2x2_matric_ought_to_be_representable)
+TEST(MatrixTest, Change_a_single_value_and_check_it)
 {
     double values[] = {-3, 5,
                         1, -2};
@@ -41,9 +41,13 @@ TEST(MatrixTest, A_2x2_matric_ought_to_be_representable)
     ASSERT_EQ(m.get(0, 1), 5);
     ASSERT_EQ(m.get(1, 0), 1);
     ASSERT_EQ(m.get(1, 1), -2);
+
+    m.set(0, 0, 12);
+
+    ASSERT_EQ(m.get(0, 0), 12);
 }
 
-TEST(MatrixTest, A_3x3_matric_ought_to_be_representable)
+TEST(MatrixTest, A_3x3_matrix_ought_to_be_representable)
 {
     double values[] = {-3, 5, 0,
                        1,  -2, -7,
@@ -54,6 +58,19 @@ TEST(MatrixTest, A_3x3_matric_ought_to_be_representable)
     ASSERT_EQ(m.get(0, 0), -3);
     ASSERT_EQ(m.get(1, 1), -2);
     ASSERT_EQ(m.get(2, 2), 1);
+}
+
+TEST(MatrixTest, A_2x2_matrix_ought_to_be_representable)
+{
+    double values[] = {-3, 5,
+                       1, -2};
+
+    Matrix2 m = Matrix2(values);
+
+    ASSERT_EQ(m.get(0, 0), -3);
+    ASSERT_EQ(m.get(0, 1), 5);
+    ASSERT_EQ(m.get(1, 0), 1);
+    ASSERT_EQ(m.get(1, 1), -2);
 }
 
 TEST(MatrixTest, Matrix_equality_with_identical_matrix)
