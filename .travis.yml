@@ -13,19 +13,29 @@ compiler:
    - clang
    - gcc
 
-
-script:
-   - mkdir build
-   - cd build
-   - cmake ..
-   - make
-   - make test
-   - cd ..
-   - mkdir coverage
-   - cd coverage
-   - cmake .. -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug
-   - cmake --build .
-   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake --build . --target coveralls; fi
+jobs:
+   include:
+      - stage: "Build"
+        script:
+          - mkdir build
+          - cd build
+          - cmake ..
+          - make
+          - cd ..
+      - stage: "Tests"
+        name: "Unit tests"
+        script:
+          - cd build
+          - make test
+          - cd ..
+      - stage: "Coverage"
+        name: "Running coverall coverage"
+        script:
+          - mkdir coverage
+          - cd coverage
+          - cmake .. -DCOVERALLS=ON -DCMAKE_BUILD_TYPE=Debug
+          - cmake --build .
+          - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cmake --build . --target coveralls; fi
  
 after_success:
    - bash <(curl -s https://codecov.io/bash)
