@@ -5,7 +5,8 @@ add_library(rayonnement STATIC)
 
 file(GLOB RAY_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 
-file(GLOB RAY_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/shapes/*.cpp)
+file(GLOB RAY_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/shapes/*.cpp
+                      ${CMAKE_CURRENT_SOURCE_DIR}/worldbuilder/*.cpp)
 
 target_include_directories(rayonnement PUBLIC include)
 target_sources(rayonnement PRIVATE ${RAY_HEADERS} ${RAY_SOURCES})
