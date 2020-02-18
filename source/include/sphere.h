@@ -13,7 +13,7 @@
 #include <ray.h>
 #include <intersect.h>
 
-class Sphere : public Object
+class Sphere : public Shape
 {
 public:
     /* All sphere are at (0, 0, 0) and radius 1 in the object space */

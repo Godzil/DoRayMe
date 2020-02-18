@@ -9,7 +9,7 @@
 #ifndef DORAYME_OBJECT_H
 #define DORAYME_OBJECT_H
 
-class Object;
+class Shape;
 
 #include <ray.h>
 #include <tuple.h>
@@ -18,7 +18,7 @@ class Object;
 #include <material.h>
 
 /* Base class for all object that can be presented in the world */
-class Object
+class Shape
 {
 public:
     Matrix transformMatrix;
@@ -26,7 +26,7 @@ public:
     Material material;
 
 public:
-    Object();
+    Shape();
 
     virtual Intersect intersect(Ray r);
     virtual Tuple normalAt(Tuple point);

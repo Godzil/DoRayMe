@@ -11,16 +11,16 @@
 
 #include <stdlib.h>
 
-class Object;
+class Shape;
 
 class Intersection
 {
 public:
     double t;
-    Object *object;
+    Shape *object;
 
 public:
-    Intersection(double t, Object *object) : t(t), object(object) { };
+    Intersection(double t, Shape *object) : t(t), object(object) { };
     bool nothing() { return (this->object == nullptr); };
 
     bool operator==(const Intersection &b) const { return ((this->t == b.t) && (this->object == b.object)); };

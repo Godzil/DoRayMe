@@ -13,23 +13,23 @@
 #include <tuple.h>
 #include <intersect.h>
 
-Object::Object()
+Shape::Shape()
 {
     this->transformMatrix = Matrix4().identity();
     this->inverseTransform = this->transformMatrix.inverse();
 }
 
-Intersect Object::intersect(Ray r)
+Intersect Shape::intersect(Ray r)
 {
     return Intersect();
 };
 
-Tuple Object::normalAt(Tuple point)
+Tuple Shape::normalAt(Tuple point)
 {
     return Vector(0, 0, 0);
 }
 
-void Object::setTransform(Matrix transform)
+void Shape::setTransform(Matrix transform)
 {
     this->transformMatrix = transform;
     this->inverseTransform = transform.inverse();

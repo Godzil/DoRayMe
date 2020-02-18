@@ -32,7 +32,7 @@ TEST(IntersectTest, An_intersection_encapsulate_t_and_object)
     Intersection i = Intersection(3.5, &s);
 
     ASSERT_EQ(i.t, 3.5);
-    ASSERT_EQ(i.object, (Object *)&s);
+    ASSERT_EQ(i.object, (Shape *)&s);
 }
 
 TEST(IntersectTest, Aggregating_intersections)
@@ -57,8 +57,8 @@ TEST(IntersectTest, Intersect_sets_the_object_on_the_intersection)
     Intersect xs = s.intersect(r);
 
     ASSERT_EQ(xs.count(), 2);
-    ASSERT_EQ(xs[0].object, (Object *)&s);
-    ASSERT_EQ(xs[1].object, (Object *)&s);
+    ASSERT_EQ(xs[0].object, (Shape *)&s);
+    ASSERT_EQ(xs[1].object, (Shape *)&s);
 }
 
 TEST(IntersectTest, The_hit_when_all_intersection_have_positive_t)
