@@ -24,7 +24,7 @@ jobs:
   include:
     - stage: "Coverage"
       os: linux
-      compiler: clang
+      compiler: gcc
       script:
         - mkdir coverage
         - cd coverage
