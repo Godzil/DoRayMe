@@ -12,6 +12,8 @@
 #include <stdint.h>
 #include <light.h>
 #include <shape.h>
+#include <intersect.h>
+#include <ray.h>
 
 class World
 {
@@ -23,11 +25,22 @@ private:
     uint32_t allocatedObjectCount;
     uint32_t allocatedLightCount;
 
-    Light *lightList;
-    Shape *shapeList;
+    Light* *lightList;
+    Shape* *objectList;
 
 public:
-    World() : objectCount(0), lightCount(0) { };
+    World();
+    ~World();
+
+    void addObject(Shape *s);
+    void addLight(Light *l);
+
+    /* Some debug things */
+    bool lightIsIn(Light &l);
+    bool objectIsIn(Shape &s);
+
+    Intersect intersect(Ray r);
+
 };
 
 #endif //DORAYME_WORLD_H

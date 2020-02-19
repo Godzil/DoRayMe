@@ -17,16 +17,16 @@
 Intersect::Intersect()
 {
     this->allocated = MIN_ALLOC;
-    this->list = (Intersection *)calloc(sizeof(Shape *), MIN_ALLOC);
+    this->list = (Intersection *)calloc(sizeof(Intersection *), MIN_ALLOC);
     this->num = 0;
 }
 
 void Intersect::add(Intersection i)
 {
-    if ((this->num + 1) < this->allocated)
+    if ((this->num + 1) > this->allocated)
     {
         this->allocated *= 2;
-        this->list = (Intersection *)realloc(this->list, sizeof(Shape *) * this->allocated);
+        this->list = (Intersection *)realloc(this->list, sizeof(Intersection *) * this->allocated);
     }
     this->list[this->num++] = i;
 }

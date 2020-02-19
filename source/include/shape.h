@@ -17,16 +17,25 @@ class Shape;
 #include <intersect.h>
 #include <material.h>
 
+enum ShapeType
+{
+    SHAPE_NONE,
+    SHAPE_SPHERE,
+};
+
 /* Base class for all object that can be presented in the world */
 class Shape
 {
+private:
+    ShapeType type;
+
 public:
     Matrix transformMatrix;
     Matrix inverseTransform;
     Material material;
 
 public:
-    Shape();
+    Shape(ShapeType = SHAPE_NONE);
 
     virtual Intersect intersect(Ray r);
     virtual Tuple normalAt(Tuple point);
@@ -35,6 +44,11 @@ public:
     void setMaterial(Material material) { this->material = material; };
     Ray transform(Ray r) {  return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
     Ray invTransform(Ray r) {  return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
+
+    bool operator==(const Shape &b) const { return this->material == b.material &&
+                                                   this->type == b.type &&
+                                                   this->transformMatrix == b.transformMatrix; };
+
 };
 
 #endif //DORAYME_SHAPE_H

@@ -27,6 +27,10 @@ public:
 public:
     Light(LightType type = POINT_LIGHT, Tuple position=Point(0, 0, 0),
           Colour intensity=Colour(1, 1, 1)) : type(type), position(position), intensity(intensity) { };
+
+    bool operator==(const Light &b) const { return this->intensity == b.intensity &&
+                                                   this->position == b.position &&
+                                                   this->type == b.type; };
 };
 
 #endif //DORAYME_LIGHT_H

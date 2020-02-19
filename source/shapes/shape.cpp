@@ -13,8 +13,9 @@
 #include <tuple.h>
 #include <intersect.h>
 
-Shape::Shape()
+Shape::Shape(ShapeType type)
 {
+    this->type = type;
     this->transformMatrix = Matrix4().identity();
     this->inverseTransform = this->transformMatrix.inverse();
 }

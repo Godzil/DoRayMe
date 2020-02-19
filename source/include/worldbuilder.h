@@ -13,14 +13,14 @@
 
 /* Let's keep a single header for now, will see later */
 
-class DefaultWorld : World
+class DefaultWorld : public World
 {
 public:
     DefaultWorld();
 };
 
 /* Not implemented yet */
-class Hw3File : World
+class Hw3File : public World
 {
 public:
     Hw3File(const char *filename);

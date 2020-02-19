@@ -16,6 +16,7 @@
 class Sphere : public Shape
 {
 public:
+    Sphere() : Shape(SHAPE_SPHERE) { };
     /* All sphere are at (0, 0, 0) and radius 1 in the object space */
     virtual Intersect intersect(Ray r);
     virtual Tuple normalAt(Tuple point);
