@@ -9,7 +9,7 @@
 #include <worldbuilder.h>
 #include <world.h>
 
-World DefaultWorld::BuildWorld(const char *filename)
+DefaultWorld::DefaultWorld()
 {
 
 }
