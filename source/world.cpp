@@ -127,7 +127,7 @@ bool World::isShadowed(Tuple point)
     Ray r = Ray(point, direction);
     Intersection h = this->intersect(r).hit();
 
-    if (!h.nothing() && h.t < distance)
+    if (!h.nothing() && (h.t < distance))
     {
         return true;
     }
