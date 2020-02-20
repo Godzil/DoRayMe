@@ -51,3 +51,21 @@ TEST(CanvasTest, Save_a_PNG_file)
     ASSERT_TRUE(c.SaveAsPNG("Save_a_PNG_file.png"));
 
 }
+
+TEST(CanvasTest, Create_a_canvas_from_another_using_reference)
+{
+    Canvas c = Canvas(100, 100);
+
+    Canvas copy = Canvas(c);
+
+    ASSERT_EQ(c.width, copy.width);
+}
+
+TEST(CanvasTest, Create_a_canvas_from_another_using_pointer)
+{
+    Canvas c = Canvas(100, 100);
+
+    Canvas copy = Canvas(&c);
+
+    ASSERT_EQ(c.width, copy.width);
+}
