@@ -4,3 +4,24 @@ DoRayMe
 =======
 
 A Quick and dirty raytracer.
+
+
+This raytracer is made following the book "[The Ray Tracer Challenge](https://pragprog.com/book/jbtracer/the-ray-tracer-challenge)" by Jamis Buck.
+
+It is writen in C++ with no STL and use [LodePNG](https://github.com/lvandeve/lodepng) to output PNG file.
+
+
+Examples outputs
+----------------
+
+From chapter 05:
+
+![Chapter 5 rendering test](output/ch05_test.png)
+
+From Chapter 06:
+
+![Chapter 6 rendering test](output/ch06_test.png)
+
+From Chapter 07:
+
+![Chapter 7 rendering test](output/ch07_test.png)
