@@ -33,7 +33,7 @@ Matrix scaling(double x, double y, double z)
    return ret;
 }
 
-Matrix rotation_x(double angle)
+Matrix rotationX(double angle)
 {
    Matrix ret = Matrix4().identity();
    
@@ -45,7 +45,7 @@ Matrix rotation_x(double angle)
    return ret;
 }
 
-Matrix rotation_y(double angle)
+Matrix rotationY(double angle)
 {
    Matrix ret = Matrix4().identity();
    
@@ -57,7 +57,7 @@ Matrix rotation_y(double angle)
    return ret;
 }
 
-Matrix rotation_z(double angle)
+Matrix rotationZ(double angle)
 {
    Matrix ret = Matrix4().identity();
    

@@ -21,7 +21,7 @@ TEST(CanvasTest, Creating_a_canvas)
     {
         for(x = 0; x < 10; x++)
         {
-            ASSERT_EQ(c.get_pixel(x, y), Colour(0, 0, 0));
+            ASSERT_EQ(c.getPixel(x, y), Colour(0, 0, 0));
         }
     }
 }
@@ -31,9 +31,9 @@ TEST(CanvasTest, Test_Writing_pixels_to_a_canvas_Test)
     Canvas c = Canvas(10, 20);
     Colour red = Colour(1, 0, 0);
 
-    c.put_pixel(2, 3, red);
+    c.putPixel(2, 3, red);
 
-    ASSERT_EQ(c.get_pixel(2, 3), red);
+    ASSERT_EQ(c.getPixel(2, 3), red);
 
 }
 
@@ -44,9 +44,9 @@ TEST(CanvasTest, Save_a_PNG_file)
     Colour c2 = Colour(0, 0.5, 0);
     Colour c3 = Colour(-0.5, 0, 1);
 
-    c.put_pixel(0, 0, c1);
-    c.put_pixel(2, 1, c2);
-    c.put_pixel(4, 2, c3);
+    c.putPixel(0, 0, c1);
+    c.putPixel(2, 1, c2);
+    c.putPixel(4, 2, c3);
 
     ASSERT_TRUE(c.SaveAsPNG("Save_a_PNG_file.png"));
 

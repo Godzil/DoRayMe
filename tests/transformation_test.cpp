@@ -78,8 +78,8 @@ TEST(TransformationTest, Reflexion_is_scaling_by_a_negative_value)
 TEST(TransformationTest, Rotating_a_point_around_the_X_axis)
 {
    Point p = Point(0, 1, 0);
-   Matrix half_quarter = rotation_x(M_PI / 4.);
-   Matrix full_quarter = rotation_x(M_PI / 2.);
+   Matrix half_quarter = rotationX(M_PI / 4.);
+   Matrix full_quarter = rotationX(M_PI / 2.);
    
    ASSERT_EQ(half_quarter * p, Point(0, sqrt(2)/2, sqrt(2)/2));
    ASSERT_EQ(full_quarter * p, Point(0, 0, 1));
@@ -88,7 +88,7 @@ TEST(TransformationTest, Rotating_a_point_around_the_X_axis)
 TEST(TransformationTest, The_inverse_of_an_x_rotation_rotates_in_the_opposite_direction)
 {
    Point p = Point(0, 1, 0);
-   Matrix half_quarter = rotation_x(M_PI / 4.);
+   Matrix half_quarter = rotationX(M_PI / 4.);
    Matrix inv = half_quarter.inverse();
    
    ASSERT_EQ(inv * p, Point(0, sqrt(2)/2, -sqrt(2)/2));
@@ -97,8 +97,8 @@ TEST(TransformationTest, The_inverse_of_an_x_rotation_rotates_in_the_opposite_di
 TEST(TransformationTest, Rotating_a_point_around_the_Y_axis)
 {
    Point p = Point(0, 0, 1);
-   Matrix half_quarter = rotation_y(M_PI / 4.);
-   Matrix full_quarter = rotation_y(M_PI / 2.);
+   Matrix half_quarter = rotationY(M_PI / 4.);
+   Matrix full_quarter = rotationY(M_PI / 2.);
    
    ASSERT_EQ(half_quarter * p, Point(sqrt(2)/2, 0, sqrt(2)/2));
    ASSERT_EQ(full_quarter * p, Point(1, 0, 0));
@@ -107,8 +107,8 @@ TEST(TransformationTest, Rotating_a_point_around_the_Y_axis)
 TEST(TransformationTest, Rotating_a_point_around_the_Z_axis)
 {
    Point p = Point(0, 1, 0);
-   Matrix half_quarter = rotation_z(M_PI / 4.);
-   Matrix full_quarter = rotation_z(M_PI / 2.);
+   Matrix half_quarter = rotationZ(M_PI / 4.);
+   Matrix full_quarter = rotationZ(M_PI / 2.);
    
    ASSERT_EQ(half_quarter * p, Point(-sqrt(2)/2, sqrt(2)/2, 0));
    ASSERT_EQ(full_quarter * p, Point(-1, 0, 0));
@@ -165,7 +165,7 @@ TEST(TransformationTest, A_shearing_transformation_moves_z_in_proportion_to_y)
 TEST(TransformationTest, Individual_trnasformations_are_applied_in_sequence)
 {
     Point p = Point(1, 0, 1);
-    Matrix A = rotation_x(M_PI / 2.);
+    Matrix A = rotationX(M_PI / 2.);
     Matrix B = scaling(5, 5, 5);
     Matrix C = translation(10, 5, 7);
 
@@ -182,7 +182,7 @@ TEST(TransformationTest, Individual_trnasformations_are_applied_in_sequence)
 TEST(TransformationTest, Chained_transformation_must_be_applied_in_reverse_order)
 {
     Point p = Point(1, 0, 1);
-    Matrix A = rotation_x(M_PI / 2.);
+    Matrix A = rotationX(M_PI / 2.);
     Matrix B = scaling(5, 5, 5);
     Matrix C = translation(10, 5, 7);
 

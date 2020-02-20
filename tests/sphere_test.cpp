@@ -168,7 +168,7 @@ TEST(SphereTest, Computing_the_normal_on_a_tranformed_sphere)
 {
     Sphere s = Sphere();
 
-    s.setTransform(scaling(1, 0.5, 1) * rotation_z(M_PI / 5));
+    s.setTransform(scaling(1, 0.5, 1) * rotationZ(M_PI / 5));
 
     Tuple n = s.normalAt(Point(0, sqrt(2)/2, -sqrt(2)/2));
 

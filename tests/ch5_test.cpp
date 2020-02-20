@@ -36,7 +36,7 @@ int main()
 
             if (!xs.hit().nothing())
             {
-                c.put_pixel(x, y, red);
+                c.putPixel(x, y, red);
             }
         }
     }

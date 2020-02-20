@@ -47,7 +47,7 @@ int main()
                 Tuple eye = -r.direction;
                 Colour pixelColour = hit.object->material.lighting(light, hitPoint, eye, hitNormalVector);
 
-                c.put_pixel(x, y, pixelColour);
+                c.putPixel(x, y, pixelColour);
             }
 
         }

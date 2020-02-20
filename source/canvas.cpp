@@ -30,7 +30,7 @@ Canvas::~Canvas()
     }
 }
 
-void Canvas::put_pixel(uint32_t x, uint32_t y, Colour c)
+void Canvas::putPixel(uint32_t x, uint32_t y, Colour c)
 {
     uint32_t offset = y * this->stride + x * BytePP;
     this->bitmap[offset + 0] = MAX(MIN(c.red() * 255, 255), 0);
@@ -38,7 +38,7 @@ void Canvas::put_pixel(uint32_t x, uint32_t y, Colour c)
     this->bitmap[offset + 2] = MAX(MIN(c.blue() * 255, 255), 0);
 }
 
-Colour Canvas::get_pixel(uint32_t x, uint32_t y)
+Colour Canvas::getPixel(uint32_t x, uint32_t y)
 {
     uint32_t offset = y * this->stride + x * BytePP;
     return Colour(this->bitmap[offset + 0] / 255, this->bitmap[offset + 1] / 255, this->bitmap[offset + 2] / 255);

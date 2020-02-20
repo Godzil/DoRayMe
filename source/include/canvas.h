@@ -23,8 +23,8 @@ public:
     Canvas(uint32_t width, uint32_t height);
     ~Canvas();
 
-    void put_pixel(uint32_t x, uint32_t y, Colour c);
-    Colour get_pixel(uint32_t x, uint32_t y);
+    void putPixel(uint32_t x, uint32_t y, Colour c);
+    Colour getPixel(uint32_t x, uint32_t y);
 
     bool SaveAsPNG(const char *filename);
 };

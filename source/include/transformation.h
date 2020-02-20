@@ -15,9 +15,9 @@ Matrix translation(double x, double y, double z);
 
 Matrix scaling(double x, double y, double z);
 
-Matrix rotation_x(double angle);
-Matrix rotation_y(double angle);
-Matrix rotation_z(double angle);
+Matrix rotationX(double angle);
+Matrix rotationY(double angle);
+Matrix rotationZ(double angle);
 
 Matrix shearing(double Xy, double Xx, double Yx, double Yz, double Zx, double Zy);
 
