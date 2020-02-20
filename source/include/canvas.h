@@ -21,9 +21,11 @@ public:
     uint32_t width, height;
 
     Canvas(uint32_t width, uint32_t height);
+    Canvas(const Canvas *c);
+    Canvas(const Canvas &c);
     ~Canvas();
 
-    void putPixel(uint32_t x, uint32_t y, Colour c);
+    void putPixel(uint32_t x, uint32_t y, Tuple c);
     Colour getPixel(uint32_t x, uint32_t y);
 
     bool SaveAsPNG(const char *filename);

@@ -22,6 +22,24 @@ Canvas::Canvas(uint32_t width, uint32_t height) : width(width), height(height)
     this->stride = BytePP * width;
 }
 
+Canvas::Canvas(const Canvas &b)
+{
+    this->width = b.width;
+    this->height = b.height;
+    this->stride = b.stride;
+    this->bitmap = (uint8_t *)calloc(4, b.width * b.height);
+    memcpy(this->bitmap, b.bitmap, 4 * b.width * b.height);
+}
+
+Canvas::Canvas(const Canvas *b)
+{
+    this->width = b->width;
+    this->height = b->height;
+    this->stride = b->stride;
+    this->bitmap = (uint8_t *)calloc(4, b->width * b->height);
+    memcpy(this->bitmap, b->bitmap, 4 * b->width * b->height);
+}
+
 Canvas::~Canvas()
 {
     if (this->bitmap != nullptr)
@@ -30,18 +48,18 @@ Canvas::~Canvas()
     }
 }
 
-void Canvas::putPixel(uint32_t x, uint32_t y, Colour c)
+void Canvas::putPixel(uint32_t x, uint32_t y, Tuple colour)
 {
     uint32_t offset = y * this->stride + x * BytePP;
-    this->bitmap[offset + 0] = MAX(MIN(c.red() * 255, 255), 0);
-    this->bitmap[offset + 1] = MAX(MIN(c.green() * 255, 255), 0);
-    this->bitmap[offset + 2] = MAX(MIN(c.blue() * 255, 255), 0);
+    this->bitmap[offset + 0] = MAX(MIN(colour.x * 255, 255), 0);
+    this->bitmap[offset + 1] = MAX(MIN(colour.y * 255, 255), 0);
+    this->bitmap[offset + 2] = MAX(MIN(colour.z * 255, 255), 0);
 }
 
 Colour Canvas::getPixel(uint32_t x, uint32_t y)
 {
     uint32_t offset = y * this->stride + x * BytePP;
-    return Colour(this->bitmap[offset + 0] / 255, this->bitmap[offset + 1] / 255, this->bitmap[offset + 2] / 255);
+    return Colour(this->bitmap[offset + 0] / 255.0, this->bitmap[offset + 1] / 255.0, this->bitmap[offset + 2] / 255.0);
 }
 
 bool Canvas::SaveAsPNG(const char *filename)
