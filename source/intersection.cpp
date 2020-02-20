@@ -14,7 +14,7 @@ Computation Intersection::prepareComputation(Ray r)
     Tuple hitP = r.position(this->t);
     Tuple normalV = this->object->normalAt(hitP);
     Tuple eyeV = -r.direction;
-    bool inside;
+    bool inside = false;
 
     if (normalV.dot(eyeV) < 0)
     {
