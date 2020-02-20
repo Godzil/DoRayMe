@@ -25,3 +25,7 @@ From Chapter 06:
 From Chapter 07:
 
 ![Chapter 7 rendering test](output/ch7_test.png)
+
+From Chapter 08:
+
+![Chapter 8 rendering test](output/ch8_test.png)
