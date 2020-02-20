@@ -39,6 +39,11 @@ public:
     bool lightIsIn(Light &l);
     bool objectIsIn(Shape &s);
 
+    Shape *getObject(int i) { return this->objectList[i]; };
+
+    Tuple shadeHit(Computation comps);;
+    Tuple colourAt(Ray r);
+
     Intersect intersect(Ray r);
 
 };

@@ -91,3 +91,22 @@ Intersect World::intersect(Ray r)
 
     return ret;
 }
+
+Tuple World::shadeHit(Computation comps)
+{
+    return comps.object->material.lighting(*this->lightList[0], comps.hitPoint, comps.eyeVector, comps.normalVector);
+}
+
+Tuple World::colourAt(Ray r)
+{
+    Intersection hit = this->intersect(r).hit();
+
+    if (hit.nothing())
+    {
+        return Colour(0, 0, 0);
+    }
+    else
+    {
+        return this->shadeHit(hit.prepareComputation(r));
+    }
+}

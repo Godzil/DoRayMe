@@ -7,6 +7,7 @@
  *
  */
 #include <intersect.h>
+#include <intersection.h>
 #include <sphere.h>
 #include <gtest/gtest.h>
 
@@ -129,4 +130,47 @@ TEST(IntersectTest, The_hit_is_always_the_lowest_nonnegative_intersection)
     Intersection i = xs.hit();
 
     ASSERT_EQ(i, i4);
+}
+
+TEST(IntersectTest, Precomputing_the_state_of_an_intersection)
+{
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere shape = Sphere();
+    Intersection i = Intersection(4, &shape);
+
+    Computation comps = i.prepareComputation(r);
+
+    ASSERT_EQ(comps.t, i.t);
+    ASSERT_EQ(comps.object, i.object);
+    ASSERT_EQ(comps.hitPoint, Point(0, 0, -1));
+    ASSERT_EQ(comps.eyeVector, Vector(0, 0, -1));
+    ASSERT_EQ(comps.normalVector, Vector(0, 0, -1));
+
+}
+
+TEST(IntersectTest, The_hit_when_an_intersection_occurs_on_the_outside)
+{
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere shape = Sphere();
+    Intersection i = Intersection(4, &shape);
+
+    Computation comps = i.prepareComputation(r);
+
+    ASSERT_EQ(comps.inside, false);
+}
+
+TEST(IntersectTest, The_hit_when_an_intersection_occurs_on_the_inside)
+{
+    Ray r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
+    Sphere shape = Sphere();
+    Intersection i = Intersection(1, &shape);
+
+    Computation comps = i.prepareComputation(r);
+    ASSERT_EQ(comps.hitPoint, Point(0, 0, 1));
+    ASSERT_EQ(comps.eyeVector, Vector(0, 0, -1));
+    ASSERT_EQ(comps.inside, true);
+
+    /* Normal vector would have been (0, 0, 1); but is inverted ! */
+
+    ASSERT_EQ(comps.normalVector, Vector(0, 0, -1));
 }
