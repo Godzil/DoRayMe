@@ -15,14 +15,15 @@
 class Intersect
 {
 private:
-    Intersection *list;
+    Intersection **list;
     uint32_t num;
     uint32_t allocated;
 public:
     Intersect();
+    ~Intersect();
     void add(Intersection i);
     int count() { return this->num; };
-    Intersection operator[](const int p) { return this->list[p]; }
+    Intersection operator[](const int p) { return *this->list[p]; }
     Intersection hit();
 };
 
