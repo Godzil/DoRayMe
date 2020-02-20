@@ -55,21 +55,12 @@ void Intersect::add(Intersection i)
 Intersection Intersect::hit()
 {
     int i;
-    double minHit = DBL_MAX;
-    uint32_t curHit = -1;
+
     for(i = 0; i < this->num; i++)
     {
-        if ((this->list[i]->t >= 0) && (this->list[i]->t < minHit))
-        {
-            curHit = i;
-            minHit = this->list[i]->t;
-        }
+        if (this->list[i]->t >= 0)
+            return *this->list[i];
     }
 
-    if (curHit == -1)
-    {
-        return Intersection(0, nullptr);
-    }
-
-    return *this->list[curHit];
+    return Intersection(0, nullptr);
 }
