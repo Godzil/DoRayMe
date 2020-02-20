@@ -83,9 +83,9 @@ Intersect World::intersect(Ray r)
     {
         Intersect xs = this->objectList[i]->intersect(r);
 
-        for(j = 0; xs.count(); j++)
+        for(j = 0; j < xs.count(); j++)
         {
-            ret.add(xs[i]);
+            ret.add(xs[j]);
         }
     }
 
