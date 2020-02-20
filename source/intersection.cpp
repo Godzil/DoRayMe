@@ -22,11 +22,13 @@ Computation Intersection::prepareComputation(Ray r)
         normalV = -normalV;
     }
 
+    Tuple overHitP = hitP + normalV * getEpsilon();
 
     return Computation(this->object,
                        this->t,
                        hitP,
                        eyeV,
                        normalV,
+                       overHitP,
                        inside);
 }

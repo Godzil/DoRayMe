@@ -88,3 +88,15 @@ TEST(MaterialTest, Lighting_with_the_light_behind_the_surface)
 
     ASSERT_EQ(result, Colour(0.1, 0.1, 0.1));
 }
+
+TEST(MaterialTest, Lighting_with_the_surface_in_shadow)
+{
+    Vector eyev = Vector(0, 0, -1);
+    Vector normalv = Vector(0, 0, -1);
+    Light light = Light(POINT_LIGHT, Point(0, 0, -10), Colour(1, 1, 1));
+    bool inShadow = true;
+
+    Colour result = m.lighting(light, position, eyev, normalv, inShadow);
+
+    ASSERT_EQ(result, Colour(0.1, 0.1, 0.1));
+}

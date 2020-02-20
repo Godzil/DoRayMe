@@ -9,8 +9,8 @@
 #include <intersect.h>
 #include <intersection.h>
 #include <sphere.h>
+#include <transformation.h>
 #include <gtest/gtest.h>
-
 
 TEST(IntersectTest, Creating_an_intersect_and_do_some_check)
 {
@@ -173,4 +173,20 @@ TEST(IntersectTest, The_hit_when_an_intersection_occurs_on_the_inside)
     /* Normal vector would have been (0, 0, 1); but is inverted ! */
 
     ASSERT_EQ(comps.normalVector, Vector(0, 0, -1));
+}
+
+TEST(IntersectTest, The_hit_should_offset_the_point)
+{
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere shape = Sphere();
+    shape.setTransform(translation(0, 0, 1));
+
+    Intersection i = Intersection(5, &shape);
+
+    Computation comps = i.prepareComputation(r);
+
+    /* Normal vector would have been (0, 0, 1); but is inverted ! */
+
+    ASSERT_LT(comps.overHitPoint.z, -getEpsilon() / 2);
+    ASSERT_GT(comps.hitPoint.z, comps.overHitPoint.z);
 }

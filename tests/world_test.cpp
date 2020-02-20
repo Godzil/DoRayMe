@@ -112,3 +112,59 @@ TEST(WorldTest, The_colour_with_an_intersection_behind_the_ray)
 
     ASSERT_EQ(c, inner->material.colour);
 }
+
+TEST(WorldTest, There_is_no_shadow_when_nothing_is_collinear_with_point_and_light)
+{
+    World w = DefaultWorld();
+    Tuple p = Point(0, 10, 0);
+
+    ASSERT_FALSE(w.isShadowed(p));
+}
+
+TEST(WorldTest, The_shadow_when_an_object_is_between_the_point_and_the_light)
+{
+    World w = DefaultWorld();
+    Tuple p = Point(10, -10, 10);
+
+    ASSERT_TRUE(w.isShadowed(p));
+}
+
+TEST(WorldTest, There_is_no_shadow_whne_an_object_is_behing_the_light)
+{
+    World w = DefaultWorld();
+    Tuple p = Point(-20, 20, -20);
+
+    ASSERT_FALSE(w.isShadowed(p));
+}
+
+TEST(WorldTest, There_is_no_shadow_when_an_object_is_behing_the_point)
+{
+    World w = DefaultWorld();
+    Tuple p = Point(-2, 2, -2);
+
+    ASSERT_FALSE(w.isShadowed(p));
+}
+
+TEST(WorldTest, Shade_hit_is_given_an_intersection_in_shadow)
+{
+    World w = World();
+
+    Light l = Light(POINT_LIGHT, Point(0, 0, -10), Colour(1, 1, 1));
+    w.addLight(&l);
+
+    Sphere s1 = Sphere();
+
+    w.addObject(&s1);
+
+    Sphere s2 = Sphere();
+    s2.setTransform(translation(0, 0, 10));
+
+    w.addObject(&s2);
+
+    Ray r = Ray(Point(0, 0, 5), Vector(0, 0, 1));
+    Intersection i = Intersection(4, &s2);
+    Computation comps = i.prepareComputation(r);
+    Tuple c = w.shadeHit(comps);
+
+    ASSERT_EQ(c, Colour(0.1, 0.1, 0.1));
+};

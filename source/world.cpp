@@ -94,7 +94,12 @@ Intersect World::intersect(Ray r)
 
 Tuple World::shadeHit(Computation comps)
 {
-    return comps.object->material.lighting(*this->lightList[0], comps.hitPoint, comps.eyeVector, comps.normalVector);
+    /* TODO: Add support for more than one light */
+
+    bool isThereAnObstacle = this->isShadowed(comps.overHitPoint);
+
+    return comps.object->material.lighting(*this->lightList[0], comps.overHitPoint, comps.eyeVector,
+            comps.normalVector, isThereAnObstacle);
 }
 
 Tuple World::colourAt(Ray r)
@@ -109,4 +114,23 @@ Tuple World::colourAt(Ray r)
     {
         return this->shadeHit(hit.prepareComputation(r));
     }
+}
+
+bool World::isShadowed(Tuple point)
+{
+    /* TODO: Add support for more than one light */
+
+    Tuple v = this->lightList[0]->position - point;
+    double distance = v.magnitude();
+    Tuple direction = v.normalise();
+
+    Ray r = Ray(point, direction);
+    Intersection h = this->intersect(r).hit();
+
+    if (!h.nothing() && h.t < distance)
+    {
+        return true;
+    }
+
+    return false;
 }

@@ -16,11 +16,13 @@ class Shape;
 
 struct Computation
 {
-    Computation(Shape *object, double t, Tuple point, Tuple eyev, Tuple normalv, bool inside) :
-          object(object), t(t), hitPoint(point), eyeVector(eyev), normalVector(normalv), inside(inside) { };
+    Computation(Shape *object, double t, Tuple point, Tuple eyev, Tuple normalv, Tuple overHitP, bool inside) :
+          object(object), t(t), hitPoint(point), eyeVector(eyev), normalVector(normalv), inside(inside), overHitPoint(overHitP) { };
+
     Shape *object;
     double t;
     Tuple hitPoint;
+    Tuple overHitPoint;
     Tuple eyeVector;
     Tuple normalVector;
 

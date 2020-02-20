@@ -13,6 +13,7 @@
 #include <math.h>
 
 void set_equal_precision(double v);
+double getEpsilon();
 bool double_equal(double a, double b);
 
 double deg_to_rad(double deg);

@@ -43,6 +43,7 @@ public:
 
     Tuple shadeHit(Computation comps);;
     Tuple colourAt(Ray r);
+    bool isShadowed(Tuple point);
 
     Intersect intersect(Ray r);
 

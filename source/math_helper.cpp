@@ -18,6 +18,11 @@ void set_equal_precision(double v)
     current_precision = v;
 }
 
+double getEpsilon()
+{
+    return current_precision;
+}
+
 bool double_equal(double a, double b)
 {
     return fabs(a - b) < current_precision;
