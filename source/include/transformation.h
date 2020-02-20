@@ -21,4 +21,6 @@ Matrix rotationZ(double angle);
 
 Matrix shearing(double Xy, double Xx, double Yx, double Yz, double Zx, double Zy);
 
+Matrix viewTransform(Tuple from, Tuple to, Tuple up);
+
 #endif /* DORAYME_TRANSFORMATION_H */

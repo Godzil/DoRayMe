@@ -190,6 +190,61 @@ TEST(TransformationTest, Chained_transformation_must_be_applied_in_reverse_order
     ASSERT_EQ(T * p, Point(15, 0, 7));
 }
 
+TEST(TransformationTest, The_transformation_matrix_for_the_default_orientation)
+{
+    Tuple from = Point(0, 0, 0);
+    Tuple to = Point(0, 0, -1);
+    Tuple up = Vector(0, 1, 0);
+
+    Matrix t = viewTransform(from, to, up);
+
+    ASSERT_EQ(t, Matrix4().identity());
+}
+
+
+TEST(TransformationTest, A_view_transformation_matrix_looking_in_positive_z_direction)
+{
+    Tuple from = Point(0, 0, 0);
+    Tuple to = Point(0, 0, 1);
+    Tuple up = Vector(0, 1, 0);
+
+    Matrix t = viewTransform(from, to, up);
+
+    ASSERT_EQ(t, scaling(-1, 1, -1));
+}
+
+TEST(TransformationTest, The_view_transformation_move_the_world)
+{
+    Tuple from = Point(0, 0, 8);
+    Tuple to = Point(0, 0, 0);
+    Tuple up = Vector(0, 1, 0);
+
+    Matrix t = viewTransform(from, to, up);
+
+    ASSERT_EQ(t, translation(0, 0, -8));
+}
+
+TEST(TransformationTest, An_arbitrary_view_transformation)
+{
+    Tuple from = Point(1, 3, 2);
+    Tuple to = Point(4, -2, 8);
+    Tuple up = Vector(1, 1, 0);
+
+    Matrix t = viewTransform(from, to, up);
+
+    double values[] = {-0.50709, 0.50709,  0.67612, -2.36643,
+                        0.76772, 0.60609,  0.12122, -2.82843,
+                       -0.35857, 0.59761, -0.71714,  0.00000,
+                        0.00000, 0.00000,  0.00000,  1.00000};
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.00001);
+
+    ASSERT_EQ(t, Matrix4(values));
+
+    set_equal_precision(FLT_EPSILON);
+}
+
 TEST(TransformationTest, Check_that_deg_to_rad_is_working)
 {
     double angle180 = deg_to_rad(180);
@@ -200,3 +255,4 @@ TEST(TransformationTest, Check_that_deg_to_rad_is_working)
     ASSERT_EQ(angle90, M_PI / 2.);
     ASSERT_EQ(angle270, M_PI * 1.5);
 }
+

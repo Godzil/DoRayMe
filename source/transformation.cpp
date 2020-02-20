@@ -82,3 +82,18 @@ Matrix shearing(double Xy, double Xz, double Yx, double Yz, double Zx, double Zy
 
     return ret;
 }
+
+Matrix viewTransform(Tuple from, Tuple to, Tuple up)
+{
+    Tuple forward = (to - from).normalise();
+    Tuple left = forward.cross(up.normalise());
+    Tuple true_up = left.cross(forward);
+
+    double orientationValues[] = {  left.x,     left.y,     left.z,    0,
+                                    true_up.x,  true_up.y,  true_up.z, 0,
+                                   -forward.x, -forward.y, -forward.z, 0,
+                                    0,          0,          0,         1 };
+    Matrix orientation = Matrix4(orientationValues);
+
+    return orientation * translation(-from.x, -from.y, -from.z);
+}
