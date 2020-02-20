@@ -17,4 +17,4 @@ bool double_equal(double a, double b);
 
 double deg_to_rad(double deg);
 
-#endif //DORAYME_MATH_HELPER_H
+#endif /* DORAYME_MATH_HELPER_H */

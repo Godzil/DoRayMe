@@ -51,4 +51,4 @@ public:
 
 };
 
-#endif //DORAYME_SHAPE_H
+#endif /* DORAYME_SHAPE_H */

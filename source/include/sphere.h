@@ -22,4 +22,4 @@ public:
     virtual Tuple normalAt(Tuple point);
 };
 
-#endif //DORAYME_SPHERE_H
+#endif /* DORAYME_SPHERE_H */

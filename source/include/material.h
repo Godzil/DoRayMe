@@ -34,4 +34,4 @@ public:
                                                       (this->colour == b.colour); };
 };
 
-#endif //DORAYME_MATERIAL_H
+#endif /* DORAYME_MATERIAL_H */

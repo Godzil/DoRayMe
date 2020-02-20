@@ -48,4 +48,4 @@ public:
 
 };
 
-#endif //DORAYME_WORLD_H
+#endif /* DORAYME_WORLD_H */

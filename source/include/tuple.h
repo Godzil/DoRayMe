@@ -57,4 +57,4 @@ public:
     Vector(double x, double y, double z) : Tuple(x, y, z, 0.0) {};
 };
 
-#endif /*DORAYME_TUPLE_H*/
+#endif /* DORAYME_TUPLE_H */

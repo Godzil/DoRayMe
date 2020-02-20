@@ -27,4 +27,4 @@ public:
     Intersection hit();
 };
 
-#endif //DORAYME_INTERSECT_H
+#endif /* DORAYME_INTERSECT_H */

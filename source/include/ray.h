@@ -22,4 +22,4 @@ public:
     Tuple position(double t) { return this->origin + this->direction * t; };
 };
 
-#endif //DORAYME_RAY_H
+#endif /* DORAYME_RAY_H */

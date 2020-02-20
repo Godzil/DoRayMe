@@ -26,4 +26,4 @@ public:
     Hw3File(const char *filename);
 };
 
-#endif //DORAYME_WORLDBUILDER_H
+#endif /* DORAYME_WORLDBUILDER_H */

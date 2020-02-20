@@ -33,4 +33,4 @@ public:
                                                    this->type == b.type; };
 };
 
-#endif //DORAYME_LIGHT_H
+#endif /* DORAYME_LIGHT_H */
