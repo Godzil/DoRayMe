@@ -16,12 +16,12 @@ Examples outputs
 
 From chapter 05:
 
-![Chapter 5 rendering test](output/ch05_test.png)
+![Chapter 5 rendering test](output/ch5_test.png)
 
 From Chapter 06:
 
-![Chapter 6 rendering test](output/ch06_test.png)
+![Chapter 6 rendering test](output/ch6_test.png)
 
 From Chapter 07:
 
-![Chapter 7 rendering test](output/ch07_test.png)
+![Chapter 7 rendering test](output/ch7_test.png)
