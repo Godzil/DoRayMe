@@ -24,11 +24,12 @@ public:
     double diffuse;
     double specular;
     double shininess;
+    double reflective;
 
     Pattern *pattern;
 
 public:
-    Material() : colour(Colour(1, 1, 1)), ambient(0.1), diffuse(0.9), specular(0.9), shininess(200), pattern(nullptr) {};
+    Material() : colour(Colour(1, 1, 1)), ambient(0.1), diffuse(0.9), specular(0.9), shininess(200), reflective(0.0), pattern(nullptr) {};
 
     Colour lighting(Light light, Tuple point, Tuple eyeVector, Tuple normalVector, Shape *hitObject, bool inShadow = false);
 

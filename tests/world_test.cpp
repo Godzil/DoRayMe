@@ -14,6 +14,7 @@
 #include <worldbuilder.h>
 #include <math.h>
 #include <gtest/gtest.h>
+#include <plane.h>
 
 
 TEST(WorldTest, Creating_a_world)
@@ -168,3 +169,108 @@ TEST(WorldTest, Shade_hit_is_given_an_intersection_in_shadow)
 
     ASSERT_EQ(c, Colour(0.1, 0.1, 0.1));
 };
+
+TEST(WorldTest, The_reflected_colour_for_a_non_reflective_material)
+{
+    World w = DefaultWorld();
+    Ray r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
+
+    Shape *shape = w.getObject(1); /* The second object */
+    shape->material.ambient = 1; /* We use this to get a predictable colour */
+
+    Intersection i = Intersection(1, shape);
+
+    Computation comps = i.prepareComputation(r);
+    Colour colour = w.reflectColour(comps);
+
+    ASSERT_EQ(colour, Colour(0, 0, 0));
+}
+
+TEST(WorldTest, The_reflected_colour_for_a_reflective_material)
+{
+    World w = DefaultWorld();
+    Plane shape = Plane();
+    shape.material.reflective = 0.5;
+    shape.setTransform(translation(0, -1, 0));
+    w.addObject(&shape);
+
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2)/2, sqrt(2)/2));
+
+    Intersection i = Intersection(sqrt(2), &shape);
+
+    Computation comps = i.prepareComputation(r);
+    Colour colour = w.reflectColour(comps);
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.00002);
+
+    ASSERT_EQ(colour, Colour(0.19032, 0.2379, 0.14274));
+
+    set_equal_precision(FLT_EPSILON);
+}
+
+TEST(WorldTest, Shade_hit_with_a_reflective_material)
+{
+    World w = DefaultWorld();
+    Plane shape = Plane();
+    shape.material.reflective = 0.5;
+    shape.setTransform(translation(0, -1, 0));
+    w.addObject(&shape);
+
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2)/2, sqrt(2)/2));
+
+    Intersection i = Intersection(sqrt(2), &shape);
+
+    Computation comps = i.prepareComputation(r);
+    Tuple colour = w.shadeHit(comps);
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.00005);
+
+    ASSERT_EQ(colour, Colour(0.87677, 0.92436, 0.82918));
+
+    set_equal_precision(FLT_EPSILON);
+}
+
+TEST(WorldTest, Colour_at_with_mutually_reflective_surfaces)
+{
+    World w = World();
+
+    Light l = Light(POINT_LIGHT, Point(0, 0, 0), Colour(1, 1, 1));
+
+    w.addLight(&l);
+
+    Plane lower = Plane();
+    lower.material.reflective = 1;
+    lower.setTransform(translation(0, -1, 0));
+
+    Plane higher = Plane();
+    higher.material.reflective = 1;
+    higher.setTransform(translation(0, 1, 0));
+
+    w.addObject(&lower);
+    w.addObject(&higher);
+
+    Ray r = Ray(Point(0, 0, 0), Vector(0, 1, 0));
+
+    /* It should just exit, we don't care about the actual colour */
+    w.colourAt(r);
+}
+
+TEST(WorldTest, The_reflected_colour_at_the_maximum_recursion_depth)
+{
+    World w = DefaultWorld();
+    Plane shape = Plane();
+    shape.material.reflective = 0.5;
+    shape.setTransform(translation(0, -1, 0));
+    w.addObject(&shape);
+
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2)/2, sqrt(2)/2));
+    Intersection i = Intersection(sqrt(2), &shape);
+
+    Computation comps = i.prepareComputation(r);
+    Tuple colour = w.reflectColour(comps, 0);
+
+    /* Temporary lower the precision */
+    ASSERT_EQ(colour, Colour(0, 0, 0));
+}

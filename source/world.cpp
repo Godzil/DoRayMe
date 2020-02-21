@@ -92,17 +92,21 @@ Intersect World::intersect(Ray r)
     return ret;
 }
 
-Tuple World::shadeHit(Computation comps)
+Tuple World::shadeHit(Computation comps, uint32_t depthCount)
 {
     /* TODO: Add support for more than one light */
 
     bool isThereAnObstacle = this->isShadowed(comps.overHitPoint);
 
-    return comps.object->material.lighting(*this->lightList[0], comps.overHitPoint, comps.eyeVector,
+    Tuple surface = comps.object->material.lighting(*this->lightList[0], comps.overHitPoint, comps.eyeVector,
             comps.normalVector, comps.object, isThereAnObstacle);
+
+    Tuple reflected = this->reflectColour(comps, depthCount);
+
+    return surface + reflected;
 }
 
-Tuple World::colourAt(Ray r)
+Tuple World::colourAt(Ray r, uint32_t depthCount)
 {
     Intersection hit = this->intersect(r).hit();
 
@@ -112,7 +116,7 @@ Tuple World::colourAt(Ray r)
     }
     else
     {
-        return this->shadeHit(hit.prepareComputation(r));
+        return this->shadeHit(hit.prepareComputation(r), depthCount);
     }
 }
 
@@ -134,3 +138,21 @@ bool World::isShadowed(Tuple point)
 
     return false;
 }
+
+Colour World::reflectColour(Computation comps, uint32_t depthCount)
+{
+    if ((depthCount == 0) || (comps.object->material.reflective == 0))
+    {
+        return Colour(0, 0, 0);
+    }
+
+    /* So it is reflective, even just a bit. Let'sr reflect the ray! */
+    Ray reflectedRay = Ray(comps.overHitPoint, comps.reflectVector);
+
+    Tuple hitColour = this->colourAt(reflectedRay, depthCount - 1);
+    hitColour = hitColour * comps.object->material.reflective;
+
+    return Colour(hitColour.x, hitColour.y, hitColour.z);
+}
+
+

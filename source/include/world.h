@@ -40,10 +40,13 @@ public:
     bool objectIsIn(Shape &s);
 
     Shape *getObject(int i) { return this->objectList[i]; };
+    Light *getLight(int i) { return this->lightList[i]; };
 
-    Tuple shadeHit(Computation comps);;
-    Tuple colourAt(Ray r);
+    Tuple shadeHit(Computation comps, uint32_t depthCount = 4);
+    Tuple colourAt(Ray r, uint32_t depthCount = 4);
     bool isShadowed(Tuple point);
+
+    Colour reflectColour(Computation comps, uint32_t depthCount = 4);
 
     Intersect intersect(Ray r);
 

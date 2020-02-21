@@ -107,3 +107,10 @@ TEST(MaterialTest, Lighting_with_the_surface_in_shadow)
 
     ASSERT_EQ(result, Colour(0.1, 0.1, 0.1));
 }
+
+TEST(MaterialTest, Reflectivity_for_the_default_material)
+{
+    Material m = Material();
+
+    ASSERT_EQ(m.reflective, 0);
+}

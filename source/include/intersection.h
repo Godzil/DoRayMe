@@ -16,8 +16,10 @@ class Shape;
 
 struct Computation
 {
-    Computation(Shape *object, double t, Tuple point, Tuple eyev, Tuple normalv, Tuple overHitP, bool inside) :
-          object(object), t(t), hitPoint(point), eyeVector(eyev), normalVector(normalv), inside(inside), overHitPoint(overHitP) { };
+    Computation(Shape *object, double t, Tuple point, Tuple eyev, Tuple normalv, Tuple overHitP,
+                bool inside, Tuple reflectV = Vector(0, 0, 0)) :
+          object(object), t(t), hitPoint(point), eyeVector(eyev), normalVector(normalv), inside(inside),
+          overHitPoint(overHitP),  reflectVector(reflectV) { };
 
     Shape *object;
     double t;
@@ -25,6 +27,7 @@ struct Computation
     Tuple overHitPoint;
     Tuple eyeVector;
     Tuple normalVector;
+    Tuple reflectVector;
 
     bool inside;
 };

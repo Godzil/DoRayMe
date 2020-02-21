@@ -9,6 +9,7 @@
 #include <intersect.h>
 #include <intersection.h>
 #include <sphere.h>
+#include <plane.h>
 #include <transformation.h>
 #include <gtest/gtest.h>
 
@@ -189,4 +190,15 @@ TEST(IntersectTest, The_hit_should_offset_the_point)
 
     ASSERT_LT(comps.overHitPoint.z, -getEpsilon() / 2);
     ASSERT_GT(comps.hitPoint.z, comps.overHitPoint.z);
+}
+
+TEST(IntersectTest, Precomputing_the_reflection_vector)
+{
+    Plane s = Plane();
+    Ray r = Ray(Point(0, 1, -1), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+    Intersection i = Intersection(sqrt(2), &s);
+
+    Computation comps = i.prepareComputation(r);
+
+    ASSERT_EQ(comps.reflectVector, Vector(0, sqrt(2) / 2, sqrt(2) / 2));
 }

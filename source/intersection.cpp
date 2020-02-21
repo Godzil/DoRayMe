@@ -23,6 +23,7 @@ Computation Intersection::prepareComputation(Ray r)
     }
 
     Tuple overHitP = hitP + normalV * getEpsilon();
+    Tuple reflectV = r.direction.reflect(normalV);
 
     return Computation(this->object,
                        this->t,
@@ -30,5 +31,6 @@ Computation Intersection::prepareComputation(Ray r)
                        eyeV,
                        normalV,
                        overHitP,
-                       inside);
+                       inside,
+                       reflectV);
 }
