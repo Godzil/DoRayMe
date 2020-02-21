@@ -114,3 +114,11 @@ TEST(MaterialTest, Reflectivity_for_the_default_material)
 
     ASSERT_EQ(m.reflective, 0);
 }
+
+TEST(MaterialTest, Transparency_and_refractive_index_for_the_default_material)
+{
+    Material m = Material();
+
+    ASSERT_EQ(m.transparency, 0.0);
+    ASSERT_EQ(m.refractiveIndex, 1.0);
+}

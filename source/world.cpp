@@ -108,7 +108,8 @@ Tuple World::shadeHit(Computation comps, uint32_t depthCount)
 
 Tuple World::colourAt(Ray r, uint32_t depthCount)
 {
-    Intersection hit = this->intersect(r).hit();
+    Intersect allHits = this->intersect(r);
+    Intersection hit = allHits.hit();
 
     if (hit.nothing())
     {
@@ -116,7 +117,7 @@ Tuple World::colourAt(Ray r, uint32_t depthCount)
     }
     else
     {
-        return this->shadeHit(hit.prepareComputation(r), depthCount);
+        return this->shadeHit(hit.prepareComputation(r, &allHits), depthCount);
     }
 }
 

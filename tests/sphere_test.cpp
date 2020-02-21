@@ -199,3 +199,12 @@ TEST(SphereTest, A_sphere_may_be_assigned_a_material)
 
     ASSERT_EQ(s.material, m);
 }
+
+TEST(SphereTest, A_helper_for_producing_a_sphere_with_a_glassy_material)
+{
+    GlassSphere s = GlassSphere();
+
+    ASSERT_EQ(s.transformMatrix, Matrix4().identity());
+    ASSERT_EQ(s.material.transparency, 1.0);
+    ASSERT_EQ(s.material.refractiveIndex, 1.5);
+}

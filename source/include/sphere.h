@@ -24,4 +24,11 @@ public:
     /* All sphere are at (0, 0, 0) and radius 1 in the object space */
 };
 
+/* Mostly for test purposes */
+class GlassSphere : public Sphere
+{
+public:
+    GlassSphere() : Sphere() { this->material.transparency = 1.0; this->material.refractiveIndex = 1.5; };
+};
+
 #endif /* DORAYME_SPHERE_H */

@@ -202,3 +202,40 @@ TEST(IntersectTest, Precomputing_the_reflection_vector)
 
     ASSERT_EQ(comps.reflectVector, Vector(0, sqrt(2) / 2, sqrt(2) / 2));
 }
+
+TEST(IntersectTest, Finding_n1_and_n2_at_various_intersections)
+{
+#if 0
+    int i;
+    double n1_res[6] = { 1.0, 1.5, 2.0, 2.5, 2.5, 1.5 };
+    double n2_res[6] = { 1.5, 2.0, 2.5, 2.5, 1.5, 1.0 };
+
+    GlassSphere A = GlassSphere();
+    A.setTransform(scaling(2, 2, 2));
+    A.material.refractiveIndex = 1.5;
+
+    GlassSphere B = GlassSphere();
+    B.setTransform(translation(0, 0, -0.25));
+    B.material.refractiveIndex = 2.0;
+
+    GlassSphere C = GlassSphere();
+    C.setTransform(translation(0, 0, 0.25));
+    C.material.refractiveIndex = 2.5;
+
+    Ray r = Ray(Point(0, 0, -4), Vector(0, 0, 1));
+    Intersect xs = Intersect();
+    xs.add(Intersection(2.0, &A));
+    xs.add(Intersection(2.75, &B));
+    xs.add(Intersection(3.25, &C));
+    xs.add(Intersection(4.75, &B));
+    xs.add(Intersection(5.25, &C));
+    xs.add(Intersection(6, &A));
+
+    for(i = 0; i < xs.count(); i++)
+    {
+        Computation comps = xs[i].prepareComputation(r, &xs);
+        ASSERT_EQ(comps.n1, n1_res[i]);
+        ASSERT_EQ(comps.n2, n2_res[i]);
+    }
+#endif
+}
