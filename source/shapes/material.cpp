@@ -9,13 +9,21 @@
 #include <tuple.h>
 #include <material.h>
 #include <colour.h>
+#include <shape.h>
 
-Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple normalVector, bool inShadow)
+Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple normalVector, Shape *hitObject, bool inShadow)
 {
+    Colour pointColor = this->colour;
+
+    if (this->pattern != nullptr)
+    {
+        pointColor = this->pattern->patternAtObject(hitObject, point);
+    }
+
     Tuple lightVector = (light.position - point).normalise();
     Tuple reflectVector = Tuple(0, 0, 0, 0);
 
-    Tuple effectiveColour = this->colour * light.intensity;
+    Tuple effectiveColour = pointColor * light.intensity;
     Tuple ambientColour = Colour(0, 0, 0);
     Tuple diffuseColour = Colour(0, 0, 0);
     Tuple specularColour = Colour(0, 0, 0);

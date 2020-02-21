@@ -99,7 +99,7 @@ Tuple World::shadeHit(Computation comps)
     bool isThereAnObstacle = this->isShadowed(comps.overHitPoint);
 
     return comps.object->material.lighting(*this->lightList[0], comps.overHitPoint, comps.eyeVector,
-            comps.normalVector, isThereAnObstacle);
+            comps.normalVector, comps.object, isThereAnObstacle);
 }
 
 Tuple World::colourAt(Ray r)
