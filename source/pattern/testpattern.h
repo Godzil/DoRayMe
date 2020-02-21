@@ -24,4 +24,4 @@ public:
     }
 };
 
-#endif //DORAYME_TESTPATTERN_H
+#endif /* DORAYME_TESTPATTERN_H */

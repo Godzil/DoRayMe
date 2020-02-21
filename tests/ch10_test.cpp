@@ -18,6 +18,8 @@
 #include <pattern.h>
 #include <strippattern.h>
 #include <gradientpattern.h>
+#include <checkerspattern.h>
+#include <ringpattern.h>
 
 #include <transformation.h>
 
@@ -26,7 +28,7 @@ int main()
     /* First we need to construct the world */
     Plane floor = Plane();
     floor.material.specular = 0;
-    floor.material.pattern = new StripPattern(Colour(1, 0.9, 0.9), Colour(1, 0.2, 0.2));
+    floor.material.pattern = new RingPattern(Colour(1, 0.9, 0.9), Colour(1, 0.2, 0.2));
 
     Plane wall = Plane();
     wall.material.specular = 0;
@@ -35,7 +37,7 @@ int main()
     wall.setTransform(translation(0, 0, 5) * rotationX(M_PI/2));
 
     Sphere middle = Sphere();
-    middle.setTransform(translation(-0.5, 1, 0.5));
+    middle.setTransform(translation(-0.7, 1, 0.6));
     middle.material.diffuse = 0.7;
     middle.material.specular = 0.3;
     middle.material.pattern = new StripPattern(Colour(0.1, 1, 0.5), Colour(0, 0.2, 0.2));
@@ -55,6 +57,13 @@ int main()
     left.material.pattern = new GradientPattern(Colour(1, 0.8, 0.1), Colour(0.1, 0.1, 1));
     left.material.pattern->setTransform(translation(1.5, 0, 0) * scaling(2.1, 2, 2) * rotationY(-M_PI/4));
 
+    Sphere fourth = Sphere();
+    fourth.setTransform(translation(.5, 0.25, 0.4) * scaling(0.3, 0.3, 0.3));
+    fourth.material.diffuse = 0.7;
+    fourth.material.specular = 0.3;
+    fourth.material.pattern = new CheckersPattern(Colour(0.1, 0.8, 0.1), Colour(0.8, 1, 0.8));
+    fourth.material.pattern->setTransform( scaling(0.2, 0.2, 0.2));
+
     World w = World();
 
     w.addObject(&floor);
@@ -62,6 +71,7 @@ int main()
     w.addObject(&middle);
     w.addObject(&left);
     w.addObject(&right);
+    w.addObject(&fourth);
 
     /* Add light */
     Light light = Light(POINT_LIGHT, Point(-10, 10, -10), Colour(1, 1, 1));
@@ -69,7 +79,7 @@ int main()
     w.addLight(&light);
 
     /* Set the camera */
-    Camera camera = Camera(1920, 1080, M_PI / 3);
+    Camera camera = Camera(100, 50, M_PI / 3);
     camera.setTransform(viewTransform(Point(0, 1.5, -5),
                                       Point(0, 1, 0),
                                       Vector(0, 1, 0)));

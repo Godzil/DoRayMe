@@ -11,6 +11,7 @@
 #include <strippattern.h>
 #include <gradientpattern.h>
 #include <ringpattern.h>
+#include <checkerspattern.h>
 #include <testpattern.h>
 #include <transformation.h>
 #include <colour.h>
@@ -174,4 +175,37 @@ TEST(PatternTest, A_ring_should_extend_in_both_x_and_z)
 {
     RingPattern pattern = RingPattern(white, black);
 
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(1, 0, 0)), black);
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 1)), black);
+
+    /* 0.708 is just bit more than sqrt(2)/2 */
+    ASSERT_EQ(pattern.patternAt(Point(0.708, 0, 0.708)), black);
+}
+
+TEST(PatternTest, Checkers_should_repeat_in_x)
+{
+    CheckersPattern pattern = CheckersPattern(white, black);
+
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(0.99, 0, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(1.01, 0, 0)), black);
+}
+
+TEST(PatternTest, Checkers_should_repeat_in_y)
+{
+    CheckersPattern pattern = CheckersPattern(white, black);
+
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(0, 0.99, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(0, 1.01, 0)), black);
+}
+
+TEST(PatternTest, Checkers_should_repeat_in_z)
+{
+    CheckersPattern pattern = CheckersPattern(white, black);
+
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 0.99)), white);
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 1.01)), black);
 }

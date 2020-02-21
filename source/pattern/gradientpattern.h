@@ -27,4 +27,4 @@ public:
     }
 };
 
-#endif //DORAYME_GRADIENTPATTERN_H
+#endif /* DORAYME_GRADIENTPATTERN_H */

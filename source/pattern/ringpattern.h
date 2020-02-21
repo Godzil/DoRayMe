@@ -18,14 +18,13 @@ public:
 
     Colour patternAt(Tuple point)
     {
-        Tuple distance = this->b - this->a;
-        double fraction = point.x - floor(point.x);
+        double squared = (point.x * point.x) + (point.z * point.z);
 
-        Tuple ret = this->a + distance * fraction;
+        double value = floor(sqrt(squared));
 
-        return Colour(ret.x, ret.y, ret.z);
+        return (fmod(value, 2) == 0)?this->a:this->b;
     }
 };
 
 
-#endif //DORAYME_RINGSUPPORT_H
+#endif /* DORAYME_RINGSUPPORT_H */
