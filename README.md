@@ -37,3 +37,7 @@ From Chapter 09:
 From Chapter 10:
 
 ![Chapter 10 rendering test](output/ch10_test.png)
+
+From Chapter 11:
+
+![Chapter 11 reflections rendering test](output/ch11_reflection.png)

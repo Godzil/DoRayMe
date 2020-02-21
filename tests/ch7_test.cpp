@@ -1,6 +1,6 @@
 /*
  *  DoRayMe - a quick and dirty Raytracer
- *  Render test for chapter 5 "Put it together".
+ *  Render test for chapter 7 "Put it together".
  *
  *  Created by Manoël Trapier
  *  Copyright (c) 2020 986-Studio.

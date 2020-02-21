@@ -1,6 +1,6 @@
 /*
  *  DoRayMe - a quick and dirty Raytracer
- *  Render test for chapter 10
+ *  Render test for reflection in chapter 11.
  *
  *  Created by Manoël Trapier
  *  Copyright (c) 2020 986-Studio.
@@ -29,6 +29,7 @@ int main()
     Plane floor = Plane();
     floor.material.specular = 0;
     floor.material.pattern = new RingPattern(Colour(1, 0.9, 0.9), Colour(1, 0.2, 0.2));
+    floor.material.reflective = 0.1;
 
     Plane wall = Plane();
     wall.material.specular = 0;
@@ -49,6 +50,7 @@ int main()
     right.material.specular = 0.3;
     right.material.pattern = new StripPattern(Colour(0.5, 1, 0.1), Colour(0, 0, 0));
     right.material.pattern->setTransform((scaling(0.1, 0.1, 0.1)));
+    right.material.reflective = 0.1;
 
     Sphere left = Sphere();
     left.setTransform(translation(-1.5, 0.33, -0.75) * scaling(0.33, 0.33, 0.33));
@@ -63,6 +65,7 @@ int main()
     fourth.material.specular = 0.3;
     fourth.material.pattern = new CheckersPattern(Colour(0.1, 0.8, 0.1), Colour(0.8, 1, 0.8));
     fourth.material.pattern->setTransform( scaling(0.2, 0.2, 0.2));
+    fourth.material.reflective = 0.4;
 
     World w = World();
 
@@ -73,13 +76,33 @@ int main()
     w.addObject(&right);
     w.addObject(&fourth);
 
+    /* Add some more reflective spheres */
+    Sphere ref1 = Sphere();
+    ref1.setTransform(translation(1, 1, .4) * scaling(0.2, 0.2, 0.2));
+    ref1.material.reflective = 1;
+    ref1.material.colour = Colour(0.3, 0.7, 0.6);
+    w.addObject(&ref1);
+
+    Sphere ref2 = Sphere();
+    ref2.setTransform(translation(1.5, 2, -.8) * scaling(0.2, 0.2, 0.2));
+    ref2.material.reflective = 1;
+    ref2.material.specular = 0.5;
+    ref2.material.colour = Colour(0.3, 0.3, 0.3);
+    w.addObject(&ref2);
+
+    Sphere ref3 = Sphere();
+    ref3.setTransform(translation(-2, 1.678, .4) * scaling(0.4, 0.4, 0.4));
+    ref3.material.reflective = 1;
+    ref3.material.specular = 0.5;
+    w.addObject(&ref3);
+
     /* Add light */
     Light light = Light(POINT_LIGHT, Point(-10, 10, -10), Colour(1, 1, 1));
 
     w.addLight(&light);
 
     /* Set the camera */
-    Camera camera = Camera(1920, 1080, M_PI / 3);
+    Camera camera = Camera(100, 50, M_PI / 3);
     camera.setTransform(viewTransform(Point(0, 1.5, -5),
                                       Point(0, 1, 0),
                                       Vector(0, 1, 0)));
@@ -87,7 +110,7 @@ int main()
     /* Now render it */
     Canvas image = camera.render(w);
 
-    image.SaveAsPNG("ch10_test.png");
+    image.SaveAsPNG("ch11_reflection.png");
 
 
     return 0;
