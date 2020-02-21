@@ -22,12 +22,21 @@ Shape::Shape(ShapeType type)
 
 Intersect Shape::intersect(Ray r)
 {
-    return Intersect();
+    return this->localIntersect(this->invTransform(r));
 };
 
 Tuple Shape::normalAt(Tuple point)
 {
-    return Vector(0, 0, 0);
+    Tuple local_point = this->inverseTransform * point;
+
+    Tuple local_normal = this->localNormalAt(local_point);
+
+    Tuple world_normal = this->inverseTransform.transpose() * local_normal;
+
+    /* W may get wrong, so hack it. This is perfectly normal as we are using a 4x4 matrix instead of a 3x3 */
+    world_normal.w = 0;
+
+    return world_normal.normalise();
 }
 
 void Shape::setTransform(Matrix transform)

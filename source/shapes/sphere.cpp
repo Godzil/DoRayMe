@@ -13,17 +13,15 @@
 #include <tuple.h>
 #include <intersect.h>
 
-Intersect Sphere::intersect(Ray r)
+Intersect Sphere::localIntersect(Ray r)
 {
     Intersect ret;
     double a, b, c, discriminant;
 
-    Ray transRay = this->invTransform(r);
+    Tuple sphere_to_ray = r.origin - Point(0, 0, 0);
 
-    Tuple sphere_to_ray = transRay.origin - Point(0, 0, 0);
-
-    a = transRay.direction.dot(transRay.direction);
-    b = 2 * transRay.direction.dot(sphere_to_ray);
+    a = r.direction.dot(r.direction);
+    b = 2 * r.direction.dot(sphere_to_ray);
     c = sphere_to_ray.dot(sphere_to_ray) - 1;
 
     discriminant = b * b - 4 * a * c;
@@ -37,14 +35,7 @@ Intersect Sphere::intersect(Ray r)
     return ret;
 }
 
-Tuple Sphere::normalAt(Tuple point)
+Tuple Sphere::localNormalAt(Tuple point)
 {
-    Tuple object_point = this->inverseTransform * point;
-    Tuple object_normal = (object_point - Point(0, 0, 0)).normalise();
-    Tuple world_normal = this->inverseTransform.transpose() * object_normal;
-
-    /* W may get wrong, so hack it. This is perfectly normal as we are using a 4x4 matrix instead of a 3x3 */
-    world_normal.w = 0;
-
-    return world_normal.normalise();
+    return (point - Point(0, 0, 0)).normalise();
 }

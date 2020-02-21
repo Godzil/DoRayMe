@@ -9,6 +9,7 @@
 #include <ray.h>
 #include <transformation.h>
 #include <shape.h>
+#include <testshape.h>
 #include <gtest/gtest.h>
 
 
@@ -38,7 +39,7 @@ TEST(RayTest, Translating_a_ray)
     Ray r = Ray(Point(1, 2, 3), Vector(0, 1, 0));
 
     Matrix m = translation(3, 4, 5);
-    Shape o = Shape();
+    TestShape o = TestShape();
 
     o.setTransform(m);
 
@@ -53,7 +54,7 @@ TEST(RayTest, Scaling_a_ray)
     Ray r = Ray(Point(1, 2, 3), Vector(0, 1, 0));
 
     Matrix m = scaling(2, 3, 4);
-    Shape o = Shape();
+    TestShape o = TestShape();
 
     o.setTransform(m);
 

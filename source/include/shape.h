@@ -29,6 +29,10 @@ class Shape
 private:
     ShapeType type;
 
+private:
+    virtual Intersect localIntersect(Ray r) = 0;
+    virtual Tuple localNormalAt(Tuple point) = 0;
+
 public:
     Matrix transformMatrix;
     Matrix inverseTransform;
@@ -37,8 +41,8 @@ public:
 public:
     Shape(ShapeType = SHAPE_NONE);
 
-    virtual Intersect intersect(Ray r);
-    virtual Tuple normalAt(Tuple point);
+    Intersect intersect(Ray r);
+    Tuple normalAt(Tuple point);
 
     void setTransform(Matrix transform);
     void setMaterial(Material material) { this->material = material; };

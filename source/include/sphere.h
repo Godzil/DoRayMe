@@ -15,11 +15,13 @@
 
 class Sphere : public Shape
 {
+private:
+    Intersect localIntersect(Ray r);
+    Tuple localNormalAt(Tuple point);
+
 public:
     Sphere() : Shape(SHAPE_SPHERE) { };
     /* All sphere are at (0, 0, 0) and radius 1 in the object space */
-    virtual Intersect intersect(Ray r);
-    virtual Tuple normalAt(Tuple point);
 };
 
 #endif /* DORAYME_SPHERE_H */
