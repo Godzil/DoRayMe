@@ -21,6 +21,7 @@ enum ShapeType
 {
     SHAPE_NONE,
     SHAPE_SPHERE,
+    SHAPE_PLANE,
 };
 
 /* Base class for all object that can be presented in the world */
