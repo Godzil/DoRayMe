@@ -12,6 +12,7 @@
 #include <material.h>
 #include <transformation.h>
 #include <worldbuilder.h>
+#include <testpattern.h>
 #include <math.h>
 #include <gtest/gtest.h>
 #include <plane.h>
@@ -255,6 +256,8 @@ TEST(WorldTest, Colour_at_with_mutually_reflective_surfaces)
 
     /* It should just exit, we don't care about the actual colour */
     w.colourAt(r);
+
+    SUCCEED();
 }
 
 TEST(WorldTest, The_reflected_colour_at_the_maximum_recursion_depth)
@@ -273,4 +276,120 @@ TEST(WorldTest, The_reflected_colour_at_the_maximum_recursion_depth)
 
     /* Temporary lower the precision */
     ASSERT_EQ(colour, Colour(0, 0, 0));
+}
+
+TEST(WorldTest, The_refracted_colour_with_an_opaque_surface)
+{
+    World w = DefaultWorld();
+    Shape *shape = w.getObject(0);
+
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Intersect xs = Intersect();
+    xs.add(Intersection(4, shape));
+    xs.add(Intersection(6, shape));
+
+    Computation comps = xs[0].prepareComputation(r, &xs);
+    Colour c = w.refractedColour(comps, 5);
+
+    ASSERT_EQ(c, Colour(0, 0, 0));
+}
+
+TEST(WorldTest, The_refracted_colour_at_the_maximum_recursive_depth)
+{
+    World w = DefaultWorld();
+    Shape *shape = w.getObject(0);
+
+    shape->material.transparency = 1.0;
+    shape->material.refractiveIndex = 1.5;
+
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Intersect xs = Intersect();
+    xs.add(Intersection(4, shape));
+    xs.add(Intersection(6, shape));
+
+    Computation comps = xs[0].prepareComputation(r, &xs);
+    Colour c = w.refractedColour(comps, 0);
+
+    ASSERT_EQ(c, Colour(0, 0, 0));
+}
+
+TEST(WorldTest, The_refracted_colour_under_total_internal_reflection)
+{
+    World w = DefaultWorld();
+    Shape *shape = w.getObject(0);
+
+    shape->material.transparency = 1.0;
+    shape->material.refractiveIndex = 1.5;
+
+    Ray r = Ray(Point(0, 0, sqrt(2)/2), Vector(0, 1, 0));
+    Intersect xs = Intersect();
+    xs.add(Intersection(-sqrt(2)/2, shape));
+    xs.add(Intersection(sqrt(2)/2, shape));
+
+    Computation comps = xs[1].prepareComputation(r, &xs);
+    Colour c = w.refractedColour(comps, 5);
+
+    ASSERT_EQ(c, Colour(0, 0, 0));
+}
+
+TEST(WorldTest, The_refracted_coloud_with_a_refracted_ray)
+{
+    World w = DefaultWorld();
+
+    Shape *A = w.getObject(0);
+    A->material.ambient = 1.0;
+    A->material.pattern = new TestPattern();
+
+    Shape *B = w.getObject(1);
+    B->material.transparency = 1.0;
+    B->material.refractiveIndex = 1.5;
+
+    Ray r = Ray(Point(0, 0, 0.1), Vector(0, 1, 0));
+    Intersect xs = Intersect();
+    xs.add(Intersection(-0.9899, A));
+    xs.add(Intersection(-0.4899, B));
+    xs.add(Intersection(0.4899, B));
+    xs.add(Intersection(0.9899, A));
+
+    Computation comps = xs[2].prepareComputation(r, &xs);
+    Colour c = w.refractedColour(comps, 5);
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.00005);
+
+    ASSERT_EQ(c, Colour(0, 0.99888, 0.04725));
+
+    set_equal_precision(FLT_EPSILON);
+}
+
+TEST(WorldTest, Shade_hit_with_a_transparent_material)
+{
+    World w = DefaultWorld();
+
+    Plane floor = Plane();
+    floor.setTransform(translation(0, -1, 0));
+    floor.material.transparency = 0.5;
+    floor.material.refractiveIndex = 1.5;
+    w.addObject(&floor);
+
+    Sphere ball = Sphere();
+    ball.material.colour = Colour(1, 0, 0);
+    ball.material.ambient = 0.5;
+    ball.setTransform(translation(0, -3.5, -0.5));
+    w.addObject(&ball);
+
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2)/2, sqrt(2)/2));
+    Intersect xs = Intersect();
+    xs.add(Intersection(sqrt(2), &floor));
+
+    Computation comps = xs[0].prepareComputation(r, &xs);
+
+    Tuple c = w.shadeHit(comps, 5);
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.00001);
+
+    ASSERT_EQ(c, Colour(0.93642, 0.68642, 0.68642));
+
+    set_equal_precision(FLT_EPSILON);
 }

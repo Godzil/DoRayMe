@@ -47,6 +47,7 @@ public:
     bool isShadowed(Tuple point);
 
     Colour reflectColour(Computation comps, uint32_t depthCount = 4);
+    Colour refractedColour(Computation comps, uint32_t depthCount = 0);
 
     Intersect intersect(Ray r);
 

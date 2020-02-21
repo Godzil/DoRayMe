@@ -18,14 +18,16 @@ class Intersect;
 struct Computation
 {
     Computation(Shape *object, double t, Tuple point, Tuple eyev, Tuple normalv, Tuple overHitP,
-                bool inside, Tuple reflectV = Vector(0, 0, 0), double n1 = 1.0, double n2 = 1.0) :
+                bool inside, Tuple reflectV = Vector(0, 0, 0), double n1 = 1.0, double n2 = 1.0,
+                Tuple underHitP = Point(0, 0, 0)) :
           object(object), t(t), hitPoint(point), eyeVector(eyev), normalVector(normalv), inside(inside),
-          overHitPoint(overHitP),  reflectVector(reflectV), n1(n1), n2(n2) { };
+          overHitPoint(overHitP), underHitPoint(underHitP), reflectVector(reflectV), n1(n1), n2(n2) { };
 
     Shape *object;
     double t;
     Tuple hitPoint;
     Tuple overHitPoint;
+    Tuple underHitPoint;
     Tuple eyeVector;
     Tuple normalVector;
     Tuple reflectVector;

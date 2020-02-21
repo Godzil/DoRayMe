@@ -205,7 +205,6 @@ TEST(IntersectTest, Precomputing_the_reflection_vector)
 
 TEST(IntersectTest, Finding_n1_and_n2_at_various_intersections)
 {
-#if 0
     int i;
     double n1_res[6] = { 1.0, 1.5, 2.0, 2.5, 2.5, 1.5 };
     double n2_res[6] = { 1.5, 2.0, 2.5, 2.5, 1.5, 1.0 };
@@ -233,9 +232,25 @@ TEST(IntersectTest, Finding_n1_and_n2_at_various_intersections)
 
     for(i = 0; i < xs.count(); i++)
     {
-        Computation comps = xs[i].prepareComputation(r, &xs);
+        Intersection inter = xs[i];
+        Computation comps = inter.prepareComputation(r, &xs);
         ASSERT_EQ(comps.n1, n1_res[i]);
         ASSERT_EQ(comps.n2, n2_res[i]);
     }
-#endif
+}
+
+TEST(IntersectTest, The_under_point_is_offset_below_the_surface)
+{
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    GlassSphere shape = GlassSphere();
+    shape.setTransform(translation(0, 0, 1));
+
+    Intersection i = Intersection(5, &shape);
+    Intersect xs = Intersect();
+    xs.add(i);
+
+    Computation comps = i.prepareComputation(r, &xs);
+
+    ASSERT_TRUE(double_equal(comps.underHitPoint.z, getEpsilon() / 2));
+    ASSERT_LT(comps.hitPoint.z, comps.underHitPoint.z);
 }

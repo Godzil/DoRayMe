@@ -102,8 +102,9 @@ Tuple World::shadeHit(Computation comps, uint32_t depthCount)
             comps.normalVector, comps.object, isThereAnObstacle);
 
     Tuple reflected = this->reflectColour(comps, depthCount);
+    Tuple refracted = this->refractedColour(comps, depthCount);
 
-    return surface + reflected;
+    return surface + reflected + refracted;
 }
 
 Tuple World::colourAt(Ray r, uint32_t depthCount)
@@ -156,4 +157,24 @@ Colour World::reflectColour(Computation comps, uint32_t depthCount)
     return Colour(hitColour.x, hitColour.y, hitColour.z);
 }
 
+Colour World::refractedColour(Computation comps, uint32_t depthCount)
+{
+    double nRatio = comps.n1 / comps.n2;
+    double cos_i = comps.eyeVector.dot(comps.normalVector);
+    double sin2_t = (nRatio*nRatio) * (1 - cos_i * cos_i);
 
+    if ((sin2_t > 1 ) || (depthCount == 0) || (comps.object->material.transparency == 0))
+    {
+        return Colour(0, 0, 0);
+    }
+
+    double cos_t = sqrt(1.0 - sin2_t);
+    Tuple direction = comps.normalVector * (nRatio * cos_i - cos_t) - comps.eyeVector * nRatio;
+
+    Ray refractedRay = Ray(comps.underHitPoint, direction);
+
+    Tuple hitColour = this->colourAt(refractedRay, depthCount - 1) * comps.object->material.transparency;
+
+
+    return Colour(hitColour.x, hitColour.y, hitColour.z);
+}

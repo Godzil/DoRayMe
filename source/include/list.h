@@ -44,13 +44,31 @@ public:
     {
         ChainList *p = this->head;
         if (p == nullptr) { return; }
+
+        if ((p->next == nullptr) && (p->shape == s))
+        {
+            /* First element */
+            this->tail = nullptr;
+            free(this->head);
+            this->head = nullptr;
+            this->count = 0;
+
+            return;
+        }
+
         while(p->next != nullptr)
         {
             if (p->next->shape == s)
             {
-                this->count --;
+                ChainList *found = p->next;
+
                 p->next = p->next->next;
-                free(p->next);
+
+                free(found);
+
+                if (p->next == NULL) { this->tail = p; }
+
+                this->count --;
                 return;
             }
             p = p->next;
@@ -64,10 +82,10 @@ public:
         theNew->shape = s;
 
         ChainList *p = this->tail;
-        tail = theNew;
+        this->tail = theNew;
 
         if (p != nullptr) { p->next = theNew; }
-        else { head = theNew; } /* If the tail is empty, it mean the list IS empty. */
+        else { this->head = theNew; } /* If the tail is empty, it mean the list IS empty. */
 
         this->count ++;
     }

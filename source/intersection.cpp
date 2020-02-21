@@ -27,18 +27,18 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
     }
 
     Tuple overHitP = hitP + normalV * getEpsilon();
+    Tuple underHitP = hitP - normalV * getEpsilon();
     Tuple reflectV = r.direction.reflect(normalV);
 
     if (xs != nullptr)
     {
         List containers;
         int j, k;
-        Intersection hit = xs->hit();
 
         for(j = 0; j < xs->count(); j++)
         {
             Intersection i = (*xs)[j];
-            if (hit == i)
+            if (*this == i)
             {
                 if (!containers.isEmpty())
                 {
@@ -55,12 +55,11 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
                 containers.append(i.object);
             }
 
-            if (hit == i)
+            if (*this == i)
             {
                 if (!containers.isEmpty())
                 {
-                    Shape *cur = containers.last();
-                    n2 = cur->material.refractiveIndex;
+                    n2 = containers.last()->material.refractiveIndex;
                 }
 
                 /* End the loop */
@@ -78,5 +77,6 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
                        inside,
                        reflectV,
                        n1,
-                       n2);
+                       n2,
+                       underHitP);
 }
