@@ -1,0 +1,9 @@
+# A ball lit by 3 lights
+camera 0 0 -1 0 0 0 0 1 0 45
+
+point 0 4 0 .7 .2 .2
+#point 4 0 4 .5 .5 .5
+point 4 -4 0 .2 .7 .2
+point -4 -4 0 .2 .2 .7
+
+sphere 0 0 0 .3
