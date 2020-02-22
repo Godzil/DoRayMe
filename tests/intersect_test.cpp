@@ -254,3 +254,52 @@ TEST(IntersectTest, The_under_point_is_offset_below_the_surface)
     ASSERT_TRUE(double_equal(comps.underHitPoint.z, getEpsilon() / 2));
     ASSERT_LT(comps.hitPoint.z, comps.underHitPoint.z);
 }
+
+TEST(IntersectTest, The_Schlick_approximation_under_total_internal_reflection)
+{
+    GlassSphere shape = GlassSphere();
+
+    Ray r = Ray(Point(0, 0, sqrt(2)/2), Vector(0, 1, 0));
+    Intersect xs = Intersect();
+    xs.add(Intersection(-sqrt(2)/2, &shape));
+    xs.add(Intersection(sqrt(2)/2, &shape));
+
+    Computation comps = xs[1].prepareComputation(r, &xs);
+    double reflectance = comps.schlick();
+
+    ASSERT_EQ(reflectance, 1.0);
+}
+
+TEST(IntersectTest, The_Schlick_approximation_with_a_perpendicular_viewing_angle)
+{
+    GlassSphere shape = GlassSphere();
+
+    Ray r = Ray(Point(0, 0, 0), Vector(0, 1, 0));
+    Intersect xs = Intersect();
+    xs.add(Intersection(-1, &shape));
+    xs.add(Intersection(1, &shape));
+
+    Computation comps = xs[1].prepareComputation(r, &xs);
+    double reflectance = comps.schlick();
+
+    ASSERT_TRUE(double_equal(reflectance, 0.04));
+}
+
+TEST(IntersectTest, The_Schlick_approximation_with_small_angle_and_n2_gt_n1)
+{
+    GlassSphere shape = GlassSphere();
+
+    Ray r = Ray(Point(0, 0.99, -2), Vector(0, 0, 1));
+    Intersect xs = Intersect();
+    xs.add(Intersection(1.8589, &shape));
+
+    Computation comps = xs[0].prepareComputation(r, &xs);
+    double reflectance = comps.schlick();
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.00001);
+
+    ASSERT_TRUE(double_equal(reflectance, 0.48873));
+
+    set_equal_precision(FLT_EPSILON);
+}

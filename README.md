@@ -41,3 +41,7 @@ From Chapter 10:
 From Chapter 11:
 
 ![Chapter 11 reflections rendering test](output/ch11_reflection.png)
+
+![Chapter 11 refraction rendering test](output/ch11_refraction.png)
+
+![Chapter 11 rendering test](output/ch11_test.png)

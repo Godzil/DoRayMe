@@ -393,3 +393,37 @@ TEST(WorldTest, Shade_hit_with_a_transparent_material)
 
     set_equal_precision(FLT_EPSILON);
 }
+
+TEST(WorldTest, Shade_hit_with_a_reflective_transparent_material)
+{
+    World w = DefaultWorld();
+
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -sqrt(2)/2, sqrt(2)/2));
+
+    Plane floor = Plane();
+    floor.setTransform(translation(0, -1, 0));
+    floor.material.transparency = 0.5;
+    floor.material.reflective = 0.5;
+    floor.material.refractiveIndex = 1.5;
+    w.addObject(&floor);
+
+    Sphere ball = Sphere();
+    ball.material.colour = Colour(1, 0, 0);
+    ball.material.ambient = 0.5;
+    ball.setTransform(translation(0, -3.5, -0.5));
+    w.addObject(&ball);
+
+    Intersect xs = Intersect();
+    xs.add(Intersection(sqrt(2), &floor));
+
+    Computation comps = xs[0].prepareComputation(r, &xs);
+
+    Tuple c = w.shadeHit(comps, 5);
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.00001);
+
+    ASSERT_EQ(c, Colour(0.93391, 0.69643, 0.69243));
+
+    set_equal_precision(FLT_EPSILON);
+}

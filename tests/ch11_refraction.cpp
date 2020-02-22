@@ -37,6 +37,7 @@ int main()
     Sphere glassBall = Sphere();
     glassBall.material.shininess = 300;
     glassBall.material.transparency = 1;
+    glassBall.material.reflective = 1;
     glassBall.material.refractiveIndex = 1.52;
     glassBall.material.diffuse = 0.1;
     w.addObject(&glassBall);
@@ -45,6 +46,7 @@ int main()
     airBall.setTransform(scaling(0.5, 0.5, 0.5));
     airBall.material.shininess = 300;
     airBall.material.transparency = 1;
+    airBall.material.reflective = 1;
     airBall.material.refractiveIndex = 1.0009;
     airBall.material.diffuse = 0.1;
     w.addObject(&airBall);
@@ -54,7 +56,7 @@ int main()
     w.addLight(&light);
 
     /* Set the camera */
-    Camera camera = Camera(1000, 1000, M_PI / 3);
+    Camera camera = Camera(100, 100, M_PI / 3);
 
     camera.setTransform(viewTransform(Point(0, 2.5, 0),
                                       Point(0, 0, 0),

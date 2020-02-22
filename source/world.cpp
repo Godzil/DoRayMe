@@ -104,6 +104,14 @@ Tuple World::shadeHit(Computation comps, uint32_t depthCount)
     Tuple reflected = this->reflectColour(comps, depthCount);
     Tuple refracted = this->refractedColour(comps, depthCount);
 
+    if ((comps.object->material.reflective > 0) && (comps.object->material.transparency > 0))
+    {
+        double reflectance = comps.schlick();
+
+        return surface + reflected * reflectance + refracted * (1 - reflectance);
+
+    }
+
     return surface + reflected + refracted;
 }
 
