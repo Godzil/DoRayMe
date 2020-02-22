@@ -22,10 +22,13 @@ public:
     bool isPoint()  { return (this->w == 1.0); };
     bool isVector() { return (this->w == 0.0); };
 
-    bool operator==(const Tuple &b) const { return double_equal(this->x, b.x) &&
-                                                   double_equal(this->y, b.y) &&
-                                                   double_equal(this->z, b.z) &&
-                                                   double_equal(this->w, b.w); };
+    bool operator==(const Tuple &b) const
+    {
+        return double_equal(this->x, b.x) &&
+               double_equal(this->y, b.y) &&
+               double_equal(this->z, b.z) &&
+               double_equal(this->w, b.w);
+    };
     bool operator!=(const Tuple &b) const { return !(*this == b); };
 
     Tuple operator+(const Tuple &b) const { return Tuple(this->x + b.x, this->y + b.y,
