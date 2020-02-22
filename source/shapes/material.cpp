@@ -25,6 +25,7 @@ Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple norma
 
     Tuple effectiveColour = pointColor * light.intensity;
     Tuple ambientColour = Colour(0, 0, 0);
+    Tuple emissiveColour = Colour(0, 0, 0);
     Tuple diffuseColour = Colour(0, 0, 0);
     Tuple specularColour = Colour(0, 0, 0);
     Tuple finalColour = Colour(0, 0, 0);
@@ -32,6 +33,8 @@ Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple norma
     double lightDotNormal, reflectDotEye;
 
     ambientColour = effectiveColour * this->ambient;
+
+    emissiveColour = pointColor * this->emissive;
 
     if (!inShadow)
     {
@@ -60,7 +63,7 @@ Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple norma
             }
         }
     }
-    finalColour = ambientColour + diffuseColour + specularColour;
+    finalColour = emissiveColour + ambientColour + diffuseColour + specularColour;
 
     return Colour(finalColour.x, finalColour.y, finalColour.z);
 }
