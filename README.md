@@ -45,3 +45,7 @@ From Chapter 11:
 ![Chapter 11 refraction rendering test](output/ch11_refraction.png)
 
 ![Chapter 11 rendering test](output/ch11_test.png)
+
+From Chapter 12:
+
+![Chapter 12 rendering test](output/ch12_test.png)
