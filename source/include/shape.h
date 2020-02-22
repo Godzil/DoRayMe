@@ -22,6 +22,8 @@ enum ShapeType
     SHAPE_NONE,
     SHAPE_SPHERE,
     SHAPE_PLANE,
+    SHAPE_CUBE,
+    SHAPE_CONE,
 };
 
 /* Base class for all object that can be presented in the world */

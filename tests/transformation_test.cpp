@@ -245,14 +245,4 @@ TEST(TransformationTest, An_arbitrary_view_transformation)
     set_equal_precision(FLT_EPSILON);
 }
 
-TEST(TransformationTest, Check_that_deg_to_rad_is_working)
-{
-    double angle180 = deg_to_rad(180);
-    double angle90 = deg_to_rad(90);
-    double angle270 = deg_to_rad(270);
-
-    ASSERT_EQ(angle180, M_PI);
-    ASSERT_EQ(angle90, M_PI / 2.);
-    ASSERT_EQ(angle270, M_PI * 1.5);
-}
 

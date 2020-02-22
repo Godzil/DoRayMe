@@ -79,7 +79,7 @@ int main()
     w.addLight(&light);
 
     /* Set the camera */
-    Camera camera = Camera(1920, 1080, M_PI / 3);
+    Camera camera = Camera(100, 50, M_PI / 3);
     camera.setTransform(viewTransform(Point(0, 1.5, -5),
                                       Point(0, 1, 0),
                                       Vector(0, 1, 0)));
