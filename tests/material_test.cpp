@@ -122,3 +122,46 @@ TEST(MaterialTest, Transparency_and_refractive_index_for_the_default_material)
     ASSERT_EQ(m.transparency, 0.0);
     ASSERT_EQ(m.refractiveIndex, 1.0);
 }
+
+TEST(MaterialTest, Equality_tests)
+{
+    Material m = Material();
+    Material m2 = Material();
+
+    ASSERT_EQ(m, m2);
+
+    m.ambient = 42;
+    ASSERT_NE(m, m2);
+    m.ambient = m2.ambient;
+
+    m.diffuse = 42;
+    ASSERT_NE(m, m2);
+    m.diffuse = m2.diffuse;
+
+    m.specular = 42;
+    ASSERT_NE(m, m2);
+    m.specular = m2.specular;
+
+    m.shininess = 42;
+    ASSERT_NE(m, m2);
+    m.shininess = m2.shininess;
+
+    m.reflective = 42;
+    ASSERT_NE(m, m2);
+    m.reflective = m2.reflective;
+
+    m.transparency = 42;
+    ASSERT_NE(m, m2);
+    m.transparency = m2.transparency;
+
+    m.emissive = 42;
+    ASSERT_NE(m, m2);
+    m.emissive = m2.emissive;
+
+    m.refractiveIndex = 42;
+    ASSERT_NE(m, m2);
+    m.refractiveIndex = m2.refractiveIndex;
+
+    m.colour = Colour(32, 32, 32);
+    ASSERT_NE(m, m2);
+}

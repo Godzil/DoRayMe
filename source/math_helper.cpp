@@ -43,13 +43,8 @@ double min3(double a, double b, double c)
     if (b <= a)
     {
         if (c < b) return c;
-        return b;
     }
-    if (c <= a)
-    {
-        if (b < c) return b;
-    }
-    return c;
+    return b;
 }
 
 double max3(double a, double b, double c)
@@ -62,11 +57,6 @@ double max3(double a, double b, double c)
     if (b >= a)
     {
         if (c > b) return c;
-        return b;
     }
-    if (c >= a)
-    {
-        if (b > c) return b;
-    }
-    return c;
+    return b;
 }

@@ -26,6 +26,7 @@ public:
                                                    double_equal(this->y, b.y) &&
                                                    double_equal(this->z, b.z) &&
                                                    double_equal(this->w, b.w); };
+    bool operator!=(const Tuple &b) const { return !(*this == b); };
 
     Tuple operator+(const Tuple &b) const { return Tuple(this->x + b.x, this->y + b.y,
                                                          this->z + b.z, this->w + b.w); };

@@ -22,6 +22,22 @@ TEST(TupleTest, Tuple_With_w_equal_1_and_is_point)
     ASSERT_FALSE(a.isVector());
 }
 
+TEST(TupleTest, Two_tuples_are_equal)
+{
+    Tuple a = Tuple(1, 2, 3, 4);
+    Tuple b = Tuple(1, 2, 3, 4);
+    Tuple c = Tuple(4, 3, 2, 1);
+    Tuple d = Tuple(1, 2, 3, 5);
+    Tuple e = Tuple(1, 2, 5, 5);
+    Tuple f = Tuple(1, 5, 5, 5);
+
+    ASSERT_EQ(a, b);
+    ASSERT_NE(a, c);
+    ASSERT_NE(a, d);
+    ASSERT_NE(a, e);
+    ASSERT_NE(a, f);
+}
+
 TEST(TupleTest, Tuple_With_w_equal_0_and_is_vector)
 {
     Tuple a = Tuple(4.3, -4.2, 3.1, 0.0);

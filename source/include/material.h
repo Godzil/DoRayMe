@@ -46,6 +46,7 @@ public:
                                                       double_equal(this->emissive, b.emissive) &&
                                                       double_equal(this->refractiveIndex, b.refractiveIndex) &&
                                                       (this->colour == b.colour); };
+    bool operator!=(const Material &b) const { return !(*this == b); };
 };
 
 
