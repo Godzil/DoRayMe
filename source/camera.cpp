@@ -55,7 +55,7 @@ Ray Camera::rayForPixel(uint32_t pixelX, uint32_t pixelY)
     return Ray(origin, direction);
 }
 
-Canvas Camera::render(World world)
+Canvas Camera::render(World world, uint32_t depth)
 {
     uint32_t x, y;
     Canvas image = Canvas(this->horizontalSize, this->verticalSize);
@@ -65,7 +65,7 @@ Canvas Camera::render(World world)
         for(x = 0; x < this->horizontalSize; x++)
         {
             Ray r = this->rayForPixel(x, y);
-            Tuple colour = world.colourAt(r);
+            Tuple colour = world.colourAt(r, depth);
             image.putPixel(x, y, colour);
         }
     }

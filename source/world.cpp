@@ -175,6 +175,5 @@ Colour World::refractedColour(Computation comps, uint32_t depthCount)
 
     Tuple hitColour = this->colourAt(refractedRay, depthCount - 1) * comps.object->material.transparency;
 
-
     return Colour(hitColour.x, hitColour.y, hitColour.z);
 }

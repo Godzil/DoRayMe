@@ -32,7 +32,7 @@ public:
     Camera(uint32_t hsize, uint32_t vsize, double fov);
     void setTransform(Matrix transform);
     Ray rayForPixel(uint32_t pixelX, uint32_t pixelY);
-    Canvas render(World w);
+    Canvas render(World w, uint32_t depth = 5);
 };
 
 #endif /* DORAYME_CAMERA_H */
