@@ -15,6 +15,7 @@
 
 Shape::Shape(ShapeType type)
 {
+    this->dropShadow = true;
     this->type = type;
     this->transformMatrix = Matrix4().identity();
     this->inverseTransform = this->transformMatrix.inverse();

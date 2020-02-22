@@ -94,7 +94,6 @@ Intersect World::intersect(Ray r)
 
 Tuple World::shadeHit(Computation comps, uint32_t depthCount)
 {
-    /* TODO: Add support for more than one light */
     uint32_t lightIndex;
 
     Tuple surface = Colour(0, 0, 0);
@@ -136,20 +135,25 @@ Tuple World::colourAt(Ray r, uint32_t depthCount)
 
 bool World::isShadowed(Tuple point, uint32_t light)
 {
-    /* TODO: Add support for more than one light */
-
     Tuple v = this->lightList[light]->position - point;
     double distance = v.magnitude();
     Tuple direction = v.normalise();
 
     Ray r = Ray(point, direction);
-    Intersection h = this->intersect(r).hit();
+    Intersect xs = this->intersect(r);
 
-    if (!h.nothing() && (h.t < distance))
+    int i;
+    for(i = 0; i < xs.count(); i++)
     {
-        return true;
-    }
+        Intersection h = xs[i];
 
+        if (h.t < 0) continue;
+
+        if ((h.object->dropShadow == true) && (h.t < distance))
+        {
+            return true;
+        }
+    }
     return false;
 }
 

@@ -40,6 +40,7 @@ public:
     Matrix transformMatrix;
     Matrix inverseTransform;
     Material material;
+    bool dropShadow;
 
 public:
     Shape(ShapeType = SHAPE_NONE);
