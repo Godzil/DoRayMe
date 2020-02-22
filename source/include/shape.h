@@ -23,6 +23,7 @@ enum ShapeType
     SHAPE_SPHERE,
     SHAPE_PLANE,
     SHAPE_CUBE,
+    SHAPE_CYLINDER,
     SHAPE_CONE,
 };
 

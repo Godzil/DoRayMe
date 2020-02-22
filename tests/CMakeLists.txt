@@ -5,7 +5,7 @@ find_package(Threads REQUIRED)
 
 set(TESTS_SRC math_test.cpp tuple_test.cpp colour_test.cpp canvas_test.cpp matrix_test.cpp transformation_test.cpp
         ray_test.cpp intersect_test.cpp sphere_test.cpp light_test.cpp material_test.cpp world_test.cpp camera_test.cpp
-        shape_test.cpp plane_test.cpp pattern_test.cpp cube_test.cpp)
+        shape_test.cpp plane_test.cpp pattern_test.cpp cube_test.cpp cylinder_test.cpp)
 
 add_executable(testMyRays)
 target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
@@ -69,6 +69,11 @@ target_include_directories(ch12_test PUBLIC ../source/include)
 target_sources(ch12_test PRIVATE ch12_test.cpp)
 target_link_libraries(ch12_test rayonnement)
 
+add_executable(ch13_test)
+target_include_directories(ch13_test PUBLIC ../source/include)
+target_sources(ch13_test PRIVATE ch13_test.cpp)
+target_link_libraries(ch13_test rayonnement)
+
 add_test(NAME Chapter05_Test COMMAND $<TARGET_FILE:ch5_test>)
 add_test(NAME Chapter06_Test COMMAND $<TARGET_FILE:ch6_test>)
 add_test(NAME Chapter07_Test COMMAND $<TARGET_FILE:ch7_test>)
@@ -78,4 +83,5 @@ add_test(NAME Chapter11_Reflection COMMAND $<TARGET_FILE:ch11_reflection>)
 add_test(NAME Chapter11_Refraction COMMAND $<TARGET_FILE:ch11_refraction>)
 add_test(NAME Chapter11_Test COMMAND $<TARGET_FILE:ch11_test>)
 add_test(NAME Chapter12_Test COMMAND $<TARGET_FILE:ch12_test>)
+add_test(NAME Chapter13_Test COMMAND $<TARGET_FILE:ch13_test>)
 add_test(NAME Hw3Render COMMAND $<TARGET_FILE:hw3render> ${CMAKE_CURRENT_SOURCE_DIR}/test.hw3scene)

@@ -120,7 +120,7 @@ int main()
 
     /* Little cube 1 */
     Cube lilCube1 = Cube();
-    lilCube1.setTransform(translation(1, 3.25, -0.9) *
+    lilCube1.setTransform(translation(1, 3.35, -0.9) *
                            rotationY(-0.4) *
                            scaling(0.15, 0.15, 0.15));
     lilCube1.material.colour = Colour(1, 0.5, 0.5);
@@ -199,7 +199,7 @@ int main()
     /* ----------------------------- */
 
     /* Set the camera */
-    Camera camera = Camera(400, 200, 0.785);
+    Camera camera = Camera(1000, 500, 0.785);
     camera.setTransform(viewTransform(Point(8, 6, -8),
                                       Point(0, 3, 0),
                                       Vector(0, 1, 0)));

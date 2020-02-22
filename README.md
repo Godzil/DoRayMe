@@ -49,3 +49,7 @@ From Chapter 11 - Reflections, Transparency & Refractions
 From Chapter 12 - Cubes:
 
 ![Chapter 12 rendering test](output/ch12_test.png)
+
+From Chapter 13 - Cylinders:
+
+![Chapter 13 rendering test](output/ch13_test.png)
