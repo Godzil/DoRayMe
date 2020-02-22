@@ -19,6 +19,11 @@ gtest_discover_tests(testMyRays
    )
 
 
+add_executable(hw3render)
+target_include_directories(hw3render PUBLIC ../source/include)
+target_sources(hw3render PRIVATE hw3render.cpp)
+target_link_libraries(hw3render rayonnement)
+
 add_executable(ch5_test)
 target_include_directories(ch5_test PUBLIC ../source/include)
 target_sources(ch5_test PRIVATE ch5_test.cpp)
