@@ -44,7 +44,7 @@ public:
 
     Tuple shadeHit(Computation comps, uint32_t depthCount = 4);
     Tuple colourAt(Ray r, uint32_t depthCount = 4);
-    bool isShadowed(Tuple point);
+    bool isShadowed(Tuple point, uint32_t light = 0);
 
     Colour reflectColour(Computation comps, uint32_t depthCount = 4);
     Colour refractedColour(Computation comps, uint32_t depthCount = 4);

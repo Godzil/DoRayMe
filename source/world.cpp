@@ -95,12 +95,17 @@ Intersect World::intersect(Ray r)
 Tuple World::shadeHit(Computation comps, uint32_t depthCount)
 {
     /* TODO: Add support for more than one light */
+    uint32_t lightIndex;
 
-    bool isThereAnObstacle = this->isShadowed(comps.overHitPoint);
+    Tuple surface = Colour(0, 0, 0);
 
-    Tuple surface = comps.object->material.lighting(*this->lightList[0], comps.overHitPoint, comps.eyeVector,
-            comps.normalVector, comps.object, isThereAnObstacle);
+    for(lightIndex = 0; lightIndex < this->lightCount; lightIndex++)
+    {
+        bool isThereAnObstacle = this->isShadowed(comps.overHitPoint, lightIndex);
 
+        surface = surface + comps.object->material.lighting(*this->lightList[lightIndex], comps.overHitPoint, comps.eyeVector,
+                                                        comps.normalVector, comps.object, isThereAnObstacle);
+    }
     Tuple reflected = this->reflectColour(comps, depthCount);
     Tuple refracted = this->refractedColour(comps, depthCount);
 
@@ -109,7 +114,6 @@ Tuple World::shadeHit(Computation comps, uint32_t depthCount)
         double reflectance = comps.schlick();
 
         return surface + reflected * reflectance + refracted * (1 - reflectance);
-
     }
 
     return surface + reflected + refracted;
@@ -130,11 +134,11 @@ Tuple World::colourAt(Ray r, uint32_t depthCount)
     }
 }
 
-bool World::isShadowed(Tuple point)
+bool World::isShadowed(Tuple point, uint32_t light)
 {
     /* TODO: Add support for more than one light */
 
-    Tuple v = this->lightList[0]->position - point;
+    Tuple v = this->lightList[light]->position - point;
     double distance = v.magnitude();
     Tuple direction = v.normalise();
 
