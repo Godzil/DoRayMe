@@ -19,6 +19,11 @@ double Tuple::magnitude()
 Tuple Tuple::normalise()
 {
     double mag = this->magnitude();
+    if (mag == 0)
+    {
+        return Tuple(0, 0, 0, 0);
+    }
+
     return Tuple(this->x / mag, this->y / mag, this->z / mag, this->w / mag);
 }
 

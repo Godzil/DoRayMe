@@ -53,3 +53,5 @@ From Chapter 12 - Cubes:
 From Chapter 13 - Cylinders:
 
 ![Chapter 13 rendering test](output/ch13_test.png)
+Bonus:
+![Chapter 13 cone test](output/ch13_cone.png)

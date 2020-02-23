@@ -199,7 +199,7 @@ int main()
     /* ----------------------------- */
 
     /* Set the camera */
-    Camera camera = Camera(1000, 500, 0.785);
+    Camera camera = Camera(400, 200, 0.785);
     camera.setTransform(viewTransform(Point(8, 6, -8),
                                       Point(0, 3, 0),
                                       Vector(0, 1, 0)));
