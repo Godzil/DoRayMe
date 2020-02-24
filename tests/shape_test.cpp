@@ -9,6 +9,8 @@
 #include <shape.h>
 #include <testshape.h>
 #include <matrix.h>
+#include <group.h>
+#include <sphere.h>
 #include <transformation.h>
 #include <gtest/gtest.h>
 
@@ -93,6 +95,50 @@ TEST(ShapeTest, Computing_the_normal_on_a_tranformed_shape)
     set_equal_precision(0.00001);
 
     ASSERT_EQ(n, Vector(0, 0.97014, -0.24254));
+
+    set_equal_precision(FLT_EPSILON);
+}
+
+TEST(ShapeTest, A_shape_has_a_parent_attribute)
+{
+    TestShape s = TestShape();
+
+    ASSERT_EQ(s.parent, nullptr);
+}
+
+TEST(TestShape, Converting_a_point_from_world_to_object_space)
+{
+    Group g1 = Group();
+    g1.setTransform(rotationY(M_PI / 2));
+    Group g2 = Group();
+    g2.setTransform(scaling(2, 2, 2));
+    g1.addObject(&g2);
+    Sphere s = Sphere();
+    s.setTransform(translation(5, 0, 0));
+    g2.addObject(&s);
+
+    Tuple p = s.worldToObject(Point(-2, 0, -10));
+
+    ASSERT_EQ(p, Point(0, 0, -1));
+}
+
+TEST(TestShape, Converting_a_normal_form_object_to_world_space)
+{
+    Group g1 = Group();
+    g1.setTransform(rotationY(M_PI / 2));
+    Group g2 = Group();
+    g2.setTransform(scaling(1, 2, 3));
+    g1.addObject(&g2);
+    Sphere s = Sphere();
+    s.setTransform(translation(5, 0, 0));
+    g2.addObject(&s);
+
+    Tuple p = s.normalToWorld(Point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.0001);
+
+    ASSERT_EQ(p, Point(0.2857, 0.4286, -0.8571));
 
     set_equal_precision(FLT_EPSILON);
 }

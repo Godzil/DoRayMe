@@ -15,7 +15,7 @@
 
 class Sphere : public Shape
 {
-private:
+protected:
     Intersect localIntersect(Ray r);
     Tuple localNormalAt(Tuple point);
 

@@ -25,6 +25,8 @@ enum ShapeType
     SHAPE_CUBE,
     SHAPE_CYLINDER,
     SHAPE_CONE,
+    SHAPE_GROUP,
+
 };
 
 /* Base class for all object that can be presented in the world */
@@ -32,22 +34,31 @@ class Shape
 {
 private:
     ShapeType type;
-
-private:
+    Matrix localTransformMatrix;
+protected:
     virtual Intersect localIntersect(Ray r) = 0;
     virtual Tuple localNormalAt(Tuple point) = 0;
 
 public:
     Matrix transformMatrix;
     Matrix inverseTransform;
+    Matrix transposedInverseTransform;
+
     Material material;
     bool dropShadow;
+    Shape *parent;
 
 public:
     Shape(ShapeType = SHAPE_NONE);
 
     Intersect intersect(Ray r);
     Tuple normalAt(Tuple point);
+
+    //virtual Bounds getBounds();
+
+    void updateTransform();
+    Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };
+    Tuple normalToWorld(Tuple normalVector) { return (this->transposedInverseTransform * normalVector).normalise(); };
 
     void setTransform(Matrix transform);
     void setMaterial(Material material) { this->material = material; };
