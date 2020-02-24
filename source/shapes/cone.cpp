@@ -122,3 +122,13 @@ Tuple Cone::localNormalAt(Tuple point)
     }
     return Vector(point.x, y, point.z);
 }
+
+BoundingBox Cone::getBounds()
+{
+    BoundingBox ret;
+
+    ret.min = this->objectToWorld(Point(-1, this->minCap, -1));
+    ret.max = this->objectToWorld(Point(1, this->maxCap, 1));
+
+    return ret;
+}

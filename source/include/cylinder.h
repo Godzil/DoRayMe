@@ -28,6 +28,8 @@ public:
     double maxCap;
 
     Cylinder() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CYLINDER) {};
+
+    BoundingBox getBounds();
 };
 
 #endif //DORAYME_CYLINDER_H

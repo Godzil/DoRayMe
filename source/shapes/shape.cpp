@@ -65,3 +65,12 @@ void Shape::setTransform(Matrix transform)
     this->localTransformMatrix = transform;
     this->updateTransform();
 }
+
+BoundingBox Shape::getBounds()
+{
+    BoundingBox ret;
+
+    ret.min = this->objectToWorld(Point(-1, -1, -1));
+    ret.max = this->objectToWorld(Point(1, 1, 1));
+    return ret;
+}

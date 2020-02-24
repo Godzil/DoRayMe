@@ -16,6 +16,7 @@ class Shape;
 #include <matrix.h>
 #include <intersect.h>
 #include <material.h>
+#include <boundingbox.h>
 
 enum ShapeType
 {
@@ -51,13 +52,15 @@ public:
 public:
     Shape(ShapeType = SHAPE_NONE);
 
-    Intersect intersect(Ray r);
+    virtual Intersect intersect(Ray r);
     Tuple normalAt(Tuple point);
 
-    //virtual Bounds getBounds();
+    /* Bouding box points are always world value */
+    virtual BoundingBox getBounds();
 
     void updateTransform();
     Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };
+    Tuple objectToWorld(Tuple point) { return this->transformMatrix * point; };
     Tuple normalToWorld(Tuple normalVector);
 
     void setTransform(Matrix transform);

@@ -28,6 +28,7 @@ public:
     double maxCap;
 
     Cone() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CONE) {};
+    BoundingBox getBounds();
 };
 
 #endif /* DORAYME_CONE_H */

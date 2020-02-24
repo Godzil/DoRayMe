@@ -17,6 +17,7 @@ public:
     double x, y, z, w;
 
 public:
+    Tuple() : x(0), y(0), z(0), w(0.0) {};
     Tuple(double x, double y, double z) : x(x), y(y), z(z), w(0.0) {};
     Tuple(double x, double y, double z, double w)  : x(x), y(y), z(z), w(w) {};
     bool isPoint()  { return (this->w == 1.0); };
@@ -39,6 +40,7 @@ public:
     Tuple operator/(const double &b) const { return Tuple(this->x / b, this->y / b,
                                                           this->z / b, this->w / b); };
 
+    void set(double nX, double nY, double nZ) { this->x = nX; this->y = nY; this->z = nZ; };
     double magnitude();
     Tuple normalise();
     double dot(const Tuple &b);
@@ -49,12 +51,14 @@ public:
 class Point: public Tuple
 {
 public:
+    Point() : Tuple(0, 0, 0, 1.0) {};
     Point(double x, double y, double z) : Tuple(x, y, z, 1.0) {};
 };
 
 class Vector: public Tuple
 {
 public:
+    Vector() : Tuple(0, 0, 0, 0.0) {};
     Vector(double x, double y, double z) : Tuple(x, y, z, 0.0) {};
 };
 

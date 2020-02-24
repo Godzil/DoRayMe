@@ -71,3 +71,30 @@ bool Group::isEmpty()
 {
     return (this->objectCount == 0);
 }
+
+BoundingBox Group::getBounds()
+{
+    BoundingBox ret;
+
+    if (this->objectCount > 0)
+    {
+        ret.min = Point(INFINITY, INFINITY, INFINITY);
+        ret.max = Point(-INFINITY, -INFINITY, -INFINITY);
+
+        int i;
+        for(i = 0; i < this->objectCount; i++)
+        {
+            BoundingBox obj = this->objectList[i]->getBounds();
+
+            if (ret.min.x > obj.min.x) {  ret.min.x = obj.min.x; }
+            if (ret.min.y > obj.min.y) {  ret.min.y = obj.min.y; }
+            if (ret.min.z > obj.min.z) {  ret.min.z = obj.min.z; }
+
+            if (ret.max.x < obj.max.x) {  ret.max.x = obj.max.x; }
+            if (ret.max.y < obj.max.y) {  ret.max.y = obj.max.y; }
+            if (ret.max.z < obj.max.z) {  ret.max.z = obj.max.z; }
+        }
+    }
+
+    return ret;
+}

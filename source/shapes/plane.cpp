@@ -34,3 +34,13 @@ Tuple Plane::localNormalAt(Tuple point)
 {
     return Vector(0, 1, 0);
 }
+
+BoundingBox Plane::getBounds()
+{
+    BoundingBox ret;
+
+    ret.min = this->objectToWorld(Point(-INFINITY, 0-getEpsilon(), -INFINITY));
+    ret.max = this->objectToWorld(Point(INFINITY, 0+getEpsilon(), INFINITY));
+
+    return ret;
+}

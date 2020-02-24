@@ -107,3 +107,13 @@ Tuple Cylinder::localNormalAt(Tuple point)
 
     return Vector(point.x, 0, point.z);
 }
+
+BoundingBox Cylinder::getBounds()
+{
+    BoundingBox ret;
+
+    ret.min = this->objectToWorld(Point(-1, this->minCap, -1));
+    ret.max = this->objectToWorld(Point(1, this->maxCap, 1));
+
+    return ret;
+}

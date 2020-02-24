@@ -32,6 +32,8 @@ public:
 
     Intersect intersect(Ray r);
 
+    BoundingBox getBounds();
+
     Group();
 };
 

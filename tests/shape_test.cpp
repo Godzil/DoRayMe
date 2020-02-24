@@ -164,3 +164,14 @@ TEST(TestShape, Finding_the_normal_on_a_child_object)
 
     set_equal_precision(FLT_EPSILON);
 }
+
+TEST(TestShape, Test_the_bouding_box_of_the_test_shape)
+{
+    TestShape t = TestShape();
+    BoundingBox b = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
+
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}
