@@ -10,11 +10,31 @@ option(COVERALLS "Generate coveralls data" OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/external/coveralls-cmake/cmake)
 
 option(PACKAGE_TESTS "Build the tests" ON)
+option(ENABLE_COVERAGE "Build for code coverage" OFF)
+
+if (ENABLE_COVERAGE AND COVERALLS)
+    message(FATAL_ERROR "You can't enable both ENABLE_COVERAGE and COVERALLS at the same time")
+endif()
 
 if (COVERALLS)
     include(Coveralls)
     coveralls_turn_on_coverage()
 endif()
+
+if (ENABLE_COVERAGE)
+    if("${CMAKE_C_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang" OR
+            "${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang")
+        message("Building with LLVM Code Coverage Tools")
+        set(CMAKE_CXX_FLAGS "-fprofile-instr-generate -fcoverage-mapping")
+    elseif(CMAKE_COMPILER_IS_GNUCXX)
+        message("Building with lcov Code Coverage Tools")
+        set(CMAKE_CXX_FLAGS "--coverage")
+    else()
+        message(FATAL_ERROR "Compiler ${CMAKE_C_COMPILER_ID} is not supported for code coverage")
+    endif()
+
+endif()
+
 
 
 # LodePNG don't make a .a or .so, so let's build a library here
