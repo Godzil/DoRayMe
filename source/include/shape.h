@@ -58,7 +58,7 @@ public:
 
     void updateTransform();
     Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };
-    Tuple normalToWorld(Tuple normalVector) { return (this->transposedInverseTransform * normalVector).normalise(); };
+    Tuple normalToWorld(Tuple normalVector);
 
     void setTransform(Matrix transform);
     void setMaterial(Material material) { this->material = material; };

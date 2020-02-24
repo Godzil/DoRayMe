@@ -27,18 +27,25 @@ Intersect Shape::intersect(Ray r)
     return this->localIntersect(this->invTransform(r));
 };
 
-Tuple Shape::normalAt(Tuple point)
+Tuple Shape::normalToWorld(Tuple normalVector)
 {
-    Tuple local_point = this->inverseTransform * point;
-
-    Tuple local_normal = this->localNormalAt(local_point);
-
-     Tuple world_normal = this->transposedInverseTransform * local_normal;
+    Tuple world_normal = this->transposedInverseTransform * normalVector;
 
     /* W may get wrong, so hack it. This is perfectly normal as we are using a 4x4 matrix instead of a 3x3 */
     world_normal.w = 0;
 
     return world_normal.normalise();
+};
+
+Tuple Shape::normalAt(Tuple point)
+{
+    Tuple local_point = this->worldToObject(point);
+
+    Tuple local_normal = this->localNormalAt(local_point);
+
+    Tuple world_normal = this->normalToWorld(local_normal);
+
+    return world_normal;
 }
 
 void Shape::updateTransform()

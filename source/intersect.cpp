@@ -24,6 +24,7 @@ Intersect::Intersect()
 Intersect::~Intersect()
 {
     /* Free stuff */
+    free(this->list);
 }
 
 void Intersect::add(Intersection i)

@@ -133,12 +133,34 @@ TEST(TestShape, Converting_a_normal_form_object_to_world_space)
     s.setTransform(translation(5, 0, 0));
     g2.addObject(&s);
 
-    Tuple p = s.normalToWorld(Point(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
+    Tuple p = s.normalToWorld(Vector(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
 
     /* Temporary lower the precision */
     set_equal_precision(0.0001);
 
-    ASSERT_EQ(p, Point(0.2857, 0.4286, -0.8571));
+    ASSERT_EQ(p, Vector(0.2857, 0.4286, -0.8571));
+
+    set_equal_precision(FLT_EPSILON);
+}
+
+
+TEST(TestShape, Finding_the_normal_on_a_child_object)
+{
+    Group g1 = Group();
+    g1.setTransform(rotationY(M_PI / 2));
+    Group g2 = Group();
+    g2.setTransform(scaling(1, 2, 3));
+    g1.addObject(&g2);
+    Sphere s = Sphere();
+    s.setTransform(translation(5, 0, 0));
+    g2.addObject(&s);
+
+    Tuple p = s.normalAt(Point(1.7321, 1.1547, -5.5774));
+
+    /* Temporary lower the precision */
+    set_equal_precision(0.0001);
+
+    ASSERT_EQ(p, Vector(0.2857, 0.4286, -0.8571));
 
     set_equal_precision(FLT_EPSILON);
 }

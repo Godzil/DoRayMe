@@ -18,7 +18,7 @@ Pattern::Pattern(Colour a, Colour b): a(a), b(b)
 
 Colour Pattern::patternAtObject(Shape *object, Tuple worldPoint)
 {
-    Tuple objectPoint = object->inverseTransform * worldPoint;
+    Tuple objectPoint = object->worldToObject(worldPoint);
     Tuple patternPoint = this->inverseTransform * objectPoint;
 
     return this->patternAt(patternPoint);
