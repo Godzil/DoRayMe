@@ -18,6 +18,7 @@ private:
 public:
     Plane() : Shape(SHAPE_PLANE) { };
     BoundingBox getBounds();
+    bool haveFiniteBounds() { return false; };
 };
 
 #endif //DORAYME_PLANE_H

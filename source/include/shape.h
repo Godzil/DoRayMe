@@ -53,10 +53,12 @@ public:
     Shape(ShapeType = SHAPE_NONE);
 
     virtual Intersect intersect(Ray r);
+    virtual Intersect intersectOOB(Ray r) { return this->intersect(r); };
     Tuple normalAt(Tuple point);
 
-    /* Bouding box points are always world value */
+    /* Bounding box points are always world value */
     virtual BoundingBox getBounds();
+    virtual bool haveFiniteBounds() { return true; };
 
     void updateTransform();
     Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };

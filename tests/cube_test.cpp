@@ -116,7 +116,7 @@ TEST(CubeTest, The_normal_on_the_surface_of_a_cube)
     }
 }
 
-TEST(Cube, The_bounding_box_of_a_cube)
+TEST(CubeTest, The_bounding_box_of_a_cube)
 {
     Cube t = Cube();
     BoundingBox b = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
@@ -125,4 +125,11 @@ TEST(Cube, The_bounding_box_of_a_cube)
 
     ASSERT_EQ(res.min, b.min);
     ASSERT_EQ(res.max, b.max);
+}
+
+TEST(CubeTest, A_cube_have_finite_bounds)
+{
+    Cube t = Cube();
+
+    ASSERT_TRUE(t.haveFiniteBounds());
 }

@@ -11,6 +11,8 @@
 
 #include <shape.h>
 
+/* TODO: Add a way to force(?) material from group to be applied on childs */
+
 class Group : public Shape
 {
 private:
@@ -18,11 +20,15 @@ private:
     Shape* *objectList;
     uint32_t objectCount;
 
+    uint32_t allocatedUnboxableObjectCount;
+    Shape* *unboxableObjectList;
+    uint32_t unboxableObjectCount;
+
 protected:
     Intersect localIntersect(Ray r);
     Tuple localNormalAt(Tuple point);
 
-
+    BoundingBox bounds;
 
 public:
     bool isEmpty();
@@ -33,6 +39,8 @@ public:
     Intersect intersect(Ray r);
 
     BoundingBox getBounds();
+
+    void updateBoundingBox();
 
     Group();
 };

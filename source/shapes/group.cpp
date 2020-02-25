@@ -19,6 +19,11 @@ Group::Group() : Shape(SHAPE_GROUP)
     this->allocatedObjectCount = MIN_ALLOC;
     this->objectList = (Shape **)calloc(sizeof(Shape *), MIN_ALLOC);
     this->objectCount = 0;
+
+    this->allocatedUnboxableObjectCount = MIN_ALLOC;
+    this->unboxableObjectList = (Shape **)calloc(sizeof(Shape *), MIN_ALLOC);
+    this->unboxableObjectCount = 0;
+
 }
 
 Intersect Group::intersect(Ray r)
@@ -27,9 +32,28 @@ Intersect Group::intersect(Ray r)
     int i, j;
     if (this->objectCount > 0)
     {
-        for(i = 0; i < this->objectCount; i++)
+        if (this->bounds.intesectMe(r))
         {
-            Intersect xs = this->objectList[i]->intersect(r);
+            for (i = 0 ; i < this->objectCount ; i++)
+            {
+                Intersect xs = this->objectList[i]->intersect(r);
+                if (xs.count() > 0)
+                {
+                    for (j = 0 ; j < xs.count() ; j++)
+                    {
+                        ret.add(xs[j]);
+                    }
+                }
+            }
+        }
+    }
+
+    /* We are force to do them all the time */
+    if (this->unboxableObjectCount > 0)
+    {
+        for(i = 0; i < this->unboxableObjectCount; i++)
+        {
+            Intersect xs = this->unboxableObjectList[i]->intersect(r);
             if (xs.count() > 0)
             {
                 for(j = 0; j < xs.count(); j++)
@@ -39,7 +63,6 @@ Intersect Group::intersect(Ray r)
             }
         }
     }
-
     return ret;
 }
 
@@ -53,48 +76,64 @@ Tuple Group::localNormalAt(Tuple point)
     return Vector(1, 0, 0);
 }
 
+/* ONLY INSERT SHAPES THAT ARE NOT GOING TO CHANGE ELSE..! */
 void Group::addObject(Shape *s)
 {
-    if ((this->objectCount + 1) > this->allocatedObjectCount)
+    if (s->haveFiniteBounds())
     {
-        this->allocatedObjectCount *= 2;
-        this->objectList = (Shape **)realloc(this->objectList, sizeof(Shape **) * this->allocatedObjectCount);
+        if ((this->objectCount + 1) > this->allocatedObjectCount)
+        {
+            this->allocatedObjectCount *= 2;
+            this->objectList = (Shape **)realloc(this->objectList, sizeof(Shape **) * this->allocatedObjectCount);
+        }
+
+        s->parent = this;
+        s->updateTransform();
+
+        this->objectList[this->objectCount++] = s;
+
+        this->bounds | s->getBounds();
+
     }
+    else
+    {
+        if ((this->unboxableObjectCount + 1) > this->allocatedUnboxableObjectCount)
+        {
+            this->allocatedUnboxableObjectCount *= 2;
+            this->unboxableObjectList = (Shape **)realloc(this->unboxableObjectList, sizeof(Shape **) * this->allocatedUnboxableObjectCount);
+        }
 
-    s->parent = this;
-    s->updateTransform();
+        s->parent = this;
+        s->updateTransform();
 
-    this->objectList[this->objectCount++] = s;
+        this->unboxableObjectList[this->unboxableObjectCount++] = s;
+    }
 }
 
 bool Group::isEmpty()
 {
-    return (this->objectCount == 0);
+    return (this->objectCount == 0) && (this->unboxableObjectCount == 0);
 }
 
 BoundingBox Group::getBounds()
 {
-    BoundingBox ret;
+    if (this->bounds.isEmpty()) { this->updateBoundingBox(); }
+    return this->bounds;
+}
 
+void Group::updateBoundingBox()
+{
+    this->bounds.reset();
     if (this->objectCount > 0)
     {
-        ret.min = Point(INFINITY, INFINITY, INFINITY);
-        ret.max = Point(-INFINITY, -INFINITY, -INFINITY);
-
         int i;
         for(i = 0; i < this->objectCount; i++)
         {
-            BoundingBox obj = this->objectList[i]->getBounds();
-
-            if (ret.min.x > obj.min.x) {  ret.min.x = obj.min.x; }
-            if (ret.min.y > obj.min.y) {  ret.min.y = obj.min.y; }
-            if (ret.min.z > obj.min.z) {  ret.min.z = obj.min.z; }
-
-            if (ret.max.x < obj.max.x) {  ret.max.x = obj.max.x; }
-            if (ret.max.y < obj.max.y) {  ret.max.y = obj.max.y; }
-            if (ret.max.z < obj.max.z) {  ret.max.z = obj.max.z; }
+            if (!this->objectList[i]->haveFiniteBounds())
+            {
+                BoundingBox objB = this->objectList[i]->getBounds();
+                this->bounds | objB;
+            }
         }
     }
-
-    return ret;
 }

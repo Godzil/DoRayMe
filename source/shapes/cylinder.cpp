@@ -115,5 +115,8 @@ BoundingBox Cylinder::getBounds()
     ret.min = this->objectToWorld(Point(-1, this->minCap, -1));
     ret.max = this->objectToWorld(Point(1, this->maxCap, 1));
 
+    ret.min.fixPoint();
+    ret.max.fixPoint();
+
     return ret;
 }

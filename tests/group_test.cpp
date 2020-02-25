@@ -66,7 +66,7 @@ TEST(GroupTest, Intersecting_a_ray_with_an_nonempty_group)
     EXPECT_EQ(xs[3].object, &s1);
 }
 
-TEST(GroupTest, Intersecting_a_transformer_group)
+TEST(GroupTest, Intersecting_a_transformed_group)
 {
     Group g = Group();
     Sphere s = Sphere();
@@ -79,4 +79,22 @@ TEST(GroupTest, Intersecting_a_transformer_group)
     Ray r = Ray(Point(10, 0, -50), Vector(0, 0, 1));
     Intersect xs = g.intersect(r);
     ASSERT_EQ(xs.count(), 2);
+}
+
+TEST(GroupTest, Group_bounding_box)
+{
+    Group g = Group();
+    Sphere s = Sphere();
+
+    g.setTransform(scaling(2, 2, 2));
+    s.setTransform(translation(5, 0, 0));
+
+    g.addObject(&s);
+
+    BoundingBox b = BoundingBox(Point(8, -2, -2), Point(12, 2, 2));
+
+    BoundingBox res = g.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
 }

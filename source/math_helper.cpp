@@ -25,6 +25,9 @@ double getEpsilon()
 
 bool double_equal(double a, double b)
 {
+    if (isinf(a) && isinf(b))
+        return true;
+
     return fabs(a - b) < current_precision;
 }
 

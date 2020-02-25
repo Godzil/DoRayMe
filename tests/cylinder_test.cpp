@@ -222,7 +222,7 @@ TEST(CylinderTest, The_normal_on_a_cylinder_end_cap)
     }
 }
 
-TEST(CylinderTest, The_bounding_box_of_an_uncut_cylinder)
+TEST(CylinderTest, The_bounding_box_of_a_cut_cylinder)
 {
     Cylinder t = Cylinder();
     BoundingBox b = BoundingBox(Point(-1, -10000, -1), Point(1, 10000, 1));
@@ -232,4 +232,30 @@ TEST(CylinderTest, The_bounding_box_of_an_uncut_cylinder)
 
     ASSERT_EQ(res.min, b.min);
     ASSERT_EQ(res.max, b.max);
+}
+
+TEST(CylinderTest, The_bounding_box_of_a_uncut_cylinder)
+{
+    /* This one is tricky. Infinite size don't cope well with transformations */
+    Cylinder t = Cylinder();
+    BoundingBox res = t.getBounds();
+
+    ASSERT_FALSE(res.min.isRepresentable());
+    ASSERT_FALSE(res.max.isRepresentable());
+}
+
+TEST(CylinderTest, An_uncut_cylinder_have_infinite_bounds)
+{
+    Cylinder t = Cylinder();
+
+    ASSERT_FALSE(t.haveFiniteBounds());
+}
+
+TEST(CylinderTest, A_cut_cylinder_have_finite_bounds)
+{
+    Cylinder t = Cylinder();
+    t.minCap = -1;
+    t.maxCap = 1;
+
+    ASSERT_TRUE(t.haveFiniteBounds());
 }

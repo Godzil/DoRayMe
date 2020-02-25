@@ -42,5 +42,8 @@ BoundingBox Plane::getBounds()
     ret.min = this->objectToWorld(Point(-INFINITY, 0-getEpsilon(), -INFINITY));
     ret.max = this->objectToWorld(Point(INFINITY, 0+getEpsilon(), INFINITY));
 
+    ret.min.fixPoint();
+    ret.max.fixPoint();
+
     return ret;
 }

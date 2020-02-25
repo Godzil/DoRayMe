@@ -130,3 +130,41 @@ TEST(ConeTest, Computing_the_normal_vector_on_a_cone)
         ASSERT_EQ(cone.doLocalNormalAt(HitPointss[i]), Normals[i]);
     }
 }
+
+TEST(ConeTest, The_bounding_box_of_a_cut_cone)
+{
+    Cone t = Cone();
+    BoundingBox b = BoundingBox(Point(-8, -5, -8), Point(8, 8, 8));
+    t.minCap = -5;
+    t.maxCap = 8;
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}
+
+TEST(ConeTest, The_bounding_box_of_a_uncut_cone)
+{
+    /* This one is tricky. Infinite size don't cope well with transformations */
+    Cone t = Cone();
+    BoundingBox res = t.getBounds();
+
+    ASSERT_FALSE(res.min.isRepresentable());
+    ASSERT_FALSE(res.max.isRepresentable());
+}
+
+TEST(ConeTest, An_uncut_cone_have_infinite_bounds)
+{
+    Cone t = Cone();
+
+    ASSERT_FALSE(t.haveFiniteBounds());
+}
+
+TEST(ConeTest, A_cut_cone_have_finite_bounds)
+{
+    Cone t = Cone();
+    t.minCap = -1;
+    t.maxCap = 1;
+
+    ASSERT_TRUE(t.haveFiniteBounds());
+}

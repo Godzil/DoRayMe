@@ -69,3 +69,20 @@ TEST(PlaneTest, A_ray_intersecting_a_plane_from_below)
     ASSERT_EQ(xs[0].t, 1);
     ASSERT_EQ(xs[0].object, &p);
 }
+
+TEST(PlaneTest, The_bounding_box_of_a_plane)
+{
+    Plane t = Plane();
+    BoundingBox b = BoundingBox(Point(-8, -5, -8), Point(8, 8, 8));
+    BoundingBox res = t.getBounds();
+
+    ASSERT_FALSE(res.min.isRepresentable());
+    ASSERT_FALSE(res.max.isRepresentable());
+}
+
+TEST(PlaneTest, A_plane_have_infinite__bounds)
+{
+    Plane t = Plane();
+
+    ASSERT_FALSE(t.haveFiniteBounds());
+}

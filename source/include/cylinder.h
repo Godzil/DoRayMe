@@ -30,6 +30,7 @@ public:
     Cylinder() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CYLINDER) {};
 
     BoundingBox getBounds();
+    bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };
 };
 
 #endif //DORAYME_CYLINDER_H

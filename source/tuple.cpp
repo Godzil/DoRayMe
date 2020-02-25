@@ -44,3 +44,27 @@ Tuple Tuple::reflect(const Tuple &normal)
 {
     return *this - normal * 2 * this->dot(normal);
 }
+
+void Tuple::fixPoint()
+{
+    if (isnan(this->x) || isnan(this->y) || isnan(this->z))
+    {
+        /* w is probably broken, so fix it */
+        this->w = 1;
+    }
+}
+
+void Tuple::fixVector()
+{
+
+    if (isnan(this->x) || isnan(this->y) || isnan(this->z))
+    {
+        /* w is probably broken, so fix it */
+        this->w = 0;
+    }
+}
+
+bool Tuple::isRepresentable()
+{
+    return !(isnan(this->x) || isnan(this->y) || isnan(this->z));
+}

@@ -129,10 +129,13 @@ BoundingBox Cone::getBounds()
 
     double a = fabs(this->minCap);
     double b = fabs(this->maxCap);
-    double limit = (a < b)?a:b;
+    double limit = (a > b)?a:b;
 
     ret.min = this->objectToWorld(Point(-limit, this->minCap, -limit));
     ret.max = this->objectToWorld(Point(limit, this->maxCap, limit));
+
+    ret.min.fixPoint();
+    ret.max.fixPoint();
 
     return ret;
 }

@@ -219,3 +219,10 @@ TEST(SphereTest, The_bounding_box_of_a_sphere)
     ASSERT_EQ(res.min, b.min);
     ASSERT_EQ(res.max, b.max);
 }
+
+TEST(SphereTest, A_sphere_have_finite_bounds)
+{
+    Sphere t = Sphere();
+
+    ASSERT_TRUE(t.haveFiniteBounds());
+}
