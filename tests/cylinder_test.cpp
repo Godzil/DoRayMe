@@ -221,3 +221,15 @@ TEST(CylinderTest, The_normal_on_a_cylinder_end_cap)
         ASSERT_EQ(cyl.normalAt(HitPointss[idx]), Normals[idx]);
     }
 }
+
+TEST(CylinderTest, The_bounding_box_of_an_uncut_cylinder)
+{
+    Cylinder t = Cylinder();
+    BoundingBox b = BoundingBox(Point(-1, -10000, -1), Point(1, 10000, 1));
+    t.minCap = -10000;
+    t.maxCap = 10000;
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}

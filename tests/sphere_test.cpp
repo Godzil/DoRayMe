@@ -208,3 +208,14 @@ TEST(SphereTest, A_helper_for_producing_a_sphere_with_a_glassy_material)
     ASSERT_EQ(s.material.transparency, 1.0);
     ASSERT_EQ(s.material.refractiveIndex, 1.5);
 }
+
+TEST(SphereTest, The_bounding_box_of_a_sphere)
+{
+    Sphere t = Sphere();
+    BoundingBox b = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
+
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}

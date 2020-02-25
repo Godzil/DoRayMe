@@ -115,3 +115,14 @@ TEST(CubeTest, The_normal_on_the_surface_of_a_cube)
         ASSERT_EQ(c.normalAt(HitPoints[i]), ExpectedNormals[i]);
     }
 }
+
+TEST(Cube, The_bounding_box_of_a_cube)
+{
+    Cube t = Cube();
+    BoundingBox b = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
+
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}

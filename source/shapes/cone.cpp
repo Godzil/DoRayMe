@@ -127,8 +127,12 @@ BoundingBox Cone::getBounds()
 {
     BoundingBox ret;
 
-    ret.min = this->objectToWorld(Point(-1, this->minCap, -1));
-    ret.max = this->objectToWorld(Point(1, this->maxCap, 1));
+    double a = fabs(this->minCap);
+    double b = fabs(this->maxCap);
+    double limit = (a < b)?a:b;
+
+    ret.min = this->objectToWorld(Point(-limit, this->minCap, -limit));
+    ret.max = this->objectToWorld(Point(limit, this->maxCap, limit));
 
     return ret;
 }

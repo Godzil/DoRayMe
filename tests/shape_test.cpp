@@ -106,7 +106,7 @@ TEST(ShapeTest, A_shape_has_a_parent_attribute)
     ASSERT_EQ(s.parent, nullptr);
 }
 
-TEST(TestShape, Converting_a_point_from_world_to_object_space)
+TEST(ShapeTest, Converting_a_point_from_world_to_object_space)
 {
     Group g1 = Group();
     g1.setTransform(rotationY(M_PI / 2));
@@ -122,7 +122,7 @@ TEST(TestShape, Converting_a_point_from_world_to_object_space)
     ASSERT_EQ(p, Point(0, 0, -1));
 }
 
-TEST(TestShape, Converting_a_normal_form_object_to_world_space)
+TEST(ShapeTest, Converting_a_normal_form_object_to_world_space)
 {
     Group g1 = Group();
     g1.setTransform(rotationY(M_PI / 2));
@@ -144,7 +144,7 @@ TEST(TestShape, Converting_a_normal_form_object_to_world_space)
 }
 
 
-TEST(TestShape, Finding_the_normal_on_a_child_object)
+TEST(ShapeTest, Finding_the_normal_on_a_child_object)
 {
     Group g1 = Group();
     g1.setTransform(rotationY(M_PI / 2));
@@ -165,10 +165,36 @@ TEST(TestShape, Finding_the_normal_on_a_child_object)
     set_equal_precision(FLT_EPSILON);
 }
 
-TEST(TestShape, Test_the_bouding_box_of_the_test_shape)
+TEST(ShapeTest, Test_the_bouding_box_of_the_test_shape)
 {
     TestShape t = TestShape();
     BoundingBox b = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
+
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}
+
+TEST(ShapeTest, Test_the_bouding_box_of_the_scaled_shape)
+{
+    TestShape t = TestShape();
+    t.setTransform(scaling(3, 3, 3));
+
+    BoundingBox b = BoundingBox(Point(-3, -3, -3), Point(3, 3, 3));
+
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}
+
+TEST(ShapeTest, Test_the_bouding_box_of_the_translated_shape)
+{
+    TestShape t = TestShape();
+    t.setTransform(translation(10, 0, 0));
+
+    BoundingBox b = BoundingBox(Point(9, -1, -1), Point(11, 1, 1));
 
     BoundingBox res = t.getBounds();
 
