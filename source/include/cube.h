@@ -15,7 +15,7 @@
 
 class Cube : public Shape {
 private:
-    void checkAxis(double axeOrigine, double axeDirection, double *axeMin, double *axeMax);
+    void checkAxis(double axeOrigin, double axeDirection, double *axeMin, double *axeMax);
 
     Intersect localIntersect(Ray r);
 

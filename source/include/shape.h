@@ -27,6 +27,7 @@ enum ShapeType
     SHAPE_CYLINDER,
     SHAPE_CONE,
     SHAPE_GROUP,
+    SHAPE_TRIANGLE,
 
 };
 
