@@ -62,14 +62,17 @@ Canvas Camera::render(World world, uint32_t depth)
     uint32_t x, y;
     Canvas image = Canvas(this->horizontalSize, this->verticalSize);
 
-    for(y = 0; y < this->verticalSize; y++)
+#pragma omp parallel private(x, y) shared(image)
     {
-        #pragma omp parallel for
-        for(x = 0; x < this->horizontalSize; x++)
+#pragma omp for
+        for (y = 0 ; y < this->verticalSize ; y++)
         {
-            Ray r = this->rayForPixel(x, y);
-            Tuple colour = world.colourAt(r, depth);
-            image.putPixel(x, y, colour);
+            for (x = 0 ; x < this->horizontalSize ; x++)
+            {
+                Ray r = this->rayForPixel(x, y);
+                Tuple colour = world.colourAt(r, depth);
+                image.putPixel(x, y, colour);
+            }
         }
     }
 
