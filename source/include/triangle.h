@@ -23,6 +23,8 @@ public:
 
 public:
     Triangle(Point p1, Point p2, Point p3);
+    BoundingBox getBounds();
+
 };
 
 #endif /* DORAYME_TRIANGLE_H */

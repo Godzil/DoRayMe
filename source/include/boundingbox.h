@@ -33,6 +33,18 @@ public:
         if (this->max.z < b.max.z) { this->max.z = b.max.z; }
     }
 
+    void operator|(const Tuple &b) {
+        isReset = false;
+
+        if (this->min.x > b.x) { this->min.x = b.x; }
+        if (this->min.y > b.y) { this->min.y = b.y; }
+        if (this->min.z > b.z) { this->min.z = b.z; }
+
+        if (this->max.x < b.x) { this->max.x = b.x; }
+        if (this->max.y < b.y) { this->max.y = b.y; }
+        if (this->max.z < b.z) { this->max.z = b.z; }
+    }
+
     bool haveFiniteBounds() { return this->min.isRepresentable() && this->max.isRepresentable(); };
 
     bool fitsIn(const BoundingBox &other) {
