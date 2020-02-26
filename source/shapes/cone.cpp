@@ -55,16 +55,17 @@ Intersect Cone::localIntersect(Ray r)
 {
     Intersect ret;
 
-    double A = pow(r.direction.x, 2) -
-               pow(r.direction.y, 2) +
-               pow(r.direction.z, 2);
+    double A = (r.direction.x * r.direction.x) -
+               (r.direction.y * r.direction.y) +
+               (r.direction.z * r.direction.z);
+
     double B = (2 * r.origin.x * r.direction.x) -
                (2 * r.origin.y * r.direction.y) +
                (2 * r.origin.z * r.direction.z);
 
-    double C = pow(r.origin.x, 2) -
-               pow(r.origin.y, 2) +
-               pow(r.origin.z, 2);
+    double C = (r.origin.x * r.origin.x) -
+               (r.origin.y * r.origin.y) +
+               (r.origin.z * r.origin.z);
 
     if ((fabs(A) <= getEpsilon()) && (fabs(B) >= getEpsilon()))
     {
@@ -73,9 +74,7 @@ Intersect Cone::localIntersect(Ray r)
     }
     else if (fabs(A) >= getEpsilon())
     {
-
-        double disc = pow(B, 2) - 4 * A * C;
-
+        double disc = (B * B) - 4 * A * C;
         if (disc >= 0)
         {
             double t0 = (-B - sqrt(disc)) / (2 * A);
