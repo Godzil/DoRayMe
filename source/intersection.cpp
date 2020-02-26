@@ -68,6 +68,10 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
         }
     }
 
+    Shape *s = this->object;
+    /* For now don't get root group material */
+    //while(s->parent != nullptr) { s = s->parent; }
+
     return Computation(this->object,
                        this->t,
                        hitP,
@@ -78,5 +82,6 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
                        reflectV,
                        n1,
                        n2,
-                       underHitP);
+                       underHitP,
+                       &s->material);
 }

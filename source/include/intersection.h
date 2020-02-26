@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include <ray.h>
+#include <material.h>
 
 class Shape;
 class Intersect;
@@ -19,9 +20,9 @@ struct Computation
 {
     Computation(Shape *object, double t, Tuple point, Tuple eyev, Tuple normalv, Tuple overHitP,
                 bool inside, Tuple reflectV = Vector(0, 0, 0), double n1 = 1.0, double n2 = 1.0,
-                Tuple underHitP = Point(0, 0, 0)) :
+                Tuple underHitP = Point(0, 0, 0), Material *objMat = nullptr) :
           object(object), t(t), hitPoint(point), eyeVector(eyev), normalVector(normalv), inside(inside),
-          overHitPoint(overHitP), underHitPoint(underHitP), reflectVector(reflectV), n1(n1), n2(n2) { };
+          overHitPoint(overHitP), underHitPoint(underHitP), reflectVector(reflectV), n1(n1), n2(n2), material(objMat) { };
 
     double schlick()
     {
@@ -57,6 +58,8 @@ struct Computation
     Tuple eyeVector;
     Tuple normalVector;
     Tuple reflectVector;
+
+    Material *material;
 
     double n1;
     double n2;

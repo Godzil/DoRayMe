@@ -95,20 +95,20 @@ Intersect World::intersect(Ray r)
 Tuple World::shadeHit(Computation comps, uint32_t depthCount)
 {
     uint32_t lightIndex;
-
+    
     Tuple surface = Colour(0, 0, 0);
 
     for(lightIndex = 0; lightIndex < this->lightCount; lightIndex++)
     {
         bool isThereAnObstacle = this->isShadowed(comps.overHitPoint, lightIndex);
 
-        surface = surface + comps.object->material.lighting(*this->lightList[lightIndex], comps.overHitPoint, comps.eyeVector,
+        surface = surface + comps.material->lighting(*this->lightList[lightIndex], comps.overHitPoint, comps.eyeVector,
                                                         comps.normalVector, comps.object, isThereAnObstacle);
     }
     Tuple reflected = this->reflectColour(comps, depthCount);
     Tuple refracted = this->refractedColour(comps, depthCount);
 
-    if ((comps.object->material.reflective > 0) && (comps.object->material.transparency > 0))
+    if ((comps.material->reflective > 0) && (comps.material->transparency > 0))
     {
         double reflectance = comps.schlick();
 
@@ -159,7 +159,7 @@ bool World::isShadowed(Tuple point, uint32_t light)
 
 Colour World::reflectColour(Computation comps, uint32_t depthCount)
 {
-    if ((depthCount == 0) || (comps.object->material.reflective == 0))
+    if ((depthCount == 0) || (comps.material->reflective == 0))
     {
         return Colour(0, 0, 0);
     }
@@ -168,7 +168,7 @@ Colour World::reflectColour(Computation comps, uint32_t depthCount)
     Ray reflectedRay = Ray(comps.overHitPoint, comps.reflectVector);
 
     Tuple hitColour = this->colourAt(reflectedRay, depthCount - 1);
-    hitColour = hitColour * comps.object->material.reflective;
+    hitColour = hitColour * comps.material->reflective;
 
     return Colour(hitColour.x, hitColour.y, hitColour.z);
 }
@@ -179,7 +179,7 @@ Colour World::refractedColour(Computation comps, uint32_t depthCount)
     double cos_i = comps.eyeVector.dot(comps.normalVector);
     double sin2_t = (nRatio*nRatio) * (1 - cos_i * cos_i);
 
-    if ((sin2_t > 1 ) || (depthCount == 0) || (comps.object->material.transparency == 0))
+    if ((sin2_t > 1 ) || (depthCount == 0) || (comps.material->transparency == 0))
     {
         return Colour(0, 0, 0);
     }
@@ -189,7 +189,7 @@ Colour World::refractedColour(Computation comps, uint32_t depthCount)
 
     Ray refractedRay = Ray(comps.underHitPoint, direction);
 
-    Tuple hitColour = this->colourAt(refractedRay, depthCount - 1) * comps.object->material.transparency;
+    Tuple hitColour = this->colourAt(refractedRay, depthCount - 1) * comps.material->transparency;
 
     return Colour(hitColour.x, hitColour.y, hitColour.z);
 }
