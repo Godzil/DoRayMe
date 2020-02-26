@@ -12,6 +12,8 @@
 #include <ray.h>
 #include <camera.h>
 
+#include <stdio.h>
+
 Camera::Camera(uint32_t hsize, uint32_t vsize, double fov) : verticalSize(vsize), horizontalSize(hsize), fieldOfView(fov)
 {
     double aspectRatio = (double)hsize / (double)vsize;
@@ -62,6 +64,7 @@ Canvas Camera::render(World world, uint32_t depth)
 
     for(y = 0; y < this->verticalSize; y++)
     {
+        #pragma omp parallel for
         for(x = 0; x < this->horizontalSize; x++)
         {
             Ray r = this->rayForPixel(x, y);
