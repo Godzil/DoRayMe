@@ -61,5 +61,8 @@ From Chapter 14 - Groups & Bounding boxes
 
 
 Bonus (from the forum):
-![Christmas ball](output/christmasball.png)
+
+[Merry Christmas](https://forum.raytracerchallenge.com/thread/16/merry-christmas-scene-description)
+![Merry Christmas](output/christmasball.png)
+
 (about 7min render time using OpenMP on a 2.6Ghz Core i7 3720QM)
