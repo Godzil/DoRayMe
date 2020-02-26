@@ -137,3 +137,31 @@ void Group::updateBoundingBox()
         }
     }
 }
+
+void Group::updateTransform()
+{
+    int i;
+
+    Shape::updateTransform();
+    if (this->objectCount > 0)
+    {
+        for (i = 0 ; i < this->objectCount ; i++)
+        {
+            this->objectList[i]->updateTransform();
+        }
+    }
+
+    /* We are force to do them all the time */
+    if (this->unboxableObjectCount > 0)
+    {
+        for(i = 0; i < this->unboxableObjectCount; i++)
+        {
+            this->unboxableObjectList[i]->updateTransform();
+        }
+    }
+
+    /* Once the full stack being notified of the changes, let's update the
+     * bounding box
+     */
+    this->updateBoundingBox();
+}

@@ -61,7 +61,8 @@ public:
     virtual BoundingBox getBounds();
     virtual bool haveFiniteBounds() { return true; };
 
-    void updateTransform();
+    virtual void updateTransform();
+
     Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };
     Tuple objectToWorld(Tuple point) { return this->transformMatrix * point; };
     Tuple normalToWorld(Tuple normalVector);

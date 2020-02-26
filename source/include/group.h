@@ -37,10 +37,10 @@ public:
     Shape *operator[](const int p) { return this->objectList[p]; }
 
     Intersect intersect(Ray r);
-
     BoundingBox getBounds();
 
     void updateBoundingBox();
+    void updateTransform();
 
     Group();
 };
