@@ -58,3 +58,8 @@ Bonus:
 
 From Chapter 14 - Groups & Bounding boxes
 ![Chapter 14 rendering test](output/ch14_test.png)
+
+
+Bonus (from the forum):
+![Christmas ball](output/christmasball.png)
+(about 7min render time using OpenMP on a 2.6Ghz Core i7 3720QM)
