@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <ray.h>
 #include <material.h>
+#include <renderstat.h>
 
 class Shape;
 class Intersect;
@@ -74,7 +75,7 @@ public:
     Shape *object;
 
 public:
-    Intersection(double t, Shape *object) : t(t), object(object) { };
+    Intersection(double t, Shape *object) : t(t), object(object) { stats.addIntersection(); };
     bool nothing() { return (this->object == nullptr); };
 
     Computation prepareComputation(Ray r, Intersect *xs = nullptr);

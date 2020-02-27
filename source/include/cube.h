@@ -12,6 +12,7 @@
 #include <shape.h>
 #include <ray.h>
 #include <intersect.h>
+#include <renderstat.h>
 
 class Cube : public Shape {
 private:
@@ -22,7 +23,7 @@ private:
     Tuple localNormalAt(Tuple point);
 
 public:
-    Cube() : Shape(SHAPE_CUBE) {};
+    Cube() : Shape(SHAPE_CUBE) { stats.addCube(); };
 };
 
 #endif /* DORAYME_CUBE_H */

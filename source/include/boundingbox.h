@@ -9,6 +9,8 @@
 #ifndef DORAYME_BOUNDINGBOX_H
 #define DORAYME_BOUNDINGBOX_H
 
+#include <renderstat.h>
+
 struct BoundingBox
 {
 private:
@@ -110,9 +112,12 @@ public:
         {
             return true;
         }
+
+        stats.addDiscardedIntersect();
+
         return false;
     }
 
 };
 
-#endif //DORAYME_BOUNDINGBOX_H
+#endif /* DORAYME_BOUNDINGBOX_H */

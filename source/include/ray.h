@@ -10,6 +10,7 @@
 #define DORAYME_RAY_H
 
 #include <tuple.h>
+#include <renderstat.h>
 
 class Ray
 {
@@ -17,7 +18,7 @@ public:
     Tuple direction;
     Tuple origin;
 
-    Ray(Tuple origin, Tuple direction) : origin(origin), direction(direction) { };
+    Ray(Tuple origin, Tuple direction) : origin(origin), direction(direction) { stats.addRay(); };
 
     Tuple position(double t) { return this->origin + this->direction * t; };
 };

@@ -16,6 +16,7 @@ file(GLOB RAY_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_D
 target_include_directories(rayonnement PUBLIC include pattern)
 target_sources(rayonnement PRIVATE ${RAY_HEADERS} ${RAY_SOURCES})
 target_link_libraries(rayonnement LodePNG)
+
 if (USE_OPENMP)
   target_link_libraries(rayonnement OpenMP::OpenMP_CXX)
 endif()

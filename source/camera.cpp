@@ -13,6 +13,7 @@
 #include <camera.h>
 
 #include <stdio.h>
+#include <renderstat.h>
 
 Camera::Camera(uint32_t hsize, uint32_t vsize, double fov) : verticalSize(vsize), horizontalSize(hsize), fieldOfView(fov)
 {
@@ -33,7 +34,6 @@ Camera::Camera(uint32_t hsize, uint32_t vsize, double fov) : verticalSize(vsize)
     this->pixelSize = (this->halfWidth * 2) / this->horizontalSize;
 
     this->setTransform(Matrix4().identity());
-
 }
 
 void Camera::setTransform(Matrix transform)
@@ -62,7 +62,7 @@ Canvas Camera::render(World world, uint32_t depth)
     uint32_t x, y;
     Canvas image = Canvas(this->horizontalSize, this->verticalSize);
 
-#pragma omp parallel private(x, y) shared(image)
+#pragma omp parallel private(x, y) shared(image, stats)
     {
 #pragma omp for
         for (y = 0 ; y < this->verticalSize ; y++)
@@ -71,10 +71,14 @@ Canvas Camera::render(World world, uint32_t depth)
             {
                 Ray r = this->rayForPixel(x, y);
                 Tuple colour = world.colourAt(r, depth);
+
+                stats.addPixel();
                 image.putPixel(x, y, colour);
             }
         }
     }
+
+    stats.printStats();
 
     return image;
 }

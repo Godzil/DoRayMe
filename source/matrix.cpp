@@ -101,6 +101,7 @@ Matrix Matrix::operator*(const Matrix &b) const
     return ret;
 }
 
+/* TODO: Check if we can optimise this function. It is called a lot */
 Tuple Matrix::operator*(const Tuple &b) const
 {
     return Tuple(b.x * this->get(0, 0) + b.y * this->get(0, 1) + b.z * this->get(0, 2) + b.w * this->get(0, 3),

@@ -123,6 +123,8 @@ Tuple World::colourAt(Ray r, uint32_t depthCount)
     Intersect allHits = this->intersect(r);
     Intersection hit = allHits.hit();
 
+    stats.setMaxDepth(depthCount);
+
     if (hit.nothing())
     {
         return Colour(0, 0, 0);
@@ -140,6 +142,7 @@ bool World::isShadowed(Tuple point, uint32_t light)
     Tuple direction = v.normalise();
 
     Ray r = Ray(point, direction);
+    stats.addLightRay();
     Intersect xs = this->intersect(r);
 
     int i;
@@ -166,6 +169,7 @@ Colour World::reflectColour(Computation comps, uint32_t depthCount)
 
     /* So it is reflective, even just a bit. Let'sr reflect the ray! */
     Ray reflectedRay = Ray(comps.overHitPoint, comps.reflectVector);
+    stats.addReflectRay();
 
     Tuple hitColour = this->colourAt(reflectedRay, depthCount - 1);
     hitColour = hitColour * comps.material->reflective;
@@ -188,6 +192,7 @@ Colour World::refractedColour(Computation comps, uint32_t depthCount)
     Tuple direction = comps.normalVector * (nRatio * cos_i - cos_t) - comps.eyeVector * nRatio;
 
     Ray refractedRay = Ray(comps.underHitPoint, direction);
+    stats.addRefractRay();
 
     Tuple hitColour = this->colourAt(refractedRay, depthCount - 1) * comps.material->transparency;
 

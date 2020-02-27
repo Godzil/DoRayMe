@@ -12,6 +12,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/external/covera
 option(PACKAGE_TESTS "Build the tests" ON)
 option(ENABLE_COVERAGE "Build for code coverage" OFF)
 
+option(SHOW_STATS "Show rendering stat" ON)
+if (SHOW_STATS)
+    add_compile_options(-DRENDER_STATS)
+endif()
+
 if (ENABLE_COVERAGE AND COVERALLS)
     message(FATAL_ERROR "You can't enable both ENABLE_COVERAGE and COVERALLS at the same time")
 endif()

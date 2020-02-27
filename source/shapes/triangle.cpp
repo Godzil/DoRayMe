@@ -10,9 +10,12 @@
 #include <shape.h>
 #include <triangle.h>
 #include <math_helper.h>
+#include <renderstat.h>
 
 Triangle::Triangle(Point p1, Point p2, Point p3) : Shape(SHAPE_TRIANGLE), p1(p1), p2(p2), p3(p3)
 {
+    stats.addTriangle();
+
     this->e1 = p2 - p1;
     this->e2 = p3 - p1;
     this->normal = e2.cross(e1).normalise();

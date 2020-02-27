@@ -12,6 +12,7 @@
 #include <shape.h>
 #include <ray.h>
 #include <intersect.h>
+#include <renderstat.h>
 
 class Cone : public Shape {
 protected:
@@ -27,7 +28,7 @@ public:
     double minCap;
     double maxCap;
 
-    Cone() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CONE) {};
+    Cone() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CONE) { stats.addCone(); };
     BoundingBox getBounds();
     bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };
 };

@@ -12,6 +12,7 @@
 #include <shape.h>
 #include <ray.h>
 #include <intersect.h>
+#include <renderstat.h>
 
 class Cylinder : public Shape {
 private:
@@ -27,7 +28,7 @@ public:
     double minCap;
     double maxCap;
 
-    Cylinder() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CYLINDER) {};
+    Cylinder() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CYLINDER) { stats.addCylinder(); };
 
     BoundingBox getBounds();
     bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };

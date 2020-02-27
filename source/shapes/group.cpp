@@ -9,13 +9,14 @@
 #include <tuple.h>
 #include <ray.h>
 #include <group.h>
-#include <cone.h>
 #include <math_helper.h>
+#include <renderstat.h>
 
 #define MIN_ALLOC (2)
 
 Group::Group() : Shape(SHAPE_GROUP)
 {
+    stats.addGroup();
     this->allocatedObjectCount = MIN_ALLOC;
     this->objectList = (Shape **)calloc(sizeof(Shape *), MIN_ALLOC);
     this->objectCount = 0;
