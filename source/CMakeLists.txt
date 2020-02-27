@@ -20,10 +20,10 @@ target_link_libraries(rayonnement LodePNG)
 if (USE_OPENMP)
   target_link_libraries(rayonnement OpenMP::OpenMP_CXX)
 endif()
-# Second we build the main executable
+
 add_executable(dorayme main.cpp)
-target_include_directories(rayonnement PUBLIC include ${LODEPNG_INCLUDE_FOLDER})
-target_link_libraries(dorayme rayonnement)
+target_include_directories(rayonnement PUBLIC include ${LODEPNG_INCLUDE_FOLDER} ${LUA_INCLUDE_DIR})
+target_link_libraries(dorayme rayonnement ${LUA_LIBRARIES})
 
 if (COVERALLS)
     set(COVERAGE_SRCS ${RAY_HEADERS} ${RAY_SOURCES} ${COVERAGE_SRCS} PARENT_SCOPE)

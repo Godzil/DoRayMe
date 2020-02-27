@@ -40,12 +40,23 @@ if (ENABLE_COVERAGE)
 
 endif()
 
-
-
 # LodePNG don't make a .a or .so, so let's build a library here
 add_library(LodePNG STATIC)
 set(LODEPNG_INCLUDE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/external/lodepng)
 target_sources(LodePNG PRIVATE external/lodepng/lodepng.cpp external/lodepng/lodepng.h)
+
+ExternalProject_Add(LuaCore
+        URL "https://www.lua.org/ftp/lua-5.3.5.tar.gz"
+        URL_HASH SHA1=112eb10ff04d1b4c9898e121d6bdf54a81482447
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/lua
+        CONFIGURE_COMMAND ""
+        BUILD_IN_SOURCE True
+        BUILD_COMMAND make generic
+        INSTALL_COMMAND ""
+)
+
+set(LUA_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/lua/src")
+set(LUA_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}/external/lua/src/liblua.a")
 
 # Main app
 add_subdirectory(source)
