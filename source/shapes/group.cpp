@@ -130,7 +130,7 @@ void Group::updateBoundingBox()
         int i;
         for(i = 0; i < this->objectCount; i++)
         {
-            if (!this->objectList[i]->haveFiniteBounds())
+            if (this->objectList[i]->haveFiniteBounds())
             {
                 BoundingBox objB = this->objectList[i]->getBounds();
                 this->bounds | objB;
