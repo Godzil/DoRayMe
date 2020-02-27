@@ -74,3 +74,11 @@ BoundingBox Shape::getBounds()
     ret.max = this->objectToWorld(Point(1, 1, 1));
     return ret;
 }
+
+void Shape::dumpMe(FILE *fp)
+{
+    fprintf(fp, "\"Material\": {\n");
+    this->material.dumpMe(fp);
+    fprintf(fp, "},\n");
+    fprintf(fp, "\"DropShadow\": %d,\n", this->dropShadow);
+}

@@ -13,6 +13,7 @@
 #include <colour.h>
 #include <pattern.h>
 #include <light.h>
+#include <stdio.h>
 
 class Shape;
 
@@ -47,6 +48,8 @@ public:
                                                       double_equal(this->refractiveIndex, b.refractiveIndex) &&
                                                       (this->colour == b.colour); };
     bool operator!=(const Material &b) const { return !(*this == b); };
+
+    void dumpMe(FILE *fp);
 };
 
 

@@ -9,6 +9,8 @@
 #include <world.h>
 #include <light.h>
 #include <shape.h>
+#include <stdio.h>
+#include <string.h>
 
 #define MIN_ALLOC (2)
 
@@ -197,4 +199,32 @@ Colour World::refractedColour(Computation comps, uint32_t depthCount)
     Tuple hitColour = this->colourAt(refractedRay, depthCount - 1) * comps.material->transparency;
 
     return Colour(hitColour.x, hitColour.y, hitColour.z);
+}
+
+void World::dumpMe(FILE *fp)
+{
+    int i;
+    /* JSON Opening */
+    fprintf(fp, "{\n");
+
+    fprintf(fp, "\"Lights\": {\n");
+    for(i = 0; i < this->lightCount; i++)
+    {
+        fprintf(fp, "\"%d\": {\n", i);
+        //this->lightList[i]->dumpMe(fp);
+        fprintf(fp, "},\n");
+    }
+    fprintf(fp, "},\n");
+
+    fprintf(fp, "\"Objects\": {\n");
+    for(i = 0; i < this->objectCount; i++)
+    {
+        fprintf(fp, "\"%d\": {\n", i);
+        this->objectList[i]->dumpMe(fp);
+        fprintf(fp, "},\n");
+    }
+    fprintf(fp, "},\n");
+
+    /* JSON Closing */
+    fprintf(fp, "}\n");
 }

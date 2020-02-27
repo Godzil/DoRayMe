@@ -27,6 +27,11 @@ public:
         }
         return this->b;
     }
+
+    void dumpMe(FILE *fp) {
+        fprintf(fp, "\"Type\": \"Strip\",\n");
+        Pattern::dumpMe(fp);
+    }
 };
 
 #endif /* DORAYME_STRIPPATTERN_H */

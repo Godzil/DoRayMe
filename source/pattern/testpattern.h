@@ -22,6 +22,11 @@ public:
     {
         return Colour(point.x, point.y, point.z);
     }
+
+    void dumpMe(FILE *fp) {
+        fprintf(fp, "\"Type\": \"Test\",\n");
+        Pattern::dumpMe(fp);
+    }
 };
 
 #endif /* DORAYME_TESTPATTERN_H */

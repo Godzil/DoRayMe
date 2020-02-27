@@ -10,6 +10,7 @@
 #define DORAYME_GRADIENTPATTERN_H
 
 #include <pattern.h>
+#include <stdio.h>
 
 class GradientPattern : public Pattern
 {
@@ -25,6 +26,12 @@ public:
 
         return Colour(ret.x, ret.y, ret.z);
     }
+
+    void dumpMe(FILE *fp) {
+        fprintf(fp, "\"Type\": \"Gradient\",\n");
+        Pattern::dumpMe(fp);
+    }
+
 };
 
 #endif /* DORAYME_GRADIENTPATTERN_H */

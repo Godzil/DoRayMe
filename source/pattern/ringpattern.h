@@ -24,6 +24,11 @@ public:
 
         return (fmod(value, 2) == 0)?this->a:this->b;
     }
+
+    void dumpMe(FILE *fp) {
+        fprintf(fp, "\"Type\": \"Ring\"\n");
+        Pattern::dumpMe(fp);
+    }
 };
 
 

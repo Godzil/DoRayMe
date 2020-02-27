@@ -11,6 +11,7 @@
 
 class Shape;
 
+#include <stdio.h>
 #include <ray.h>
 #include <tuple.h>
 #include <matrix.h>
@@ -62,6 +63,8 @@ public:
     virtual bool haveFiniteBounds() { return true; };
 
     virtual void updateTransform();
+
+    virtual void dumpMe(FILE *fp);
 
     Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };
     Tuple objectToWorld(Tuple point) { return this->transformMatrix * point; };

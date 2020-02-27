@@ -228,6 +228,15 @@ int main()
 
     /* ----------------------------- */
 
+    FILE *fpOut = fopen("christmas_worlddump.json", "wt");
+    if (fpOut)
+    {
+        w.dumpMe(fpOut);
+        fclose(fpOut);
+    }
+    /* ----------------------------- */
+
+
     /* Set the camera */
     Camera camera = Camera(40, 30, 1.047);
     camera.setTransform(viewTransform(Point(0, 0, -4),

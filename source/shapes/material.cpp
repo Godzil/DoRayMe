@@ -67,3 +67,22 @@ Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple norma
 
     return Colour(finalColour.x, finalColour.y, finalColour.z);
 }
+
+void Material::dumpMe(FILE *fp)
+{
+    fprintf(fp, "\"Colour\": {\"red\": %f, \"green\": %f, \"blue\": %f},\n", this->colour.x, this->colour.y, this->colour.z);
+    fprintf(fp, "\"Ambient\": %f,\n", this->ambient);
+    fprintf(fp, "\"Diffuse\": %f,\n", this->diffuse);
+    fprintf(fp, "\"Specular\": %f,\n", this->specular);
+    fprintf(fp, "\"Shininess\": %f,\n", this->shininess);
+    fprintf(fp, "\"Reflective\": %f,\n", this->reflective);
+    fprintf(fp, "\"Transparency\": %f,\n", this->transparency);
+    fprintf(fp, "\"Emissive\": %f,\n", this->emissive);
+    fprintf(fp, "\"RefractiveIndex\": %f,\n", this->refractiveIndex);
+    if (this->pattern)
+    {
+        fprintf(fp, "\"Pattern\": {\n", this->emissive);
+        this->pattern->dumpMe(fp);
+        fprintf(fp, "},\n");
+    }
+}

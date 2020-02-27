@@ -9,6 +9,8 @@
 #ifndef DORAYME_CHECKERSPATTERN_H
 #define DORAYME_CHECKERSPATTERN_H
 
+#include <stdio.h>
+
 class CheckersPattern : public Pattern
 {
 public:
@@ -20,6 +22,12 @@ public:
 
         return (fmod(value, 2) == 0)?this->a:this->b;
     }
+
+    void dumpMe(FILE *fp) {
+        fprintf(fp, "\"Type\": \"Checkers\",\n");
+        Pattern::dumpMe(fp);
+    }
+
 };
 
 #endif /* DORAYME_CHECKERSPATTERN_H */

@@ -12,6 +12,7 @@
 #include <colour.h>
 #include <tuple.h>
 #include <matrix.h>
+#include <stdio.h>
 
 class Shape;
 
@@ -28,6 +29,7 @@ public:
     Pattern(Colour a, Colour b);
 
     virtual Colour patternAt(Tuple point) = 0;
+    virtual void dumpMe(FILE *fp);
 
     void setTransform(Matrix transform);
     Colour patternAtObject(Shape *object, Tuple point);

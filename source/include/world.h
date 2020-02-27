@@ -14,6 +14,7 @@
 #include <shape.h>
 #include <intersect.h>
 #include <ray.h>
+#include <stdio.h>
 
 class World
 {
@@ -51,6 +52,7 @@ public:
 
     Intersect intersect(Ray r);
 
+    void dumpMe(FILE *fp);
 };
 
 #endif /* DORAYME_WORLD_H */

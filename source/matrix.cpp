@@ -124,6 +124,8 @@ Matrix Matrix::transpose()
 {
     int x, y;
     Matrix ret = Matrix(this->size);
+
+    #pragma omp parallel for simd private(y, x)
     for (y = 0 ; y < this->size ; y++)
     {
         for (x = 0 ; x < this->size ; x++)
@@ -139,6 +141,7 @@ Matrix Matrix::submatrix(int row, int column)
     int i, j;
     int x = 0, y = 0;
     Matrix ret = Matrix(this->size - 1);
+
     for (i = 0 ; i < this->size ; i++)
     {
         if (i == row)
