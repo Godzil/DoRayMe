@@ -32,7 +32,7 @@ int main()
     World w = World();
 
     /* Add lights */
-#if 0
+#if 1
     Light light1 = Light(AREA_LIGHT, Point(-1, 2, 4),
             Vector(2, 0, 0), 8,
             Vector(0, 2, 0), 8,
@@ -84,8 +84,7 @@ int main()
     /* ----------------------------- */
 
     /* Set the camera */
-    //Camera camera = Camera(400, 160, 0.7854);
-    Camera camera = Camera(800, 320, 0.7854);
+    Camera camera = Camera(400, 160, 0.7854);
     camera.setTransform(viewTransform(Point(-3, 1, 2.5),
                                       Point(0, 0.5, 0),
                                       Vector(0, 1, 0)));
