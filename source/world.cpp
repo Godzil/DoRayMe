@@ -102,10 +102,10 @@ Tuple World::shadeHit(Computation comps, uint32_t depthCount)
 
     for(lightIndex = 0; lightIndex < this->lightCount; lightIndex++)
     {
-        bool isThereAnObstacle = this->isShadowed(comps.overHitPoint, lightIndex);
+        double lightLevel = this->lightList[lightIndex]->intensityAt(*this, comps.overHitPoint);
 
         surface = surface + comps.material->lighting(*this->lightList[lightIndex], comps.overHitPoint, comps.eyeVector,
-                                                        comps.normalVector, comps.object, isThereAnObstacle);
+                                                        comps.normalVector, comps.object, lightLevel);
     }
     Tuple reflected = this->reflectColour(comps, depthCount);
     Tuple refracted = this->refractedColour(comps, depthCount);
@@ -137,9 +137,9 @@ Tuple World::colourAt(Ray r, uint32_t depthCount)
     }
 }
 
-bool World::isShadowed(Tuple point, uint32_t light)
+bool World::isShadowed(Tuple point, Tuple lightPosition)
 {
-    Tuple v = this->lightList[light]->position - point;
+    Tuple v = lightPosition - point;
     double distance = v.magnitude();
     Tuple direction = v.normalise();
 

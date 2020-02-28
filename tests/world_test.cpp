@@ -120,7 +120,7 @@ TEST(WorldTest, There_is_no_shadow_when_nothing_is_collinear_with_point_and_ligh
     World w = DefaultWorld();
     Tuple p = Point(0, 10, 0);
 
-    ASSERT_FALSE(w.isShadowed(p));
+    ASSERT_FALSE(w.isShadowed(p, w.getLight(0)->position));
 }
 
 TEST(WorldTest, The_shadow_when_an_object_is_between_the_point_and_the_light)
@@ -128,7 +128,7 @@ TEST(WorldTest, The_shadow_when_an_object_is_between_the_point_and_the_light)
     World w = DefaultWorld();
     Tuple p = Point(10, -10, 10);
 
-    ASSERT_TRUE(w.isShadowed(p));
+    ASSERT_TRUE(w.isShadowed(p, w.getLight(0)->position));
 }
 
 TEST(WorldTest, There_is_no_shadow_whne_an_object_is_behing_the_light)
@@ -136,7 +136,7 @@ TEST(WorldTest, There_is_no_shadow_whne_an_object_is_behing_the_light)
     World w = DefaultWorld();
     Tuple p = Point(-20, 20, -20);
 
-    ASSERT_FALSE(w.isShadowed(p));
+    ASSERT_FALSE(w.isShadowed(p, w.getLight(0)->position));
 }
 
 TEST(WorldTest, There_is_no_shadow_when_an_object_is_behing_the_point)
@@ -144,7 +144,7 @@ TEST(WorldTest, There_is_no_shadow_when_an_object_is_behing_the_point)
     World w = DefaultWorld();
     Tuple p = Point(-2, 2, -2);
 
-    ASSERT_FALSE(w.isShadowed(p));
+    ASSERT_FALSE(w.isShadowed(p, w.getLight(0)->position));
 }
 
 TEST(WorldTest, Shade_hit_is_given_an_intersection_in_shadow)
@@ -426,4 +426,30 @@ TEST(WorldTest, Shade_hit_with_a_reflective_transparent_material)
     ASSERT_EQ(c, Colour(0.93391, 0.69643, 0.69243));
 
     set_equal_precision(FLT_EPSILON);
+}
+
+TEST(WorldTest, Is_shadow_test_for_occlusion_between_two_points)
+{
+    World w = DefaultWorld();
+    Tuple lightPosition = Point(-10, -10, -10);
+
+    Point testList[]  = {
+            Point(-10, -10, 10),
+            Point(10, 10, 10),
+            Point(-20, -20, 20),
+            Point(-5, -5, 5),
+    };
+    bool testResult[] = {
+            false,
+            true,
+            false,
+            false,
+    };
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    for(i = 0; i < testCount; i++)
+    {
+        ASSERT_EQ(w.isShadowed(lightPosition, testList[i]), testResult[i]);
+    }
 }

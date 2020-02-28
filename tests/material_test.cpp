@@ -11,6 +11,8 @@
 #include <colour.h>
 #include <testshape.h>
 #include <gtest/gtest.h>
+#include <world.h>
+#include <worldbuilder.h>
 
 TEST(MaterialTest, The_default_material)
 {
@@ -101,9 +103,9 @@ TEST(MaterialTest, Lighting_with_the_surface_in_shadow)
     Vector eyev = Vector(0, 0, -1);
     Vector normalv = Vector(0, 0, -1);
     Light light = Light(POINT_LIGHT, Point(0, 0, -10), Colour(1, 1, 1));
-    bool inShadow = true;
+    double lightLevel = 0.0;
 
-    Colour result = m.lighting(light, position, eyev, normalv, &t, inShadow);
+    Colour result = m.lighting(light, position, eyev, normalv, &t, lightLevel);
 
     ASSERT_EQ(result, Colour(0.1, 0.1, 0.1));
 }
@@ -164,4 +166,43 @@ TEST(MaterialTest, Equality_tests)
 
     m.colour = Colour(32, 32, 32);
     ASSERT_NE(m, m2);
+}
+
+TEST(MaterialTest, lighting_uses_light_intensity_to_attenuate_colour)
+{
+    World w = DefaultWorld();
+    Light *light = w.getLight(0);
+    Shape *shape = w.getObject(0);
+
+    light->position = Point(0, 0, -10);
+    light->intensity = Colour(1, 1, 1);
+
+    shape->material.ambient = 0.1;
+    shape->material.diffuse = 0.9;
+    shape->material.specular = 0;
+    shape->material.colour = Colour(1, 1, 1);
+    Tuple pt = Point(0, 0, -1);
+    Tuple eyev = Vector(0, 0, -1);
+    Tuple normalv = Vector(0, 0, -1);
+
+    double testList[] = {
+            1.0,
+            0.5,
+            0.0,
+    };
+
+    Colour testResult[] = {
+            Colour(1, 1, 1),
+            Colour(0.55, 0.55, 0.55),
+            Colour(0.1, 0.1, 0.1),
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    for(i = 0; i < testCount; i++)
+    {
+        ASSERT_EQ(shape->material.lighting(*light, pt, eyev, normalv, shape, testList[i]), testResult[i]);
+    }
+
 }

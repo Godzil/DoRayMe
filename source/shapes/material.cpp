@@ -11,7 +11,8 @@
 #include <colour.h>
 #include <shape.h>
 
-Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple normalVector, Shape *hitObject, bool inShadow)
+Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple normalVector, Shape *hitObject,
+        double lightIntensity)
 {
     Colour pointColor = this->colour;
 
@@ -36,33 +37,34 @@ Colour Material::lighting(Light light, Tuple point, Tuple eyeVector, Tuple norma
 
     emissiveColour = pointColor * this->emissive;
 
-    if (!inShadow)
-    {
-        lightDotNormal = lightVector.dot(normalVector);
+    lightDotNormal = lightVector.dot(normalVector);
 
-        if (lightDotNormal < 0)
+    if (lightDotNormal < 0)
+    {
+        diffuseColour = Colour(0, 0, 0);
+        specularColour = Colour(0, 0, 0);
+    }
+    else
+    {
+        diffuseColour = effectiveColour * this->diffuse * lightDotNormal;
+        reflectVector = -lightVector.reflect(normalVector);
+
+        reflectDotEye = reflectVector.dot(eyeVector);
+
+        if (reflectDotEye < 0)
         {
-            diffuseColour = Colour(0, 0, 0);
             specularColour = Colour(0, 0, 0);
         }
         else
         {
-            diffuseColour = effectiveColour * this->diffuse * lightDotNormal;
-            reflectVector = -lightVector.reflect(normalVector);
-
-            reflectDotEye = reflectVector.dot(eyeVector);
-
-            if (reflectDotEye < 0)
-            {
-                specularColour = Colour(0, 0, 0);
-            }
-            else
-            {
-                double factor = pow(reflectDotEye, this->shininess);
-                specularColour = light.intensity * this->specular * factor;
-            }
+            double factor = pow(reflectDotEye, this->shininess);
+            specularColour = light.intensity * this->specular * factor;
         }
     }
+
+    diffuseColour = diffuseColour * lightIntensity;
+    specularColour = specularColour * lightIntensity;
+
     finalColour = emissiveColour + ambientColour + diffuseColour + specularColour;
 
     return Colour(finalColour.x, finalColour.y, finalColour.z);
