@@ -116,6 +116,11 @@ bool Group::isEmpty()
     return (this->objectCount == 0) && (this->unboxableObjectCount == 0);
 }
 
+BoundingBox Group::getLocalBounds()
+{
+    return this->bounds;
+}
+
 BoundingBox Group::getBounds()
 {
     if (this->bounds.isEmpty()) { this->updateBoundingBox(); }

@@ -119,12 +119,13 @@ TEST(CubeTest, The_normal_on_the_surface_of_a_cube)
 TEST(CubeTest, The_bounding_box_of_a_cube)
 {
     Cube t = Cube();
-    BoundingBox b = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
+    Tuple boxMin = Point(-1, -1, -1);
+    Tuple boxMax = Point(1, 1, 1);
 
     BoundingBox res = t.getBounds();
 
-    ASSERT_EQ(res.min, b.min);
-    ASSERT_EQ(res.max, b.max);
+    ASSERT_EQ(res.min, boxMin);
+    ASSERT_EQ(res.max, boxMax);
 }
 
 TEST(CubeTest, A_cube_have_finite_bounds)

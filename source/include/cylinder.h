@@ -31,7 +31,7 @@ public:
 
     Cylinder() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CYLINDER) { stats.addCylinder(); };
 
-    BoundingBox getBounds();
+    BoundingBox getLocalBounds();
     bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };
 
     void dumpMe(FILE *fp);

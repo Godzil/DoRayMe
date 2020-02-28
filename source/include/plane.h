@@ -19,7 +19,7 @@ private:
 
 public:
     Plane() : Shape(SHAPE_PLANE) { stats.addPlane(); };
-    BoundingBox getBounds();
+    BoundingBox getLocalBounds();
     bool haveFiniteBounds() { return false; };
 };
 

@@ -212,12 +212,13 @@ TEST(SphereTest, A_helper_for_producing_a_sphere_with_a_glassy_material)
 TEST(SphereTest, The_bounding_box_of_a_sphere)
 {
     Sphere t = Sphere();
-    BoundingBox b = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
+    Tuple sphereMin = Point(-1, -1, -1);
+    Tuple sphereMax = Point(1, 1, 1);
 
     BoundingBox res = t.getBounds();
 
-    ASSERT_EQ(res.min, b.min);
-    ASSERT_EQ(res.max, b.max);
+    ASSERT_EQ(res.min, sphereMin);
+    ASSERT_EQ(res.max, sphereMax);
 }
 
 TEST(SphereTest, A_sphere_have_finite_bounds)

@@ -56,7 +56,6 @@ void Tuple::fixPoint()
 
 void Tuple::fixVector()
 {
-
     if (isnan(this->x) || isnan(this->y) || isnan(this->z))
     {
         /* w is probably broken, so fix it */
@@ -66,5 +65,6 @@ void Tuple::fixVector()
 
 bool Tuple::isRepresentable()
 {
-    return !(isnan(this->x) || isnan(this->y) || isnan(this->z));
+    return !(isnan(this->x) || isnan(this->y) || isnan(this->z) ||
+             isinf(this->x) || isinf(this->y) || isinf(this->z));
 }

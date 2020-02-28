@@ -89,3 +89,13 @@ TEST(TriangleTest, A_ray_strikes_a_triangle)
     ASSERT_EQ(xs.count(), 1);
     EXPECT_EQ(xs[0].t, 2);
 }
+
+TEST(TriangleTest, A_triangle_has_a_bounding_box)
+{
+    Triangle t = Triangle(Point(-3, 7, 2), Point(6, 2, -4), Point(2, -1, -1));
+
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, Point(-3, -1, -4));
+    ASSERT_EQ(res.max, Point(6, 7, 2));
+}

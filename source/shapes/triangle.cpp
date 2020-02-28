@@ -59,16 +59,13 @@ Tuple Triangle::localNormalAt(Tuple point)
     return this->normal;
 }
 
-BoundingBox Triangle::getBounds()
+BoundingBox Triangle::getLocalBounds()
 {
     BoundingBox ret;
 
-    ret | p1;
-    ret | p2;
-    ret | p3;
-
-    ret.min = this->objectToWorld(ret.min);
-    ret.max = this->objectToWorld(ret.max);
+    ret | this->objectToWorld(p1);
+    ret | this->objectToWorld(p2);
+    ret | this->objectToWorld(p3);
 
     return ret;
 }

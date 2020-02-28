@@ -59,6 +59,7 @@ public:
     Tuple normalAt(Tuple point);
 
     /* Bounding box points are always world value */
+    virtual BoundingBox getLocalBounds();
     virtual BoundingBox getBounds();
     virtual bool haveFiniteBounds() { return true; };
 

@@ -24,7 +24,7 @@ public:
 
 public:
     Triangle(Point p1, Point p2, Point p3);
-    BoundingBox getBounds();
+    BoundingBox getLocalBounds();
 
     void dumpMe(FILE *fp);
 

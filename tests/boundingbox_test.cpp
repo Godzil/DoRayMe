@@ -22,7 +22,7 @@
 #include <boundingbox.h>
 #include <gtest/gtest.h>
 
-TEST(BoundingBox, Default_boundingbox_is_not_set)
+TEST(BoundingBoxTest, Creating_an_empty_bounding_box)
 {
     BoundingBox bb;
 
@@ -31,16 +31,16 @@ TEST(BoundingBox, Default_boundingbox_is_not_set)
     ASSERT_EQ(bb.max, Point(-INFINITY, -INFINITY, -INFINITY));
 }
 
-TEST(BoundingBox, Bounding_box_can_be_created_with_values)
+TEST(BoundingBoxTest, Crteating_a_bounding_box_with_volume)
 {
-    BoundingBox bb = BoundingBox(Point(-1, -1, -1), Point(1, 1, 1));
+    BoundingBox bb = BoundingBox(Point(-1, -2, -3), Point(3, 2, 1));
 
     ASSERT_FALSE(bb.isEmpty());
-    ASSERT_EQ(bb.min, Point(-1, -1, -1));
-    ASSERT_EQ(bb.max, Point(1, 1, 1));
+    ASSERT_EQ(bb.min, Point(-1, -2, -3));
+    ASSERT_EQ(bb.max, Point(3, 2, 1));
 }
 
-TEST(BoundingBox, Cating_a_bb_to_an_empty_bb_reset_the_original_one)
+TEST(BoundingBoxTest, Adding_on_bouding_to_an_empty_bounding_box)
 {
     BoundingBox bb;
 
@@ -51,9 +51,9 @@ TEST(BoundingBox, Cating_a_bb_to_an_empty_bb_reset_the_original_one)
     ASSERT_EQ(bb.max, Point(1, 1, 1));
 }
 
-TEST(BoundingBox, Cating_a_bb_to_another_bb_expand_the_original_one_if_needed)
+TEST(BoundingBoxTest, Adding_boudingbox_to_another)
 {
-    BoundingBox bb(Point(-1, -1, -1), Point(1, 1, 1));
+    BoundingBox bb(Point(-1, -1, 0), Point(4, 0, 1));
 
     bb | BoundingBox(Point(-2, 0, -5), Point(4, 5, 0.5));
 
@@ -62,7 +62,19 @@ TEST(BoundingBox, Cating_a_bb_to_another_bb_expand_the_original_one_if_needed)
     ASSERT_EQ(bb.max, Point(4, 5, 1));
 }
 
-TEST(BoundingBox, A_smaller_bb_should_fit_in_a_bigger)
+TEST(BoundingBoxTest, Adding_points_to_an_empty_bounding_box)
+{
+    BoundingBox bb;
+
+    bb | Point(-5, 2, 0);
+    bb | Point(7, 0, -3);
+
+    ASSERT_FALSE(bb.isEmpty());
+    ASSERT_EQ(bb.min, Point(-5, 0, -3));
+    ASSERT_EQ(bb.max, Point(7, 2, 0));
+}
+
+TEST(BoundingBoxTest, A_smaller_bb_should_fit_in_a_bigger)
 {
     BoundingBox bigBb = BoundingBox(Point(-10, -10, -10), Point(10, 10, 10));
 
@@ -71,7 +83,7 @@ TEST(BoundingBox, A_smaller_bb_should_fit_in_a_bigger)
     ASSERT_TRUE(bigBb.fitsIn(smallBb));
 }
 
-TEST(BoundingBox, A_big_bb_should_not_fit_in_a_smaller)
+TEST(BoundingBoxTest, A_big_bb_should_not_fit_in_a_smaller)
 {
     BoundingBox bigBb = BoundingBox(Point(-10, -10, -10), Point(10, 10, 10));
 

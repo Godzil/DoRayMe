@@ -122,7 +122,7 @@ Tuple Cone::localNormalAt(Tuple point)
     return Vector(point.x, y, point.z);
 }
 
-BoundingBox Cone::getBounds()
+BoundingBox Cone::getLocalBounds()
 {
     BoundingBox ret;
 
@@ -130,11 +130,8 @@ BoundingBox Cone::getBounds()
     double b = fabs(this->maxCap);
     double limit = (a > b)?a:b;
 
-    ret.min = this->objectToWorld(Point(-limit, this->minCap, -limit));
-    ret.max = this->objectToWorld(Point(limit, this->maxCap, limit));
-
-    ret.min.fixPoint();
-    ret.max.fixPoint();
+    ret | Point(-limit, this->minCap, -limit);
+    ret | Point(limit, this->maxCap, limit);
 
     return ret;
 }

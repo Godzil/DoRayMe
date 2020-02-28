@@ -254,8 +254,10 @@ TEST(CylinderTest, An_uncut_cylinder_have_infinite_bounds)
 TEST(CylinderTest, A_cut_cylinder_have_finite_bounds)
 {
     Cylinder t = Cylinder();
-    t.minCap = -1;
-    t.maxCap = 1;
-
+    t.minCap = -5;
+    t.maxCap = 3;
+    BoundingBox res = t.getBounds();
     ASSERT_TRUE(t.haveFiniteBounds());
+    ASSERT_EQ(res.min, Point(-1, -5, -1));
+    ASSERT_EQ(res.max, Point(1, 3, 1));
 }

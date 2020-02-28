@@ -163,8 +163,11 @@ TEST(ConeTest, An_uncut_cone_have_infinite_bounds)
 TEST(ConeTest, A_cut_cone_have_finite_bounds)
 {
     Cone t = Cone();
-    t.minCap = -1;
-    t.maxCap = 1;
+    t.minCap = -5;
+    t.maxCap = 3;
+    BoundingBox res = t.getBounds();
 
     ASSERT_TRUE(t.haveFiniteBounds());
+    ASSERT_EQ(res.min, Point(-5, -5, -5));
+    ASSERT_EQ(res.max, Point(5, 3, 5));
 }
