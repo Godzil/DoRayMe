@@ -11,9 +11,6 @@
 
 #include <stdint.h>
 
-#ifdef RENDER_STATS
-#include <stdio.h>
-
 class RenderStats
 {
 private:
@@ -44,58 +41,29 @@ public:
                     pixelCount(0), rayCount(0), lightRayEmitedCount(0), reflectionRayCount(0), refractedRayCount(0),
                     intersectCount(0), intersectionCount(0), reallocCallCount(0), mallocCallCount(0),
                     discardedIntersectCount(0), maxDepthAttained(UINT64_MAX), maxIntersectOnARay(0) {};
-
-    void addCone() { this->coneCount++; };
-    void addCylinder() { this->cylinderCount++; };
-    void addCube() { this->cubeCount++; };
-    void addGroup() { this->groupCount++; };
-    void addLight() { this->lightCount++; };
-    void addPlane() { this->planeCount++; };
-    void addSphere() { this->sphereCount++; };
-    void addTriangle() { this->triangleCount++; };
-
-    void addPixel() { this->pixelCount++; };
-    void addRay() { this->rayCount++; };
-    void addLightRay() { this->lightRayEmitedCount++; };
-    void addReflectRay() { this->reflectionRayCount++; };
-    void addRefractRay() { this->refractedRayCount++; };
-    void addIntersect() { this->intersectCount++; };
-    void addIntersection() { this->intersectionCount++; };
-    void addMalloc() { this->mallocCallCount++; };
-    void addRealloc() { this->reallocCallCount++; };
-    void addDiscardedIntersect() {  this->discardedIntersectCount++; };
-    void setMaxDepth(uint32_t depth) { if (this->maxDepthAttained>depth) { this->maxDepthAttained = depth; } };
-    void setMaxIntersect(uint32_t count) { if (this->maxIntersectOnARay<count) { this->maxIntersectOnARay = count; } };
-    void printStats() {
-        printf("Rendering statistics:\n");
-        printf("Cones                   : %lld\n", this->coneCount);
-        printf("Cubes                   : %lld\n", this->cubeCount);
-        printf("Cylinders               : %lld\n", this->cylinderCount);
-        printf("Groups                  : %lld\n", this->groupCount);
-        printf("Lights                  : %lld\n", this->lightCount);
-        printf("Planes                  : %lld\n", this->planeCount);
-        printf("Spheres                 : %lld\n", this->sphereCount);
-        printf("Triangles               : %lld\n", this->triangleCount);
-        printf("==================================================\n");
-        printf("Pixel rendered          : %lld\n", this->pixelCount);
-        printf("Ray casted              : %lld\n", this->rayCount);
-        printf("Light Ray casted        : %lld\n", this->lightRayEmitedCount);
-        printf("Reflection ray casted   : %lld\n", this->reflectionRayCount);
-        printf("Refraction ray casted   : %lld\n", this->refractedRayCount);
-        printf("Intersect object created: %lld\n", this->intersectCount);
-        printf("Intersection created    : %lld\n", this->intersectionCount);
-        printf("Malloc called           : %lld\n", this->mallocCallCount);
-        printf("Realloc called          : %lld\n", this->reallocCallCount);
-        printf("Bounding box missed     : %lld\n", this->discardedIntersectCount);
-        printf("Min depth atteined      : %lld\n", this->maxDepthAttained);
-        printf("Max intersect count     : %lld\n", this->maxIntersectOnARay);
-        printf("==================================================\n");
-    };
-};
+#ifdef RENDER_STATS
+    void addCone();
+    void addCylinder();
+    void addCube();
+    void addGroup();
+    void addLight();
+    void addPlane();
+    void addSphere();
+    void addTriangle();
+    void printStats();
+    void addPixel();
+    void addRay();
+    void addLightRay();
+    void addReflectRay();
+    void addRefractRay();
+    void addIntersection();
+    void addDiscardedIntersect();
+    void setMaxDepth(uint32_t depth);
+    void addIntersect();
+    void addMalloc();
+    void addRealloc();
+    void setMaxIntersect(uint32_t count);
 #else
-class RenderStats
-{
-public:
     static void addCone() {};
     static void addCylinder() {};
     static void addCube() {};
@@ -117,8 +85,9 @@ public:
     static void addMalloc() {};
     static void addRealloc() {};
     static void setMaxIntersect(uint32_t count) {};
-};
 #endif
+};
+
 
 extern RenderStats stats;
 
