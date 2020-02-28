@@ -10,6 +10,7 @@
 #define DORAYME_BOUNDINGBOX_H
 
 #include <renderstat.h>
+#include <stdio.h>
 
 struct BoundingBox
 {
@@ -116,6 +117,16 @@ public:
         stats.addDiscardedIntersect();
 
         return false;
+    }
+
+    void dumpMe(FILE *fp)
+    {
+        Tuple t = this->min;
+        fprintf(fp, "\"min\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+                t.x, t.y, t.z);
+        t = this->max;
+        fprintf(fp, "\"max\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+                t.x, t.y, t.z);
     }
 
 };

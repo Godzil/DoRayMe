@@ -81,4 +81,7 @@ void Shape::dumpMe(FILE *fp)
     this->material.dumpMe(fp);
     fprintf(fp, "},\n");
     fprintf(fp, "\"DropShadow\": %d,\n", this->dropShadow);
+    fprintf(fp, "\"BoundingBox\": {\n");
+    this->getBounds().dumpMe(fp);
+    fprintf(fp, "},\n");
 }

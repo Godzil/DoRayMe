@@ -12,6 +12,7 @@
 #include <tuple.h>
 #include <colour.h>
 #include <renderstat.h>
+#include <stdio.h>
 
 enum LightType
 {
@@ -33,6 +34,8 @@ public:
     bool operator==(const Light &b) const { return this->intensity == b.intensity &&
                                                    this->position == b.position &&
                                                    this->type == b.type; };
+
+    void dumpMe(FILE *fp);
 };
 
 #endif /* DORAYME_LIGHT_H */

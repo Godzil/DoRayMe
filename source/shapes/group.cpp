@@ -166,3 +166,33 @@ void Group::updateTransform()
      */
     this->updateBoundingBox();
 }
+
+void Group::dumpMe(FILE *fp)
+{
+    int i;
+    fprintf(fp, "\"Type\": \"Group\",\n");
+    if (this->objectCount > 0)
+    {
+        fprintf(fp, "\"Objects\": {\n");
+        for(i = 0; i < this->objectCount; i++)
+        {
+            fprintf(fp, "\"%d\": {\n", i);
+            this->objectList[i]->dumpMe(fp);
+            fprintf(fp, "},\n");
+        }
+        fprintf(fp, "},\n");
+    }
+
+    if (this->unboxableObjectCount > 0)
+    {
+        fprintf(fp, "\"UnboxableObjects\": {\n");
+        for(i = 0; i < this->objectCount; i++)
+        {
+            fprintf(fp, "\"%d\": {\n", i);
+            this->objectList[i]->dumpMe(fp);
+            fprintf(fp, "},\n");
+        }
+        fprintf(fp, "},\n");
+    }
+    Shape::dumpMe(fp);
+}

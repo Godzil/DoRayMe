@@ -72,3 +72,18 @@ BoundingBox Triangle::getBounds()
 
     return ret;
 }
+
+void Triangle::dumpMe(FILE *fp)
+{
+    fprintf(fp, "\"Type\": \"Triangle\",\n");
+    Tuple t = this->transformMatrix * this->p1;
+    fprintf(fp, "\"p1\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->transformMatrix * this->p2;
+    fprintf(fp, "\"p2\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->transformMatrix * this->p3;
+    fprintf(fp, "\"p3\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    Shape::dumpMe(fp);
+}

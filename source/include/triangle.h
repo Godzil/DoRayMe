@@ -10,6 +10,7 @@
 #define DORAYME_TRIANGLE_H
 
 #include <shape.h>
+#include <stdio.h>
 
 class Triangle : public Shape
 {
@@ -24,6 +25,8 @@ public:
 public:
     Triangle(Point p1, Point p2, Point p3);
     BoundingBox getBounds();
+
+    void dumpMe(FILE *fp);
 
 };
 

@@ -13,6 +13,7 @@
 #include <ray.h>
 #include <intersect.h>
 #include <renderstat.h>
+#include <stdio.h>
 
 class Cone : public Shape {
 protected:
@@ -31,6 +32,8 @@ public:
     Cone() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CONE) { stats.addCone(); };
     BoundingBox getBounds();
     bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };
+
+    void dumpMe(FILE *fp);
 };
 
 #endif /* DORAYME_CONE_H */

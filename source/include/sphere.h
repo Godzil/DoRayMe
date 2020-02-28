@@ -13,6 +13,7 @@
 #include <ray.h>
 #include <intersect.h>
 #include <renderstat.h>
+#include <stdio.h>
 
 class Sphere : public Shape
 {
@@ -23,6 +24,9 @@ protected:
 public:
     Sphere() : Shape(SHAPE_SPHERE) { stats.addSphere(); };
     /* All sphere are at (0, 0, 0) and radius 1 in the object space */
+
+
+    void dumpMe(FILE *fp);
 };
 
 /* Mostly for test purposes */

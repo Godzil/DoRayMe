@@ -211,7 +211,7 @@ void World::dumpMe(FILE *fp)
     for(i = 0; i < this->lightCount; i++)
     {
         fprintf(fp, "\"%d\": {\n", i);
-        //this->lightList[i]->dumpMe(fp);
+        this->lightList[i]->dumpMe(fp);
         fprintf(fp, "},\n");
     }
     fprintf(fp, "},\n");

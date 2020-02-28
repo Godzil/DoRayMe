@@ -10,6 +10,7 @@
 #define DORAYME_GROUP_H
 
 #include <shape.h>
+#include <stdio.h>
 
 /* TODO: Add a way to force(?) material from group to be applied on childs */
 
@@ -43,6 +44,8 @@ public:
     void updateTransform();
 
     Group();
+
+    void dumpMe(FILE * fp);
 };
 
 #endif /* DORAYME_GROUP_H */

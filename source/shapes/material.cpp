@@ -81,7 +81,7 @@ void Material::dumpMe(FILE *fp)
     fprintf(fp, "\"RefractiveIndex\": %f,\n", this->refractiveIndex);
     if (this->pattern)
     {
-        fprintf(fp, "\"Pattern\": {\n", this->emissive);
+        fprintf(fp, "\"Pattern\": {\n");
         this->pattern->dumpMe(fp);
         fprintf(fp, "},\n");
     }

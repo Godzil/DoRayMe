@@ -13,6 +13,7 @@
 #include <ray.h>
 #include <intersect.h>
 #include <renderstat.h>
+#include <stdio.h>
 
 class Cube : public Shape {
 private:
@@ -24,6 +25,8 @@ private:
 
 public:
     Cube() : Shape(SHAPE_CUBE) { stats.addCube(); };
+
+    void dumpMe(FILE *fp);
 };
 
 #endif /* DORAYME_CUBE_H */

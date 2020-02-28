@@ -13,6 +13,7 @@
 #include <ray.h>
 #include <intersect.h>
 #include <renderstat.h>
+#include <stdio.h>
 
 class Cylinder : public Shape {
 private:
@@ -32,6 +33,8 @@ public:
 
     BoundingBox getBounds();
     bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };
+
+    void dumpMe(FILE *fp);
 };
 
 #endif //DORAYME_CYLINDER_H

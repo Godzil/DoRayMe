@@ -120,3 +120,16 @@ BoundingBox Cylinder::getBounds()
 
     return ret;
 }
+
+void Cylinder::dumpMe(FILE *fp)
+{
+    fprintf(fp, "\"Type\": \"Cylinder\",\n");
+    Tuple t = this->transformMatrix * Point(0, 0, 0);
+    fprintf(fp, "\"pseudocenter\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->transformMatrix * Point(0, this->minCap, 0);
+    fprintf(fp, "\"min\": %f, \n", t.y);
+    t = this->transformMatrix * Point(1, this->maxCap, 1);
+    fprintf(fp, "\"max\": %f, \n", t.y);
+    Shape::dumpMe(fp);
+}

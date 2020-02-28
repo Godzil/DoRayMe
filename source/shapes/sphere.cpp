@@ -39,3 +39,15 @@ Tuple Sphere::localNormalAt(Tuple point)
 {
     return (point - Point(0, 0, 0)).normalise();
 }
+
+void Sphere::dumpMe(FILE *fp)
+{
+    fprintf(fp, "\"Type\": \"Sphere\",\n");
+    Tuple t = this->transformMatrix * Point(0, 0, 0);
+    fprintf(fp, "\"center\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->transformMatrix * Point(1, 1, 1);
+    fprintf(fp, "\"radius\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    Shape::dumpMe(fp);
+}
