@@ -186,7 +186,6 @@ TEST(LightTest, Finding_a_single_point_on_a_jittered_area_light)
         ASSERT_EQ(tp, testResults[i]);
     }
 }
-#endif
 
 TEST(LightTest, The_area_light_with_jittered_samples)
 {
@@ -224,3 +223,4 @@ TEST(LightTest, The_area_light_with_jittered_samples)
         EXPECT_TRUE(double_equal(intensity, testResults[i]));
     }
 }
+#endif
