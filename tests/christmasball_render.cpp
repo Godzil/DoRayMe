@@ -29,11 +29,6 @@
 #include <triangle.h>
 #include <stdio.h>
 
-double frand(void)
-{
-    return rand() / ((double) RAND_MAX);
-}
-
 Shape *fir_branch()
 {
     Group *ret = new Group();
@@ -238,7 +233,7 @@ int main()
 
 
     /* Set the camera */
-    Camera camera = Camera(40, 30, 1.047);
+    Camera camera = Camera(800, 600, 1.047);
     camera.setTransform(viewTransform(Point(0, 0, -4),
                                       Point(0, 0, 0),
                                       Vector(0, 1, 0)));
