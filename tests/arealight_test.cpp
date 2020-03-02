@@ -32,15 +32,11 @@ int main()
     World w = World();
 
     /* Add lights */
-#if 1
     Light light1 = Light(AREA_LIGHT, Point(-1, 2, 4),
             Vector(2, 0, 0), 8,
             Vector(0, 2, 0), 8,
-            //jitter,
-            Colour(1.5, 1.5, 1.5));
-#else
-    Light light1 = Light(POINT_LIGHT, Point(-1, 2, 4), Colour(1.5,1.5,1.5));
-#endif
+            Colour(1.5, 1.5, 1.5),
+            true);
     w.addLight(&light1);
 
 

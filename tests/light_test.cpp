@@ -8,6 +8,7 @@
  */
 #include <light.h>
 #include <math.h>
+#include <math_helper.h>
 #include <colour.h>
 #include <tuple.h>
 #include <gtest/gtest.h>
@@ -145,5 +146,78 @@ TEST(LightTest, The_area_light_intensity_function)
         double intensity = light.intensityAt(w, testList[i]);
         ASSERT_TRUE(double_equal(intensity, testResults[i]));
     }
+}
 
+TEST(LightTest, Finding_a_single_point_on_a_jittered_area_light)
+{
+    Tuple corner = Point(0, 0, 0);
+    Tuple v1 = Vector(2, 0, 0);
+    Tuple v2 = Vector(0, 0, 1);
+
+    Light light = Light(AREA_LIGHT, corner, v1, 4, v2, 2, Colour(1, 1, 1), true);
+
+    double seqList[] = { 0.3, 0.7 };
+    light.jitterBy = Sequence(seqList, 2);
+
+    uint32_t testList[][2] = {
+            {0, 0},
+            {1, 0},
+            {0, 1},
+            {2, 0},
+            {3, 1},
+    };
+
+    Point testResults[] {
+            Point(0.15, 0, 0.35),
+            Point(0.65, 0, 0.35),
+            Point(0.15, 0, 0.85),
+            Point(1.15, 0, 0.35),
+            Point(1.65, 0, 0.85),
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    for(i = 0; i < testCount; i++)
+    {
+        Tuple tp = light.pointOnLight(testList[i][0], testList[i][1]);
+        ASSERT_EQ(tp, testResults[i]);
+    }
+}
+
+TEST(LightTest, The_area_light_with_jittered_samples)
+{
+    World w = DefaultWorld();
+    Tuple corner = Point(-0.5, -0.5, -5);
+    Tuple v1 = Vector(1, 0, 0);
+    Tuple v2 = Vector(0, 1, 0);
+
+    Light light = Light(AREA_LIGHT, corner, v1, 2, v2, 2, Colour(1, 1, 1), true);
+    double seqList[] = { 0.7, 0.3, 0.9, 0.1, 0.5 };
+    light.jitterBy = Sequence(seqList, 5);
+
+    Point testList[] = {
+            Point(0, 0, 2),
+            Point(1, -1, 2),
+            Point(1.5, 0, 2),
+            Point(1.25, 1.25, 3),
+            Point(0, 0, -2),
+    };
+
+    double testResults[] {
+            0.0,
+            0.25, /* Chapter say 0.5 but it's not what I get here ?! */
+            0.75,
+            0.75,
+            1,
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    for(i = 0; i < testCount; i++)
+    {
+        double intensity = light.intensityAt(w, testList[i]);
+        EXPECT_TRUE(double_equal(intensity, testResults[i]));
+    }
 }

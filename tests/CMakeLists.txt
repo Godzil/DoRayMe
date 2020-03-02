@@ -6,7 +6,7 @@ find_package(Threads REQUIRED)
 set(TESTS_SRC math_test.cpp tuple_test.cpp colour_test.cpp canvas_test.cpp matrix_test.cpp transformation_test.cpp
         ray_test.cpp intersect_test.cpp sphere_test.cpp light_test.cpp material_test.cpp world_test.cpp camera_test.cpp
         shape_test.cpp plane_test.cpp pattern_test.cpp cube_test.cpp cylinder_test.cpp cone_test.cpp group_test.cpp
-        boundingbox_test.cpp triangle_test.cpp)
+        boundingbox_test.cpp triangle_test.cpp sequence_test.cpp)
 
 add_executable(testMyRays)
 target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
