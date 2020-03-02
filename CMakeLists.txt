@@ -50,18 +50,31 @@ add_library(LodePNG STATIC)
 set(LODEPNG_INCLUDE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/external/lodepng)
 target_sources(LodePNG PRIVATE external/lodepng/lodepng.cpp external/lodepng/lodepng.h)
 
-ExternalProject_Add(LuaCore
-        URL "https://www.lua.org/ftp/lua-5.3.5.tar.gz"
-        URL_HASH SHA1=112eb10ff04d1b4c9898e121d6bdf54a81482447
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/lua
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE True
-        BUILD_COMMAND make generic
-        INSTALL_COMMAND ""
-)
+if (USE_LUA)
+    if (CMAKE_HOST_SYSTEM_NAME STREQUAL Linux)
+        set(LUA_MAKE_TARGET linux)
+    elseif (CMAKE_HOST_SYSTEM_NAME STREQUAL Darwin)
+        set(LUA_MAKE_TARGET macosx)
+    elseif (CMAKE_HOST_SYSTEM_NAME STREQUAL Windows)
+        set(LUA_MAKE_TARGET posix)
+    else()
+        set(LUA_MAKE_TARGET posix)
+    endif()
+    message("-- Lua: Building Lua for ${LUA_MAKE_TARGET}")
 
-set(LUA_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/lua/src")
-set(LUA_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}/external/lua/src/liblua.a")
+    ExternalProject_Add(LuaCore
+            URL "https://www.lua.org/ftp/lua-5.3.5.tar.gz"
+            URL_HASH SHA1=112eb10ff04d1b4c9898e121d6bdf54a81482447
+            SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/lua
+            CONFIGURE_COMMAND ""
+            BUILD_IN_SOURCE True
+            BUILD_COMMAND make ${LUA_MAKE_TARGET}
+            INSTALL_COMMAND ""
+    )
+
+    set(LUA_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/lua/src")
+    set(LUA_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}/external/lua/src/liblua.a" -ldl)
+endif()
 
 # Main app
 add_subdirectory(source)
