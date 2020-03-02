@@ -31,8 +31,18 @@ Intersect::Intersect()
 
 Intersect::~Intersect()
 {
+    int i;
+    for(i = 0; i < this->num; i++)
+    {
+        free(this->list[i]);
+    }
     /* Free stuff */
     free(this->list);
+}
+
+void Intersect::reset()
+{
+    this->num = 0;
 }
 
 void Intersect::add(Intersection i)
@@ -46,6 +56,7 @@ void Intersect::add(Intersection i)
         stats.addRealloc();
         this->list = (Intersection **)realloc(this->list, sizeof(Intersection *) * this->allocated);
     }
+
     this->list[this->num++] = new Intersection(i.t, i.object);
 
     stats.setMaxIntersect(this->num);

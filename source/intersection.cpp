@@ -30,14 +30,15 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
     Tuple underHitP = hitP - normalV * getEpsilon();
     Tuple reflectV = r.direction.reflect(normalV);
 
-    if (xs != nullptr)
+    /* If the hit object is not transparent, there is no need to do that. I think .*/
+    if ((xs != nullptr)  && (xs->hit().object->material.transparency > 0))
     {
         List containers;
         int j, k;
 
-        for(j = 0; j < xs->count(); j++)
+        for (j = 0 ; j < xs->count() ; j++)
         {
-            Intersection i = (*xs)[j];
+            Intersection i = ( *xs )[j];
             if (*this == i)
             {
                 if (!containers.isEmpty())

@@ -21,6 +21,7 @@ private:
 public:
     Intersect();
     ~Intersect();
+    void reset();
     void add(Intersection i);
     int count() { return this->num; };
     Intersection operator[](const int p) { return *this->list[p]; }

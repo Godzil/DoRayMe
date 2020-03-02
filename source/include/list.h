@@ -31,6 +31,14 @@ public:
         if (p == nullptr) { return; }
 
         /* clear up the list */
+        do
+        {
+            ChainList *next = p->next;
+            free(p);
+            p = next;
+        }
+        while(p != nullptr);
+
     }
 
     Shape *last()

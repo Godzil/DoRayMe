@@ -125,7 +125,6 @@ Matrix Matrix::transpose()
     int x, y;
     Matrix ret = Matrix(this->size);
 
-    #pragma omp parallel for simd private(y, x)
     for (y = 0 ; y < this->size ; y++)
     {
         for (x = 0 ; x < this->size ; x++)
