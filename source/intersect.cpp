@@ -34,10 +34,13 @@ Intersect::~Intersect()
     int i;
     for(i = 0; i < this->num; i++)
     {
-        free(this->list[i]);
+        delete this->list[i];
     }
     /* Free stuff */
-    free(this->list);
+    if (this->list != nullptr)
+    {
+        free(this->list);
+    }
 }
 
 void Intersect::reset()
