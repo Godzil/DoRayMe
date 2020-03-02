@@ -16,6 +16,12 @@
 #include <ray.h>
 #include <stdio.h>
 
+#ifdef ENABLE_LUA_SUPPORT
+extern "C" {
+#include <lua.h>
+}
+#endif
+
 class World
 {
 public:
@@ -28,6 +34,10 @@ private:
 
     Light* *lightList;
     Shape* *objectList;
+
+#ifdef ENABLE_LUA_SUPPORT
+    lua_State *L;
+#endif
 
 public:
     World();

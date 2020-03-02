@@ -19,6 +19,15 @@
 #include <gtest/gtest.h>
 #include <material.h>
 
+#ifdef ENABLE_LUA_SUPPORT
+extern "C" {
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+}
+#include <luapattern.h>
+#endif
+
 Colour black = Colour(0, 0, 0);
 Colour white = Colour(1, 1, 1);
 
@@ -209,3 +218,46 @@ TEST(PatternTest, Checkers_should_repeat_in_z)
     ASSERT_EQ(pattern.patternAt(Point(0, 0, 0.99)), white);
     ASSERT_EQ(pattern.patternAt(Point(0, 0, 1.01)), black);
 }
+
+#ifdef ENABLE_LUA_SUPPORT
+TEST(PatternTest, Simple_test_of_a_lua_pattern)
+{
+    int error;
+    LuaPattern pattern = LuaPattern(white, black);
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+
+    pattern.setLua(L);
+
+    pattern.setLuaFunctionName("pat");
+
+    error = luaL_loadstring(L, "function pat(x, y, z, a, b)\n"
+                               "    local v = math.floor(x) + math.floor(y) + math.floor(z)\n"
+                               "    if (v % 2) == 0 then\n"
+                               "        return a.r, a.g, a.b\n"
+                               "    end\n"
+                               "    return b.r, b.g, b.b\n"
+                               "end");
+
+    if (error)
+    {
+        fprintf(stderr, "%s\n", lua_tostring(L, -1));
+        lua_pop(L, 1);  /* pop error message from the stack */
+    }
+    ASSERT_EQ(error, 0);
+
+    error = lua_pcall(L, 0, 0, 0);
+    if (error)
+    {
+        fprintf(stderr, "%s\n", lua_tostring(L, -1));
+        lua_pop(L, 1);  /* pop error message from the stack */
+    }
+    ASSERT_EQ(error, 0);
+
+    ASSERT_EQ(pattern.patternAt(Point(0, 0, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(0, 0.99, 0)), white);
+    ASSERT_EQ(pattern.patternAt(Point(0, 1.01, 0)), black);
+
+    lua_close(L);
+}
+#endif

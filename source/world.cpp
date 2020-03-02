@@ -12,6 +12,14 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef ENABLE_LUA_SUPPORT
+extern "C" {
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+}
+#endif
+
 #define MIN_ALLOC (2)
 
 World::World() : objectCount(0), lightCount(0)
@@ -23,6 +31,11 @@ World::World() : objectCount(0), lightCount(0)
     this->allocatedObjectCount = MIN_ALLOC;
     this->objectList = (Shape **)calloc(sizeof(Shape *), MIN_ALLOC);
     this->objectCount = 0;
+
+#ifdef ENABLE_LUA_SUPPORT
+    this->L = luaL_newstate();   /* opens Lua */
+    luaL_openlibs(L);            /* opens the basic library */
+#endif
 };
 
 World::~World()

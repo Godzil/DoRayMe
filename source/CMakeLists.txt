@@ -14,7 +14,13 @@ file(GLOB RAY_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_D
                       ${CMAKE_CURRENT_SOURCE_DIR}/worldbuilder/*.cpp)
 
 target_include_directories(rayonnement PUBLIC include pattern)
-add_dependencies(rayonnement LuaCore)
+
+if (USE_LUA)
+    add_dependencies(rayonnement LuaCore)
+    target_link_libraries(rayonnement ${LUA_LIBRARIES})
+endif()
+
+target_include_directories(rayonnement PUBLIC include ${LODEPNG_INCLUDE_FOLDER} ${LUA_INCLUDE_DIR})
 target_sources(rayonnement PRIVATE ${RAY_HEADERS} ${RAY_SOURCES})
 target_link_libraries(rayonnement LodePNG)
 
@@ -22,10 +28,13 @@ if (USE_OPENMP)
   target_link_libraries(rayonnement OpenMP::OpenMP_CXX)
 endif()
 
+
+# The main executable
 add_executable(dorayme main.cpp)
+
 add_dependencies(dorayme LuaCore)
-target_include_directories(rayonnement PUBLIC include ${LODEPNG_INCLUDE_FOLDER} ${LUA_INCLUDE_DIR})
 target_link_libraries(dorayme rayonnement ${LUA_LIBRARIES})
+
 
 if (COVERALLS)
     set(COVERAGE_SRCS ${RAY_HEADERS} ${RAY_SOURCES} ${COVERAGE_SRCS} PARENT_SCOPE)

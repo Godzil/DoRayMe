@@ -17,6 +17,11 @@ if (SHOW_STATS)
     add_compile_options(-DRENDER_STATS)
 endif()
 
+option(USE_LUA "Enable the use of Lua" ON)
+if (USE_LUA)
+    add_compile_options(-DENABLE_LUA_SUPPORT)
+endif()
+
 if (ENABLE_COVERAGE AND COVERALLS)
     message(FATAL_ERROR "You can't enable both ENABLE_COVERAGE and COVERALLS at the same time")
 endif()
