@@ -49,12 +49,9 @@ Tuple Light::pointOnLight(uint32_t u, uint32_t v)
 {
     if (this->jitter)
     {
-        /* For some reason, for the test to pass, I need to get the sequence for V first, then U contrary to what
-         * the bonus chapter says
-         */
         return this->corner +
-               this->vVec * (v + this->jitterBy.next()) +
-               this->uVec * (u + this->jitterBy.next());
+               this->uVec * (u + this->jitterBy.next()) +
+               this->vVec * (v + this->jitterBy.next());
     }
     return this->corner + this->uVec * (u + 0.5) + this->vVec * (v + 0.5);
 }

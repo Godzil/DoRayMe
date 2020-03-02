@@ -63,3 +63,8 @@ double max3(double a, double b, double c)
     }
     return b;
 }
+
+double frand()
+{
+    return rand() / ((double) RAND_MAX);
+}

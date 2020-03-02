@@ -21,4 +21,6 @@ double deg_to_rad(double deg);
 double min3(double a, double b, double c);
 double max3(double a, double b, double c);
 
+double frand();
+
 #endif /* DORAYME_MATH_HELPER_H */
