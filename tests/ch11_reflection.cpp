@@ -97,21 +97,45 @@ int main()
     w.addObject(&ref3);
 
     /* Add light */
-    Light light = Light(POINT_LIGHT, Point(-10, 10, -10), Colour(1, 1, 1));
+    //Light light = Light(POINT_LIGHT, Point(-10, 10, -10), Colour(1, 1, 1));
+    Light light = Light(AREA_LIGHT, Point(-9, 10, -9),
+            Vector(2, 0, 0), 5,
+            Vector(0, 2, 0), 5,
+
+            Colour(1, 1, 1));
 
     w.addLight(&light);
 
+#define WIDTH (100)
+#define HEIGHT (50)
+
     /* Set the camera */
-    Camera camera = Camera(100, 50, M_PI / 3);
+    Camera camera = Camera(WIDTH, HEIGHT, M_PI / 3);
     camera.setTransform(viewTransform(Point(0, 1.5, -5),
                                       Point(0, 1, 0),
                                       Vector(0, 1, 0)));
-
     /* Now render it */
+    printf("Render full scene...\n");
     Canvas image = camera.render(w);
-
     image.SaveAsPNG("ch11_reflection.png");
 
+    /* Let's try to zoom on the small reflective ball in the back */
+    Camera camera2 = Camera(HEIGHT, HEIGHT, M_PI / 40);
+    camera2.setTransform(viewTransform(Point(0, 1.5, -5),
+                                      Point(1, 1, .4),
+                                      Vector(0, 1, 0)));
+    printf("Render reflective ball...\n");
+    Canvas image2 = camera2.render(w);
+    image2.SaveAsPNG("ch11_zooming_on_reflective_ball.png");
+
+    /* Zooming on a reflexion on a reflective ball */
+    Camera camera3 = Camera(HEIGHT, HEIGHT, M_PI / 600);
+    camera3.setTransform(viewTransform(Point(0, 1.5, -5),
+                                      Point(1.05, 1.063, .4),
+                                      Vector(0, 1, 0)));
+    printf("Render reflection on ball...\n");
+    Canvas image3 = camera3.render(w);
+    image3.SaveAsPNG("ch11_reflection_on_ball.png");
 
     return 0;
 }
