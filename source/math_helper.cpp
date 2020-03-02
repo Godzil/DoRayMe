@@ -7,6 +7,7 @@
  *
  */
 
+#include <stdlib.h>
 #include <math.h>
 #include <float.h>
 #include <math_helper.h>
