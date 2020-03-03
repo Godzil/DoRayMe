@@ -48,9 +48,9 @@ Bonus: Zooming on a reflective ball:
 Zooming on a reflection on that ball:
 ![Chapter 11 zooming on a reflection](output/ch11_reflection_on_ball.png)
 
-![Chapter 11 refraction rendering test](output/ch11_refraction.png | width=1000)
+![Chapter 11 refraction rendering test](output/ch11_refraction.png)
 
-![Chapter 11 rendering test](output/ch11_test.png | width=1000)
+![Chapter 11 rendering test](output/ch11_test.png)
 
 **From Chapter 12 - Cubes:**
 
