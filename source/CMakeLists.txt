@@ -8,7 +8,8 @@ endif()
 # First most is build as a library
 add_library(rayonnement STATIC)
 
-file(GLOB RAY_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${CMAKE_CURRENT_SOURCE_DIR}/pattern/*.h)
+file(GLOB RAY_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${CMAKE_CURRENT_SOURCE_DIR}/pattern/*.h
+                      ${CMAKE_CURRENT_SOURCE_DIR}/uvpattern/*.h)
 
 file(GLOB RAY_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/shapes/*.cpp
                       ${CMAKE_CURRENT_SOURCE_DIR}/worldbuilder/*.cpp)

@@ -10,7 +10,7 @@ set(TESTS_SRC math_test.cpp tuple_test.cpp colour_test.cpp canvas_test.cpp matri
 
 add_executable(testMyRays)
 target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-target_include_directories(testMyRays PUBLIC ../source/include)
+target_include_directories(testMyRays PUBLIC ../source/include ../source/patter ../source/uvpattern)
 target_sources(testMyRays PRIVATE ${TESTS_SRC})
 target_link_libraries(testMyRays gtest gtest_main rayonnement Threads::Threads)
 

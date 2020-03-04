@@ -18,6 +18,8 @@
 #include <sphere.h>
 #include <gtest/gtest.h>
 #include <material.h>
+#include <uv_pattern.h>
+#include <uv_checkers.h>
 
 #ifdef ENABLE_LUA_SUPPORT
 extern "C" {
@@ -261,3 +263,14 @@ TEST(PatternTest, Simple_test_of_a_lua_pattern)
     lua_close(L);
 }
 #endif
+
+TEST(PatternTest, Checkers_pattern_in_2D)
+{
+    UVCheckers checkers = UVCheckers(2, 2, black, white);
+
+    ASSERT_EQ(checkers.uvPatternAt(0.0, 0.0), black);
+    ASSERT_EQ(checkers.uvPatternAt(0.5, 0.0), white);
+    ASSERT_EQ(checkers.uvPatternAt(0.0, 0.5), white);
+    ASSERT_EQ(checkers.uvPatternAt(0.5, 0.5), black);
+    ASSERT_EQ(checkers.uvPatternAt(1.0, 1.0), black);
+}
