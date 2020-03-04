@@ -21,7 +21,7 @@ public:
 
     Colour patternAt(Tuple point)
     {
-        if (fmod(floor(point.x), 2) == 0)
+        if (modulo(floor(point.x), 2) == 0)
         {
             return this->a;
         }

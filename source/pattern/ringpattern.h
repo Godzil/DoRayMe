@@ -22,7 +22,7 @@ public:
 
         double value = floor(sqrt(squared));
 
-        return (fmod(value, 2) == 0)?this->a:this->b;
+        return (modulo(value, 2) == 0)?this->a:this->b;
     }
 
     void dumpMe(FILE *fp) {

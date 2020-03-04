@@ -23,4 +23,9 @@ double max3(double a, double b, double c);
 
 double frand();
 
+static double modulo(double a, double b)
+{
+    return a - floor(a/b) * b;
+}
+
 #endif /* DORAYME_MATH_HELPER_H */

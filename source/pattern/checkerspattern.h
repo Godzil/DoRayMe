@@ -20,7 +20,7 @@ public:
     {
         double value = floor(point.x) + floor(point.y) + floor(point.z);
 
-        return (fmod(value, 2) == 0)?this->a:this->b;
+        return (modulo(value, 2) == 0)?this->a:this->b;
     }
 
     void dumpMe(FILE *fp) {

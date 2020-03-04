@@ -21,7 +21,7 @@ public:
         double u2 = floor(u * this->width);
         double v2 = floor(v * this->height);
 
-        if (fmod((u2 + v2), 2) == 0)
+        if (modulo((u2 + v2), 2) == 0)
         {
             return this->a;
         }
