@@ -20,6 +20,7 @@
 #include <material.h>
 #include <uv_pattern.h>
 #include <uv_checkers.h>
+#include <uv_aligncheck.h>
 #include <texturemap.h>
 
 #ifdef ENABLE_LUA_SUPPORT
@@ -428,5 +429,41 @@ TEST(PatternTest, Using_a_cylindrical_mapping_on_a_3d_point)
         tm.cylindricalMap(testList[i], u, v);
         ASSERT_TRUE(double_equal(u, testResults[i][0]));
         ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, Layout_of_the_align_check_pattern)
+{
+    Colour main = Colour(1, 1, 1);
+    Colour ul = Colour(1, 0, 0);
+    Colour ur = Colour(1, 1, 0);
+    Colour bl = Colour(0, 1, 0);
+    Colour br = Colour(0, 1, 1);
+
+    double testList[][2] = {
+            { 0.5, 0.5 },
+            { 0.1, 0.9 },
+            { 0.9, 0.9 },
+            { 0.1, 0.1 },
+            { 0.9, 0.1 },
+    };
+
+    Colour testResults[] {
+          main,
+          ul,
+          ur,
+          bl,
+          br,
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    UVAlignCheck uvac = UVAlignCheck(main, ul, ur, bl, br);
+
+    for(i = 0; i < testCount; i++)
+    {
+        Colour ret = uvac.uvPatternAt(testList[i][0], testList[i][1]);
+        ASSERT_EQ(ret, testResults[i]);
     }
 }

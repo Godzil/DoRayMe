@@ -91,3 +91,6 @@ Planar mapping:
 
 Cylindrical mapping:
 ![Cylindrical mapping](output/uvmap_checkeredcylinder.png)
+
+Aligncheck plane:
+![Aligncheck plane](output/uvmap_aligncheckplane.png)
