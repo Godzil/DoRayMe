@@ -19,7 +19,7 @@ public:
 
     Colour uvPatternAt(double u, double v) {
         double u2 = floor(u * this->width);
-        double v2 = floor(v * this->width);
+        double v2 = floor(v * this->height);
 
         if (fmod((u2 + v2), 2) == 0)
         {

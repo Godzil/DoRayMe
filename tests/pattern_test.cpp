@@ -20,6 +20,7 @@
 #include <material.h>
 #include <uv_pattern.h>
 #include <uv_checkers.h>
+#include <texturemap.h>
 
 #ifdef ENABLE_LUA_SUPPORT
 extern "C" {
@@ -273,4 +274,81 @@ TEST(PatternTest, Checkers_pattern_in_2D)
     ASSERT_EQ(checkers.uvPatternAt(0.0, 0.5), white);
     ASSERT_EQ(checkers.uvPatternAt(0.5, 0.5), black);
     ASSERT_EQ(checkers.uvPatternAt(1.0, 1.0), black);
+}
+
+TEST(PatternTest, Using_a_spherical_mapping_on_a_3d_point)
+{
+    Point testList[] = {
+            Point( 0,  0, -1),
+            Point( 1,  0,  0),
+            Point( 0,  0,  1),
+            Point(-1,  0,  0),
+            Point( 0,  1,  0),
+            Point( 0, -1,  0),
+            Point(sqrt(2)/2, sqrt(2)/2, 0),
+    };
+
+    double testResults[][2] {
+            {0.0,  0.5},
+            {0.25, 0.5},
+            {0.5,  0.5},
+            {0.75, 0.5},
+            {0.5,  1.0},
+            {0.5,  0.0},
+            {0.25, 0.75},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(SPHERICAL_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.sphericalMap(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, Using_a_texture_map_with_a_spherical_map)
+{
+    Point testList[] = {
+            Point(  0.4315,  0.4670,  0.7719),
+            Point( -0.9654,  0.2252, -0.0534),
+            Point(  0.1039,  0.7090,  0.6975),
+            Point( -0.4986, -0.7856, -0.3663),
+            Point( -0.0317, -0.9395,  0.3411),
+            Point(  0.4809, -0.7721,  0.4154),
+            Point(  0.0285, -0.9612, -0.2745),
+            Point( -0.5734, -0.2162, -0.7903),
+            Point(  0.7688, -0.1470,  0.6223),
+            Point( -0.7652,  0.2175,  0.6060),
+    };
+
+    Colour testResults[] {
+            white,
+            black,
+            white,
+            black,
+            black,
+            black,
+            black,
+            white,
+            black,
+            black,
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    UVCheckers uvpat = UVCheckers(16, 8, black, white);
+    TextureMap tm = TextureMap(SPHERICAL_MAP, &uvpat);
+
+    for(i = 0; i < testCount; i++)
+    {
+        Colour ret = tm.patternAt(testList[i]);
+        EXPECT_EQ(ret, testResults[i]);
+    }
 }
