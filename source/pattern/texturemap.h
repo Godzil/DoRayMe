@@ -67,8 +67,17 @@ public:
     }
 
     static void planarMap(Tuple point, double &u, double &v) {
-        u = fmod(point.x, 1);
-        v = fmod(point.z, 1);
+        u = modulo(point.x, 1.0);
+        v = modulo(point.z, 1.0);
+    }
+
+    static void cylindricalMap(Tuple point, double &u, double &v) {
+        /* Let's get the azimuthal angle, same as with the spherical mapping */
+        double theta = atan2(point.x , point.z);
+        double raw_u = theta / (2 * M_PI);
+
+        u = 1 - (raw_u + 0.5);
+        v = modulo(point.y, 1.0);
     }
 
     Colour patternAt(Tuple point)
@@ -82,6 +91,10 @@ public:
             break;
         case PLANAR_MAP:
             this->planarMap(point, u, v);
+            break;
+
+        case CYLINDRICAL_MAP:
+            this->cylindricalMap(point, u, v);
             break;
         }
 

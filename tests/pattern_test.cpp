@@ -388,3 +388,45 @@ TEST(PatternTest, Using_a_planar_mapping_on_a_3d_point)
         ASSERT_TRUE(double_equal(v, testResults[i][1]));
     }
 }
+
+TEST(PatternTest, Using_a_cylindrical_mapping_on_a_3d_point)
+{
+    Point testList[] = {
+            Point( 0.00000,  0.00, -1.00000),
+            Point( 0.00000,  0.50, -1.00000),
+            Point( 0.00000,  1.00, -1.00000),
+            Point( 0.70711,  0.50, -0.70711),
+            Point( 1.00000,  0.50, -0.00000),
+            Point( 0.70711,  0.50,  0.70711),
+            Point( 0.00000, -0.25,  1.00000),
+            Point(-0.70711,  0.50,  0.70711),
+            Point(-1.00000,  1.25,  0.00000),
+            Point(-0.70711,  0.50, -0.70711),
+    };
+
+    double testResults[][2] {
+            {0.000, 0.00},
+            {0.000, 0.50},
+            {0.000, 0.00},
+            {0.125, 0.50},
+            {0.250, 0.50},
+            {0.375, 0.50},
+            {0.500, 0.75},
+            {0.625, 0.50},
+            {0.750, 0.25},
+            {0.875, 0.50},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CYLINDRICAL_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.cylindricalMap(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}

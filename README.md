@@ -88,3 +88,6 @@ Spherical mapping:
 
 Planar mapping:
 ![Planar mapping](output/uvmap_checkeredplane.png)
+
+Cylindrical mapping:
+![Cylindrical mapping](output/uvmap_checkeredcylinder.png)
