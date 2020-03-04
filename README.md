@@ -80,3 +80,8 @@ Without jitter:
 
 With jitter:
 ![Area light witht jitter](output/arealight_test.png)
+
+**Bonus chapter - Texture mapping**
+
+Spherical mapping:
+![Spherical mapping](output/uvmap_checkeredsphere.png)
