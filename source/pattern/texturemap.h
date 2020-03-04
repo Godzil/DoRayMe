@@ -66,6 +66,11 @@ public:
         v = 1 - phi / M_PI;
     }
 
+    static void planarMap(Tuple point, double &u, double &v) {
+        u = fmod(point.x, 1);
+        v = fmod(point.z, 1);
+    }
+
     Colour patternAt(Tuple point)
     {
         double u,v;
@@ -74,6 +79,9 @@ public:
         default:
         case SPHERICAL_MAP:
             this->sphericalMap(point, u, v);
+            break;
+        case PLANAR_MAP:
+            this->planarMap(point, u, v);
             break;
         }
 

@@ -85,3 +85,6 @@ With jitter:
 
 Spherical mapping:
 ![Spherical mapping](output/uvmap_checkeredsphere.png)
+
+Planar mapping:
+![Planar mapping](output/uvmap_checkeredplane.png)

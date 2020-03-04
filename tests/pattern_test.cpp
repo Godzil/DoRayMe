@@ -352,3 +352,39 @@ TEST(PatternTest, Using_a_texture_map_with_a_spherical_map)
         EXPECT_EQ(ret, testResults[i]);
     }
 }
+
+TEST(PatternTest, Using_a_planar_mapping_on_a_3d_point)
+{
+    Point testList[] = {
+            Point(0.25, 0.0, 0.5),
+            Point(0.25, 0.0, -0.25),
+            Point(0.25, 0.5, -0.25),
+            Point(1.25, 0.0,  0.5),
+            Point(0.25, 0.0, -1.75),
+            Point(1.00, 0.0, -1.0),
+            Point(0.00, 0.0, 0.0),
+    };
+
+    double testResults[][2] {
+            {0.25, 0.50},
+            {0.25, 0.75},
+            {0.25, 0.75},
+            {0.25, 0.50},
+            {0.25, 0.25},
+            {0.00, 0.00},
+            {0.00, 0.00},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(PLANAR_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.planarMap(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
