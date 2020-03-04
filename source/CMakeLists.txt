@@ -31,10 +31,10 @@ endif()
 
 
 # The main executable
-add_executable(dorayme main.cpp)
+#add_executable(dorayme main.cpp)
 
-add_dependencies(dorayme LuaCore)
-target_link_libraries(dorayme rayonnement ${LUA_LIBRARIES})
+#add_dependencies(dorayme LuaCore)
+#target_link_libraries(dorayme rayonnement ${LUA_LIBRARIES})
 
 
 if (COVERALLS)

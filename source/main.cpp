@@ -22,7 +22,7 @@ static int l_sin (lua_State *L) {
     lua_pushnumber(L, sin(d));  /* push result */
     return 1;  /* number of results */
 }
-
+#if 0
 int main(int argc, char *argv[])
 {
     char buff[256];
@@ -49,3 +49,4 @@ int main(int argc, char *argv[])
     lua_close(L);
     return 0;
 }
+#endif
