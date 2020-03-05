@@ -19,6 +19,7 @@ enum TextureMapType
     SPHERICAL_MAP,
     PLANAR_MAP,
     CYLINDRICAL_MAP,
+    CUBIC_MAP
 };
 
 class TextureMap : public Pattern
@@ -26,6 +27,7 @@ class TextureMap : public Pattern
 private:
     TextureMapType type;
     UVPattern *pattern;
+    UVPattern *frontPat, *leftPat, *rightPat, *backPat, *upPat, *downPat;
 public:
     TextureMap(TextureMapType type, UVPattern *pattern) : Pattern(Colour(0, 0, 0), Colour(0, 0, 0)),
                                                           type(type), pattern(pattern) { };
@@ -80,25 +82,112 @@ public:
         v = modulo(point.y, 1.0);
     }
 
+    enum CubeFaces {
+        CUBE_LEFT,
+        CUBE_RIGHT,
+        CUBE_FRONT,
+        CUBE_BACK,
+        CUBE_UP,
+        CUBE_DOWN,
+    };
+
+    static CubeFaces faceFromPoint(Tuple point) {
+        double abs_x = fabs(point.x);
+        double abs_y = fabs(point.y);
+        double abs_z = fabs(point.z);
+
+        double coord = max3(abs_x, abs_y, abs_z);
+
+        if (coord == point.x) { return CUBE_RIGHT; }
+        if (coord == -point.x) { return CUBE_LEFT; }
+        if (coord == point.y) { return CUBE_UP; }
+        if (coord == -point.y) { return CUBE_DOWN; }
+        if (coord == point.z) { return CUBE_FRONT; }
+
+        return CUBE_BACK;
+    }
+
+    static void cubeUBFront(Tuple point, double &u, double &v) {
+        u = modulo(point.x + 1, 2.0) / 2.0;
+        v = modulo(point.y + 1, 2.0) / 2.0;
+    }
+
+    static void cubeUBBack(Tuple point, double &u, double &v) {
+        u = modulo(1 - point.x, 2.0) / 2.0;
+        v = modulo(point.y + 1, 2.0) / 2.0;
+    }
+
+    static void cubeUBLeft(Tuple point, double &u, double &v) {
+        u = modulo(point.z + 1, 2.0) / 2.0;
+        v = modulo(point.y + 1, 2.0) / 2.0;
+    }
+
+    static void cubeUBRight(Tuple point, double &u, double &v) {
+        u = modulo(1 - point.z, 2.0) / 2.0;
+        v = modulo(point.y + 1, 2.0) / 2.0;
+    }
+
+    static void cubeUBUp(Tuple point, double &u, double &v) {
+        u = modulo(point.x + 1, 2.0) / 2.0;
+        v = modulo(1 - point.z, 2.0) / 2.0;
+    }
+
+    static void cubeUBDown(Tuple point, double &u, double &v) {
+        u = modulo(point.x + 1, 2.0) / 2.0;
+        v = modulo(point.z + 1, 2.0) / 2.0;
+    }
+
+    void setCubePattern(UVPattern *front, UVPattern *left, UVPattern *right,
+                        UVPattern *back, UVPattern *up, UVPattern *down)
+    {
+        this->frontPat = front;
+        this->leftPat = left;
+        this->rightPat = right;
+        this->backPat = back;
+        this->upPat = up;
+        this->downPat = down;
+    }
+
     Colour patternAt(Tuple point)
     {
         double u,v;
-        switch(this->type)
+        if (this->type == CUBIC_MAP)
         {
-        default:
-        case SPHERICAL_MAP:
-            this->sphericalMap(point, u, v);
-            break;
-        case PLANAR_MAP:
-            this->planarMap(point, u, v);
-            break;
+            CubeFaces face = this->faceFromPoint(point);
+            UVPattern *facePat;
+            double u, v;
+            switch(face)
+            {
+            default:
+            case CUBE_LEFT:  facePat = this->leftPat;  this->cubeUBLeft(point, u, v);  break;
+            case CUBE_RIGHT: facePat = this->rightPat; this->cubeUBRight(point, u, v); break;
+            case CUBE_FRONT: facePat = this->frontPat; this->cubeUBFront(point, u, v); break;
+            case CUBE_BACK:  facePat = this->backPat;  this->cubeUBBack(point, u, v);  break;
+            case CUBE_UP:    facePat = this->upPat;    this->cubeUBUp(point, u, v);    break;
+            case CUBE_DOWN:  facePat = this->downPat;  this->cubeUBDown(point, u, v);  break;
+            }
 
-        case CYLINDRICAL_MAP:
-            this->cylindricalMap(point, u, v);
-            break;
+            return facePat->uvPatternAt(u, v);
         }
+        else
+        {
+            switch (this->type)
+            {
+            default:
+            case SPHERICAL_MAP:
+                this->sphericalMap(point, u, v);
+                break;
+            case PLANAR_MAP:
+                this->planarMap(point, u, v);
+                break;
 
-        return this->pattern->uvPatternAt(u, v);
+            case CYLINDRICAL_MAP:
+                this->cylindricalMap(point, u, v);
+                break;
+            }
+
+            return this->pattern->uvPatternAt(u, v);
+        }
     }
 
     void dumpMe(FILE *fp) {

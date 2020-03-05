@@ -83,6 +83,9 @@ target_sources(uvmap_checkeredplane PRIVATE uvmap_checkeredplane.cpp)
 add_executable(uvmap_checkeredcylinder)
 target_sources(uvmap_checkeredcylinder PRIVATE uvmap_checkeredcylinder.cpp)
 
+add_executable(uvmap_checkeredcube)
+target_sources(uvmap_checkeredcube PRIVATE uvmap_checkeredcube.cpp)
+
 add_executable(uvmap_aligncheckplane)
 target_sources(uvmap_aligncheckplane PRIVATE uvmap_aligncheckplane.cpp)
 
@@ -103,6 +106,7 @@ add_test(NAME UVMap_CheckeredSphere COMMAND $<TARGET_FILE:uvmap_checkeredsphere>
 add_test(NAME UVMap_CheckeredPlane COMMAND $<TARGET_FILE:uvmap_checkeredplane>)
 add_test(NAME UVMap_CheckeredCylinder COMMAND $<TARGET_FILE:uvmap_checkeredcylinder>)
 add_test(NAME UVMap_AlignCheckPlane COMMAND $<TARGET_FILE:uvmap_aligncheckplane>)
+add_test(NAME UVMap_CheckeredCube COMMAND $<TARGET_FILE:uvmap_checkeredcube>)
 add_test(NAME Test_Rendering COMMAND $<TARGET_FILE:test_render>)
 add_test(NAME Triangle_RenderTest COMMAND $<TARGET_FILE:triangle_rendertest>)
 add_test(NAME ChristmasBall_Rendering COMMAND $<TARGET_FILE:christmasball_render>)

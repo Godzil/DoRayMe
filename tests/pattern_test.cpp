@@ -467,3 +467,241 @@ TEST(PatternTest, Layout_of_the_align_check_pattern)
         ASSERT_EQ(ret, testResults[i]);
     }
 }
+
+TEST(PatternTest, Identifying_the_face_of_a_cube_from_a_point)
+{
+    Point testList[] = {
+            Point(-1, 0.5, -0.25),
+            Point(1.1, -0.75, 0.8),
+            Point(0.1, 0.6, 0.9),
+            Point(-0.7, 0, -2),
+            Point(0.5, 1, 0.9),
+            Point(-0.2, -1.3, 1.1),
+    };
+
+    TextureMap::CubeFaces testResults[] {
+            TextureMap::CUBE_LEFT,
+            TextureMap::CUBE_RIGHT,
+            TextureMap::CUBE_FRONT,
+            TextureMap::CUBE_BACK,
+            TextureMap::CUBE_UP,
+            TextureMap::CUBE_DOWN,
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        TextureMap::CubeFaces face = tm.faceFromPoint(testList[i]);
+        ASSERT_EQ(face, testResults[i]);
+    }
+}
+
+TEST(PatternTest, UV_mapping_the_front_face_of_a_cube)
+{
+    Point testList[] = {
+            Point(-0.5, 0.5, 1),
+            Point(0.5, -0.5, 1),
+    };
+
+    double testResults[][2] {
+            {0.25, 0.75},
+            {0.75, 0.25},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.cubeUBFront(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, UV_mapping_the_back_face_of_a_cube)
+{
+    Point testList[] = {
+            Point(0.5, 0.5, -1),
+            Point(-0.5, -0.5, -1),
+    };
+
+    double testResults[][2] {
+            {0.25, 0.75},
+            {0.75, 0.25},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.cubeUBBack(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, UV_mapping_the_left_face_of_a_cube)
+{
+    Point testList[] = {
+            Point(-1, 0.5, -0.5),
+            Point(-1, -0.5, 0.5),
+    };
+
+    double testResults[][2] {
+            {0.25, 0.75},
+            {0.75, 0.25},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.cubeUBLeft(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, UV_mapping_the_right_face_of_a_cube)
+{
+    Point testList[] = {
+            Point(1, 0.5, 0.5),
+            Point(1, -0.5, -0.5),
+    };
+
+    double testResults[][2] {
+            {0.25, 0.75},
+            {0.75, 0.25},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.cubeUBRight(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, UV_mapping_the_up_face_of_a_cube)
+{
+    Point testList[] = {
+            Point(-0.5, 1, -0.5),
+            Point(0.5, 1, 0.5),
+    };
+
+    double testResults[][2] {
+            {0.25, 0.75},
+            {0.75, 0.25},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.cubeUBUp(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, UV_mapping_the_down_face_of_a_cube)
+{
+    Point testList[] = {
+            Point(-0.5, -1, 0.5),
+            Point(0.5, -1, -0.5),
+    };
+
+    double testResults[][2] {
+            {0.25, 0.75},
+            {0.75, 0.25},
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+
+    for(i = 0; i < testCount; i++)
+    {
+        double u, v;
+        tm.cubeUBDown(testList[i], u, v);
+        ASSERT_TRUE(double_equal(u, testResults[i][0]));
+        ASSERT_TRUE(double_equal(v, testResults[i][1]));
+    }
+}
+
+TEST(PatternTest, Finding_the_colours_on_a_mapped_cube)
+{
+    Colour red = Colour(1, 0, 0);
+    Colour yellow = Colour(1, 1, 0);
+    Colour brown = Colour(1, 0.5, 0);
+    Colour green = Colour(0, 1, 0);
+    Colour cyan = Colour(0, 1, 1);
+    Colour blue = Colour(0, 0, 1);
+    Colour purple = Colour(1, 0, 1);
+    Colour white = Colour(1, 1, 1);
+
+    UVAlignCheck left = UVAlignCheck(yellow, cyan, red, blue, brown);
+    UVAlignCheck front = UVAlignCheck(cyan, red, yellow, brown, green);
+    UVAlignCheck right = UVAlignCheck(red, yellow, purple, green, white);
+    UVAlignCheck back = UVAlignCheck(green, purple, cyan, white, blue);
+    UVAlignCheck up = UVAlignCheck(brown, cyan, purple, red, yellow);
+    UVAlignCheck down = UVAlignCheck(purple, brown, green, blue, white);
+
+    TextureMap tm = TextureMap(CUBIC_MAP, nullptr);
+    tm.setCubePattern(&front, &left, &right, &back, &up, &down);
+
+    Point testList[] = {
+            Point(-1, 0, 0), Point(-1, 0.9, -0.9), Point(-1, 0.9, 0.9), Point(-1, -0.9, -0.9), Point(-1, -0.9, 0.9), /* left */
+            Point(0, 0, 1), Point(-0.9, 0.9, 1), Point(0.9, 0.9, 1), Point(-0.9, -0.9, 1), Point(0.9, -0.9, 1), /* front */
+            Point(1, 0, 0), Point(1, 0.9, 0.9), Point(1, 0.9, -0.9), Point(1, -0.9, 0.9), Point(1, -0.9, -0.9), /* right */
+            Point(0, 0, -1), Point(0.9, 0.9, -1), Point(-0.9, 0.9, -1), Point(0.9, -0.9, -1), Point(-0.9, -0.9, -1), /* back */
+            Point(0, 1, 0), Point(-0.9, 1, -0.9), Point(0.9, 1, -0.9), Point(-0.9, 1, 0.9), Point(0.9, 1, 0.9), /* up */
+            Point(0, -1, 0), Point(-0.9, -1, 0.9), Point(0.9, -1, 0.9), Point(-0.9, -1, -0.9), Point(0.9, -1, -0.9), /* down */
+    };
+
+    Colour testResults[] {
+            yellow, cyan, red, blue, brown,         /* left  */
+            cyan, red, yellow, brown, green,        /* front */
+            red, yellow, purple, green, white,      /* right */
+            green, purple, cyan, white, blue,       /* back  */
+            brown, cyan, purple, red, yellow,       /* up    */
+            purple, brown, green, blue, white,      /* down  */
+    };
+
+    int testCount = sizeof(testList)/sizeof((testList)[0]);
+    int i;
+
+    for(i = 0; i < testCount; i++)
+    {
+        Colour ret = tm.patternAt(testList[i]);
+        ASSERT_EQ(ret, testResults[i]);
+    }
+
+}
