@@ -76,6 +76,16 @@ if (USE_LUA)
     set(LUA_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}/external/lua/src/liblua.a" -ldl)
 endif()
 
+# NanoJPEG
+file(DOWNLOAD
+     http://svn.emphy.de/nanojpeg/trunk/nanojpeg/nanojpeg.c
+     ${CMAKE_CURRENT_SOURCE_DIR}/external/nanojpeg/nanojpeg.c
+     EXPECTED_HASH MD5=03ce304a71ae0ad1c43663fb386cc233
+)
+add_library(NanoJPEG STATIC)
+set(NANOJPEG_INCLUDE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/external/nanojpeg)
+target_sources(NanoJPEG PRIVATE external/nanojpeg/nanojpeg.c)
+
 # Main app
 add_subdirectory(source)
 
