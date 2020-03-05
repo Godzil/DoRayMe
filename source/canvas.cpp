@@ -9,6 +9,16 @@
 
 #include <canvas.h>
 #include <lodepng.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/* NanoJPEG is a bit interesting to include as a header */
+extern "C" {
+#define _NJ_INCLUDE_HEADER_ONLY
+#include <nanojpeg.c>
+#undef _NJ_INCLUDE_HEADER_ONLY
+}
 
 #define BPP (24)
 #define BytePP (BPP / 8)
@@ -40,6 +50,80 @@ Canvas::Canvas(const Canvas *b)
     memcpy(this->bitmap, b->bitmap, 4 * b->width * b->height);
 }
 
+Canvas::Canvas(const char *imgfile)
+{
+    /* Try to determine the file type in a really lazy way */
+    const char *fileExt = strrchr(imgfile, '.');
+
+    this->bitmap = NULL;
+
+    if (fileExt == NULL)
+    {
+        printf("ERROR: Invalid file name '%s' - Can't determine the file format\n", imgfile);
+    }
+    else if (strncasecmp(fileExt, ".png", sizeof(fileExt)) == 0)
+    {
+        uint32_t ret = lodepng_decode24_file(&this->bitmap, &this->width, &this->height, imgfile);
+        if (ret)
+        {
+            printf("ERROR: %s\n", lodepng_error_text(ret));
+        }
+    }
+    else if ( (strncasecmp(fileExt, ".jpg", sizeof(fileExt)) == 0) || (strncasecmp(fileExt, ".jpeg", sizeof(fileExt)) == 0) )
+    {
+        FILE *fp;
+        char *fileBuff;
+        size_t fileSize;
+
+        fp = fopen(imgfile, "rb");
+
+        if (fp)
+        {
+
+            fseek(fp, 0, SEEK_END);
+            fileSize = ftell(fp);
+            fileBuff = (char *)calloc(fileSize, 1);
+            fseek(fp, 0, SEEK_SET);
+            fileSize = fread(fileBuff, 1, fileSize, fp);
+            fclose(fp);
+
+            njInit();
+            if (!njDecode(fileBuff, fileSize))
+            {
+                this->width = njGetWidth();
+                this->height = njGetHeight();
+                /* Need to do a local copy */
+
+                this->bitmap = (uint8_t *)calloc(1, njGetImageSize());
+                memcpy(this->bitmap, njGetImage(), njGetImageSize());
+            }
+            else
+            {
+                printf("ERROR: Error while decoding the file '%s'\n", imgfile);
+            }
+            free(fileBuff);
+
+            njDone();
+        }
+        else
+        {
+            printf("ERROR: Can't opening the file '%s'.\n", imgfile);
+        }
+    }
+    else
+    {
+        printf("ERROR: File extention '%s' is not a recognized one.\n", fileExt);
+    }
+
+    if (this->bitmap == NULL)
+    {
+        printf("ABORT: Opening image file '%s' failed\n", imgfile);
+        exit(-1);
+    }
+
+    this->stride = BytePP * width;
+}
+
 Canvas::~Canvas()
 {
     if (this->bitmap != nullptr)
@@ -67,11 +151,4 @@ bool Canvas::SaveAsPNG(const char *filename)
     uint32_t ret = lodepng_encode24_file(filename, this->bitmap, this->width, this->height);
 
     return ret == 0;
-}
-
-Canvas::Canvas(const char *pngfile)
-{
-    uint32_t ret = lodepng_decode24_file(&this->bitmap, &this->width, &this->height, pngfile);
-    if(ret){ printf("error %u: %s\n", ret, lodepng_error_text(ret));}
-    printf("%p - %d - %d\n", this->bitmap, this->width, this->height);
 }

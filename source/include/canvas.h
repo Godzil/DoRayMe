@@ -23,7 +23,7 @@ public:
     Canvas(uint32_t width, uint32_t height);
     Canvas(const Canvas *c);
     Canvas(const Canvas &c);
-    Canvas(const char *pngfile);
+    Canvas(const char *imgfile);
 
     ~Canvas();
 
