@@ -6,14 +6,6 @@
  *  Copyright (c) 2020 986-Studio.
  *
  */
-/*
- *  DoRayMe - a quick and dirty Raytracer
- *  Camera unit tests
- *
- *  Created by Manoël Trapier
- *  Copyright (c) 2020 986-Studio.
- *
- */
 #include <math.h>
 #include <math_helper.h>
 #include <ray.h>

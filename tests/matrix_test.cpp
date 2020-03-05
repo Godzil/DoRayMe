@@ -1,6 +1,6 @@
 /*
  *  DoRayMe - a quick and dirty Raytracer
- *  Matric unit tests
+ *  Matrix unit tests
  *
  *  Created by Manoël Trapier
  *  Copyright (c) 2020 986-Studio.

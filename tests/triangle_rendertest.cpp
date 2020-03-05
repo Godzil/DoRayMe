@@ -1,6 +1,6 @@
 /*
  *  DoRayMe - a quick and dirty Raytracer
- *  Render test for reflection in chapter 13.
+ *  Render test for triangle in chapter 15.
  *
  *  Created by Manoël Trapier
  *  Copyright (c) 2020 986-Studio.

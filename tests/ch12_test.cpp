@@ -1,6 +1,6 @@
 /*
  *  DoRayMe - a quick and dirty Raytracer
- *  Render test for reflection in chapter 12.
+ *  Render test for cubes in chapter 12.
  *
  *  Created by Manoël Trapier
  *  Copyright (c) 2020 986-Studio.

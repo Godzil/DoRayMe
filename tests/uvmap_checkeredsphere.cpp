@@ -1,6 +1,6 @@
 /*
  *  DoRayMe - a quick and dirty Raytracer
- *  Render test for chapter 10
+ *  Checkered sphere for bonus chapter UV Mapping
  *
  *  Created by Manoël Trapier
  *  Copyright (c) 2020 986-Studio.
