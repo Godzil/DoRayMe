@@ -23,6 +23,8 @@ public:
     Canvas(uint32_t width, uint32_t height);
     Canvas(const Canvas *c);
     Canvas(const Canvas &c);
+    Canvas(const char *pngfile);
+
     ~Canvas();
 
     void putPixel(uint32_t x, uint32_t y, Tuple c);

@@ -68,3 +68,10 @@ bool Canvas::SaveAsPNG(const char *filename)
 
     return ret == 0;
 }
+
+Canvas::Canvas(const char *pngfile)
+{
+    uint32_t ret = lodepng_decode24_file(&this->bitmap, &this->width, &this->height, pngfile);
+    if(ret){ printf("error %u: %s\n", ret, lodepng_error_text(ret));}
+    printf("%p - %d - %d\n", this->bitmap, this->width, this->height);
+}
