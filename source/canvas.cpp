@@ -61,7 +61,7 @@ Canvas::Canvas(const char *imgfile)
     {
         printf("ERROR: Invalid file name '%s' - Can't determine the file format\n", imgfile);
     }
-    else if (strncasecmp(fileExt, ".png", sizeof(fileExt)) == 0)
+    else if (strncasecmp(fileExt, ".png", strlen(fileExt)) == 0)
     {
         uint32_t ret = lodepng_decode24_file(&this->bitmap, &this->width, &this->height, imgfile);
         if (ret)
@@ -69,7 +69,7 @@ Canvas::Canvas(const char *imgfile)
             printf("ERROR: %s\n", lodepng_error_text(ret));
         }
     }
-    else if ( (strncasecmp(fileExt, ".jpg", sizeof(fileExt)) == 0) || (strncasecmp(fileExt, ".jpeg", sizeof(fileExt)) == 0) )
+    else if ( (strncasecmp(fileExt, ".jpg", strlen(fileExt)) == 0) || (strncasecmp(fileExt, ".jpeg", strlen(fileExt)) == 0) )
     {
         FILE *fp;
         char *fileBuff;
