@@ -91,6 +91,16 @@ target_sources(uvmap_aligncheckplane PRIVATE uvmap_aligncheckplane.cpp)
 
 add_executable(uvmap_earth)
 target_sources(uvmap_earth PRIVATE uvmap_earth.cpp)
+file(DOWNLOAD
+        http://planetpixelemporium.com/download/download.php?earthmap1k.jpg
+        ${CMAKE_SOURCE_DIR}/external/earthmap1k.png
+        EXPECTED_HASH MD5=5f94e9ab9d7f753b2f6185814640f73d
+        )
+add_custom_command(
+        TARGET uvmap_earth POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/external/earthmap1k.png
+        ${CMAKE_CURRENT_BINARY_DIR}/earthmap1k.png)
 
 add_test(NAME Chapter05_Test COMMAND $<TARGET_FILE:ch5_test>)
 add_test(NAME Chapter06_Test COMMAND $<TARGET_FILE:ch6_test>)
