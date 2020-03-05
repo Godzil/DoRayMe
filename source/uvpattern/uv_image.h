@@ -32,8 +32,8 @@ public:
 
     Colour uvPatternAt(double u, double v) {
         v = 1 - v;
-        double x = u * (this->image->width/2.0 - 1);
-        double y = v * (this->image->height/2.0 - 1);
+        double x = u * (this->image->width - 1);
+        double y = v * (this->image->height - 1);
 
         Colour ret = this->image->getPixel(round(x), round(y));
         return ret;
