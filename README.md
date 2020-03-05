@@ -84,16 +84,29 @@ With jitter:
 **Bonus chapter - Texture mapping**
 
 Spherical mapping:
+
 ![Spherical mapping](output/uvmap_checkeredsphere.png)
 
 Planar mapping:
+
 ![Planar mapping](output/uvmap_checkeredplane.png)
 
 Cylindrical mapping:
+
 ![Cylindrical mapping](output/uvmap_checkeredcylinder.png)
 
 Aligncheck plane:
+
 ![Aligncheck plane](output/uvmap_aligncheckplane.png)
 
 Cubical mapping:
+
 ![Cubical mapping](output/uvmap_checkeredcube.png)
+
+Image mapping:
+
+![Image mapping](output/uvmap_earth.png)
+
+Skybox:
+
+![Skybox](output/uvmap_skybox.png)
