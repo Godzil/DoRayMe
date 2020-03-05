@@ -10,7 +10,7 @@ link_libraries(rayonnement)
 set(TESTS_SRC math_test.cpp tuple_test.cpp colour_test.cpp canvas_test.cpp matrix_test.cpp transformation_test.cpp
         ray_test.cpp intersect_test.cpp sphere_test.cpp light_test.cpp material_test.cpp world_test.cpp camera_test.cpp
         shape_test.cpp plane_test.cpp pattern_test.cpp cube_test.cpp cylinder_test.cpp cone_test.cpp group_test.cpp
-        boundingbox_test.cpp triangle_test.cpp sequence_test.cpp)
+        boundingbox_test.cpp triangle_test.cpp sequence_test.cpp objfile_test.cpp)
 
 add_executable(testMyRays)
 target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
@@ -100,6 +100,25 @@ add_custom_command(
         TARGET uvmap_earth POST_BUILD
         COMMAND convert ${CMAKE_SOURCE_DIR}/external/earthmap1k.jpg  ${CMAKE_CURRENT_BINARY_DIR}/earthmap1k.png)
 
+add_executable(uvmap_skybox)
+target_sources(uvmap_skybox PRIVATE uvmap_skybox.cpp)
+file(DOWNLOAD
+        http://www.humus.name/Textures/LancellottiChapel.zip
+        ${CMAKE_SOURCE_DIR}/external/LancellottiChapel.zip
+        EXPECTED_HASH MD5=cd16610b00a4ace6baf1f0aff80f5685
+        )
+add_custom_command(
+        TARGET uvmap_skybox POST_BUILD
+        COMMAND unzip -o ${CMAKE_SOURCE_DIR}/external/LancellottiChapel.zip -d LancellottiChapel
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/external/
+)
+add_custom_command(
+        TARGET uvmap_skybox POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/external/LancellottiChapel/*.jpg
+        ${CMAKE_CURRENT_BINARY_DIR}/
+)
+
 add_test(NAME Chapter05_Test COMMAND $<TARGET_FILE:ch5_test>)
 add_test(NAME Chapter06_Test COMMAND $<TARGET_FILE:ch6_test>)
 add_test(NAME Chapter07_Test COMMAND $<TARGET_FILE:ch7_test>)
@@ -119,6 +138,7 @@ add_test(NAME UVMap_CheckeredCylinder COMMAND $<TARGET_FILE:uvmap_checkeredcylin
 add_test(NAME UVMap_AlignCheckPlane COMMAND $<TARGET_FILE:uvmap_aligncheckplane>)
 add_test(NAME UVMap_CheckeredCube COMMAND $<TARGET_FILE:uvmap_checkeredcube>)
 add_test(NAME UVMap_Earth COMMAND $<TARGET_FILE:uvmap_earth>)
+add_test(NAME UVMap_Skybox COMMAND $<TARGET_FILE:uvmap_skybox>)
 add_test(NAME Test_Rendering COMMAND $<TARGET_FILE:test_render>)
 add_test(NAME Triangle_RenderTest COMMAND $<TARGET_FILE:triangle_rendertest>)
 add_test(NAME ChristmasBall_Rendering COMMAND $<TARGET_FILE:christmasball_render>)

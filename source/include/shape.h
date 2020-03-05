@@ -29,7 +29,7 @@ enum ShapeType
     SHAPE_CONE,
     SHAPE_GROUP,
     SHAPE_TRIANGLE,
-
+    SHAPE_OBJFILE,
 };
 
 /* Base class for all object that can be presented in the world */

@@ -61,6 +61,12 @@ void RenderStats::addTriangle()
     this->triangleCount++;
 };
 
+void RenderStats::addOBJFile()
+{
+#pragma omp atomic
+    this->objfileCount++;
+};
+
 void RenderStats::addPixel()
 {
 #pragma omp atomic

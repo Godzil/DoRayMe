@@ -107,7 +107,7 @@ Canvas::Canvas(const char *imgfile)
         }
         else
         {
-            printf("ERROR: Can't opening the file '%s'.\n", imgfile);
+            printf("ERROR: Can't open/find the file '%s'.\n", imgfile);
         }
     }
     else
