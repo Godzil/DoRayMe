@@ -90,7 +90,7 @@ Intersect Cylinder::localIntersect(Ray r)
     return ret;
 }
 
-Tuple Cylinder::localNormalAt(Tuple point)
+Tuple Cylinder::localNormalAt(Tuple point, Intersection *hit)
 {
     /* Compute the square of the distance from the Y axis */
     double dist = point.x * point.x + point.z * point.z;

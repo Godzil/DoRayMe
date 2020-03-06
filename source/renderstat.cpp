@@ -61,6 +61,12 @@ void RenderStats::addTriangle()
     this->triangleCount++;
 };
 
+void RenderStats::addSmoothTriangle()
+{
+#pragma omp atomic
+    this->smoothTriangleCount++;
+};
+
 void RenderStats::addOBJFile()
 {
 #pragma omp atomic
@@ -154,6 +160,8 @@ void RenderStats::printStats()
     printf("Planes                  : %lld\n", this->planeCount);
     printf("Spheres                 : %lld\n", this->sphereCount);
     printf("Triangles               : %lld\n", this->triangleCount);
+    printf("Smooth Triangles        : %lld\n", this->smoothTriangleCount);
+    printf("OBJ File                : %lld\n", this->objfileCount);
     printf("==================================================\n");
     printf("Pixel rendered          : %lld\n", this->pixelCount);
     printf("Ray casted              : %lld\n", this->rayCount);

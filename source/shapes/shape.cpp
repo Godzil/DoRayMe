@@ -20,6 +20,7 @@ Shape::Shape(ShapeType type)
     this->type = type;
     this->localTransformMatrix = Matrix4().identity();
     this->updateTransform();
+    this->materialSet = false;
 }
 
 Intersect Shape::intersect(Ray r)
@@ -37,11 +38,11 @@ Tuple Shape::normalToWorld(Tuple normalVector)
     return world_normal.normalise();
 };
 
-Tuple Shape::normalAt(Tuple point)
+Tuple Shape::normalAt(Tuple point, Intersection *hit)
 {
     Tuple local_point = this->worldToObject(point);
 
-    Tuple local_normal = this->localNormalAt(local_point);
+    Tuple local_normal = this->localNormalAt(local_point, hit);
 
     Tuple world_normal = this->normalToWorld(local_normal);
 

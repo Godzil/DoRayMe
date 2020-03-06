@@ -27,7 +27,7 @@ private:
 
 protected:
     Intersect localIntersect(Ray r);
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
     BoundingBox bounds;
 

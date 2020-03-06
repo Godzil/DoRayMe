@@ -30,7 +30,7 @@ Intersect Plane::localIntersect(Ray r)
     return ret;
 }
 
-Tuple Plane::localNormalAt(Tuple point)
+Tuple Plane::localNormalAt(Tuple point, Intersection *hit)
 {
     return Vector(0, 1, 0);
 }

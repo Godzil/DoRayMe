@@ -104,7 +104,7 @@ int main()
     bg4.material.shininess = 50;
     w.addObject(&bg4);
 
-    /* Forground balls */
+    /* Foreground balls */
 
     /* Red sphere */
     Sphere redBall = Sphere();

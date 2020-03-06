@@ -19,7 +19,7 @@ Intersect TestShape::localIntersect(Ray r)
     return Intersect();
 }
 
-Tuple TestShape::localNormalAt(Tuple point)
+Tuple TestShape::localNormalAt(Tuple point, Intersection *hit)
 {
      return Vector(point.x, point.y, point.z);
 }

@@ -1,6 +1,6 @@
 /*
  *  DoRayMe - a quick and dirty Raytracer
- *  Cone implementation
+ *  Triangle implementation
  *
  *  Created by Manoël Trapier
  *  Copyright (c) 2020 986-Studio.
@@ -49,12 +49,12 @@ Intersect Triangle::localIntersect(Ray r)
     }
 
     double t = f * this->e2.dot(originCrossE1);
-    ret.add(Intersection(t, this));
+    ret.add(Intersection(t, this, u, v));
 
     return ret;
 }
 
-Tuple Triangle::localNormalAt(Tuple point)
+Tuple Triangle::localNormalAt(Tuple point, Intersection *hit)
 {
     return this->normal;
 }

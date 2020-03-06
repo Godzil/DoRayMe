@@ -30,17 +30,19 @@ enum ShapeType
     SHAPE_GROUP,
     SHAPE_TRIANGLE,
     SHAPE_OBJFILE,
+    SHAPE_SMOOTHTRIANGLE,
 };
 
 /* Base class for all object that can be presented in the world */
 class Shape
 {
-private:
+protected:
     ShapeType type;
     Matrix localTransformMatrix;
+
 protected:
     virtual Intersect localIntersect(Ray r) = 0;
-    virtual Tuple localNormalAt(Tuple point) = 0;
+    virtual Tuple localNormalAt(Tuple point, Intersection *hit) = 0;
 
 public:
     Matrix transformMatrix;
@@ -50,13 +52,14 @@ public:
     Material material;
     bool dropShadow;
     Shape *parent;
+    bool materialSet;
 
 public:
     Shape(ShapeType = SHAPE_NONE);
 
     virtual Intersect intersect(Ray r);
     virtual Intersect intersectOOB(Ray r) { return this->intersect(r); };
-    Tuple normalAt(Tuple point);
+    Tuple normalAt(Tuple point, Intersection *hit = nullptr);
 
     /* Bounding box points are always world value */
     virtual BoundingBox getLocalBounds();

@@ -10,6 +10,7 @@
 #include <intersection.h>
 #include <sphere.h>
 #include <plane.h>
+#include <triangle.h>
 #include <transformation.h>
 #include <gtest/gtest.h>
 
@@ -302,4 +303,13 @@ TEST(IntersectTest, The_Schlick_approximation_with_small_angle_and_n2_gt_n1)
     ASSERT_TRUE(double_equal(reflectance, 0.48873));
 
     set_equal_precision(FLT_EPSILON);
+}
+
+TEST(IntersectTest, An_intersection_can_encapsulage_u_and_v)
+{
+    Triangle s = Triangle(Point(0, 1, 0), Point(-1, 0, 0), Point(1, 0, 0));
+    Intersection i = Intersection(3.5, &s, 0.2, 0.4);
+
+    ASSERT_EQ(i.u, 0.2);
+    ASSERT_EQ(i.v, 0.4);
 }

@@ -80,7 +80,7 @@ int main()
     /* ----------------------------- */
 
     /* Set the camera */
-    Camera camera = Camera(400, 160, 0.7854);
+    Camera camera = Camera(40, 16, 0.7854);
     camera.setTransform(viewTransform(Point(-3, 1, 2.5),
                                       Point(0, 0.5, 0),
                                       Vector(0, 1, 0)));

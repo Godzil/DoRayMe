@@ -16,10 +16,11 @@
 #include <stdio.h>
 
 class Cylinder : public Shape {
-private:
+
+protected:
     Intersect localIntersect(Ray r);
 
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
     bool checkCap(Ray r, double t);
     void intersectCaps(Ray r, Intersect &xs);

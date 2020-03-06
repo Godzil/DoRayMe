@@ -16,7 +16,18 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
     double n2 = 1.0;
 
     Tuple hitP = r.position(this->t);
-    Tuple normalV = this->object->normalAt(hitP);
+    Tuple normalV;
+
+    if (xs != nullptr)
+    {
+        Intersection hit = xs->hit();
+        normalV = this->object->normalAt(hitP, &hit);
+    }
+    else
+    {
+        normalV = this->object->normalAt(hitP, nullptr);
+    }
+
     Tuple eyeV = -r.direction;
     bool inside = false;
 
@@ -70,8 +81,9 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
     }
 
     Shape *s = this->object;
+
     /* For now don't get root group material */
-    //while(s->parent != nullptr) { s = s->parent; }
+    while((!s->materialSet) && (s->parent != nullptr)) { s = s->parent; }
 
     return Computation(this->object,
                        this->t,

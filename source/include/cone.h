@@ -19,7 +19,7 @@ class Cone : public Shape {
 protected:
     Intersect localIntersect(Ray r);
 
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
     bool checkCap(Ray r, double t, double y);
     void intersectCaps(Ray r, Intersect &xs);

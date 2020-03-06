@@ -74,8 +74,10 @@ public:
     double t;
     Shape *object;
 
+    double u, v;
+
 public:
-    Intersection(double t, Shape *object) : t(t), object(object) { stats.addIntersection(); };
+    Intersection(double t, Shape *object, double u = NAN, double v = NAN) : t(t), object(object), u(u), v(v) { stats.addIntersection(); };
     bool nothing() { return (this->object == nullptr); };
 
     Computation prepareComputation(Ray r, Intersect *xs = nullptr);

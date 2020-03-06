@@ -16,12 +16,12 @@
 #include <stdio.h>
 
 class Cube : public Shape {
-private:
+protected:
     void checkAxis(double axeOrigin, double axeDirection, double *axeMin, double *axeMax);
 
     Intersect localIntersect(Ray r);
 
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
     Cube() : Shape(SHAPE_CUBE) { stats.addCube(); };

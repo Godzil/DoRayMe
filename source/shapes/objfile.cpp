@@ -17,6 +17,7 @@
 #include <math_helper.h>
 #include <group.h>
 #include <triangle.h>
+#include <smoothtriangle.h>
 
 #define MIN_ALLOC (2)
 #define DEFAULT_GROUP (0)
@@ -32,6 +33,11 @@ OBJFile::OBJFile() : Shape(SHAPE_OBJFILE), ignoredLines(0)
     this->allocatedVertexCount = MIN_ALLOC;
     this->vertexList = (Point **)calloc(sizeof(Point **), MIN_ALLOC);
     this->vertexCount = 0;
+
+
+    this->allocatedVertexNormalCount = MIN_ALLOC;
+    this->vertexNormalList = (Vector **)calloc(sizeof(Vector **), MIN_ALLOC);
+    this->vertexNormalCount = 0;
 
     /* There is always a default group */
     this->addGroup(new Group());
@@ -89,13 +95,24 @@ void OBJFile::addVertex(Point *vertex)
     this->vertexList[this->vertexCount++] = vertex;
 }
 
+void OBJFile::addVertexNormal(Vector *vertexNormal)
+{
+    if ((this->vertexNormalCount + 1) > this->allocatedVertexNormalCount)
+    {
+        this->allocatedVertexNormalCount *= 2;
+        this->vertexNormalList = (Vector **)realloc(this->vertexNormalList, sizeof(Vector **) * this->allocatedVertexNormalCount);
+    }
+
+    this->vertexNormalList[this->vertexNormalCount++] = vertexNormal;
+}
+
 Intersect OBJFile::intersect(Ray r)
 {
     Intersect ret;
     int i, j;
     if (this->faceGroupCount > 0)
     {
-        //if (this->bounds.intesectMe(r))
+        if (this->bounds.intesectMe(r))
         {
             for (i = 0 ; i < this->faceGroupCount ; i++)
             {
@@ -118,7 +135,7 @@ Intersect OBJFile::localIntersect(Ray r)
     return Intersect();
 }
 
-Tuple OBJFile::localNormalAt(Tuple point)
+Tuple OBJFile::localNormalAt(Tuple point, Intersection *hit)
 {
     return Vector(0, 1, 0);
 }
@@ -262,11 +279,51 @@ void OBJFile::parseLine(char *line, uint32_t currentLine)
     }
 }
 
+static int parseFaceVertex(char *buf, uint32_t &v, uint32_t  &vt, uint32_t  &vn)
+{
+    uint32_t bufPos = 0;
+    uint32_t lineLength = strlen(buf);
+    char *tmp = buf;
+    vt = INT32_MAX;
+    vn = INT32_MAX;
+    int ret = 0;
+    int token = 0;
+
+    while(bufPos < lineLength)
+    {
+        char *next = strchr(buf, '/');
+        if (next != nullptr)
+        {
+            *next = '\0';
+            bufPos = next - buf;
+        }
+        else
+        {
+            bufPos = lineLength;
+        }
+
+        if (strlen(buf) > 0)
+        {
+            switch(token)
+            {
+            case 0:  v = atol(buf); break;
+            case 1:  vt = atol(buf); break;
+            case 2:  vn = atol(buf); break;
+            default: printf("ERROR: Too many entry for a face vertice!"); ret = 1;
+            }
+        }
+        buf = next + 1;
+        token++;
+    }
+
+    return ret;
+}
+
 /* Actually execute the line */
 int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
 {
     int ret = 1;
-    if (strncmp(argv[0], "v", 1) == 0)
+    if (strncmp(argv[0], "v", 2) == 0)
     {
         /* Vertice entry */
         if (argc != 4)
@@ -279,25 +336,71 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
             ret = 0;
         }
     }
-    else if (strncmp(argv[0], "f", 1) == 0)
+    else if (strncmp(argv[0], "vn", 3) == 0)
     {
-        /* Vertice entry */
+        /* Vertice Normal entry */
+        if (argc != 4)
+        {
+            printf("ERROR: Malformed file at line %d: Vertices normal expect 3 parameters!\n", currentLine);
+        }
+        else
+        {
+            this->addVertexNormal(new Vector(atof(argv[1]), atof(argv[2]), atof(argv[3])));
+            ret = 0;
+        }
+    }
+    else if (strncmp(argv[0], "f", 2) == 0)
+    {
+        /* Faces entry */
+        int i;
+        uint32_t v[MAX_ARGS], vt[MAX_ARGS], vn[MAX_ARGS];
+        for(i = 1; i < argc; i++)
+        {
+            parseFaceVertex(argv[i], v[i], vt[i], vn[i]);
+        }
+
         if (argc == 4)
         {
-            Shape *t = new Triangle(this->vertices(atoi(argv[1])),
-                                    this->vertices(atoi(argv[2])),
-                                    this->vertices(atoi(argv[3])));
+            Shape *t;
+            if (vn[1] == INT32_MAX)
+            {
+                t = new Triangle(this->vertices(v[1]),
+                                 this->vertices(v[2]),
+                                 this->vertices(v[3]));
+            }
+            else
+            {
+                t = new SmoothTriangle(this->vertices(v[1]),
+                                       this->vertices(v[2]),
+                                       this->vertices(v[3]),
+                                       this->verticesNormal(vn[1]),
+                                       this->verticesNormal(vn[2]),
+                                       this->verticesNormal(vn[3]));
+            }
             this->faceGroupList[this->faceGroupCount - 1]->addObject(t);
             ret = 0;
         }
         else if (argc > 4)
         {
-            int i;
             for(i = 2; i < (argc - 1); i++)
             {
-                Shape *t = new Triangle(this->vertices(atoi(argv[1])),
-                                        this->vertices(atoi(argv[i])),
-                                        this->vertices(atoi(argv[i+1])));
+
+                Shape *t;
+                if (vn[1] == INT32_MAX)
+                {
+                    t = new Triangle(this->vertices(v[1]),
+                                     this->vertices(v[i]),
+                                     this->vertices(v[i + 1]));
+                }
+                else
+                {
+                    t = new SmoothTriangle(this->vertices(v[1]),
+                                           this->vertices(v[i]),
+                                           this->vertices(v[i + 1]),
+                                           this->verticesNormal(vn[1]),
+                                           this->verticesNormal(vn[i]),
+                                           this->verticesNormal(vn[i + 1]));
+                }
                 this->faceGroupList[this->faceGroupCount - 1]->addObject(t);
             }
             ret = 0;
@@ -307,7 +410,7 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
             printf("ERROR: Malformed file at line %d: Too few/many parameters!\n", currentLine);
         }
     }
-    else if (strncmp(argv[0], "g", 1) == 0)
+    else if (strncmp(argv[0], "g", 2) == 0)
     {
         if (argc == 2)
         {

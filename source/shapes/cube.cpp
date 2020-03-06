@@ -59,7 +59,7 @@ Intersect Cube::localIntersect(Ray r)
     return ret;
 }
 
-Tuple Cube::localNormalAt(Tuple point)
+Tuple Cube::localNormalAt(Tuple point, Intersection *hit)
 {
     double maxC = max3(fabs(point.x), fabs(point.y), fabs(point.z));
 

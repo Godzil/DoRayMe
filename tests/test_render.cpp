@@ -119,7 +119,7 @@ int main()
     /* ----------------------------- */
 
     /* Set the camera */
-    Camera camera = Camera(1280, 900, deg_to_rad(90));
+    Camera camera = Camera(40, 10, deg_to_rad(90));
     camera.setTransform(viewTransform(Point(-2, 2.5, -3.5),
                                       Point(2, 0, 3),
                                       Vector(0, 1, 0)));

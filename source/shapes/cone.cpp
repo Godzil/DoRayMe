@@ -99,7 +99,7 @@ Intersect Cone::localIntersect(Ray r)
     return ret;
 }
 
-Tuple Cone::localNormalAt(Tuple point)
+Tuple Cone::localNormalAt(Tuple point, Intersection *hit)
 {
     /* Compute the square of the distance from the Y axis */
     double dist = point.x * point.x + point.z * point.z;

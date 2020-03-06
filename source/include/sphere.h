@@ -19,7 +19,7 @@ class Sphere : public Shape
 {
 protected:
     Intersect localIntersect(Ray r);
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
     Sphere() : Shape(SHAPE_SPHERE) { stats.addSphere(); };

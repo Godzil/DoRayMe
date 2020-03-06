@@ -14,8 +14,9 @@
 
 class Triangle : public Shape
 {
+protected:
     Intersect localIntersect(Ray r);
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
     Tuple p1, p2, p3;

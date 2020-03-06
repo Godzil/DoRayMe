@@ -35,7 +35,7 @@ Intersect Sphere::localIntersect(Ray r)
     return ret;
 }
 
-Tuple Sphere::localNormalAt(Tuple point)
+Tuple Sphere::localNormalAt(Tuple point, Intersection *hit)
 {
     return (point - Point(0, 0, 0)).normalise();
 }

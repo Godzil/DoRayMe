@@ -17,7 +17,7 @@ class TestShape : public Shape
 {
 private:
     Intersect localIntersect(Ray r);
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
     Ray localRay;

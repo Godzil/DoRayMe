@@ -6,9 +6,12 @@ DoRayMe
 A Quick and dirty raytracer.
 
 
-This raytracer is made following the book "[The Ray Tracer Challenge](https://pragprog.com/book/jbtracer/the-ray-tracer-challenge)" by Jamis Buck.
+This raytracer is made following the book 
+"[The Ray Tracer Challenge](https://pragprog.com/book/jbtracer/the-ray-tracer-challenge)" by Jamis Buck.
 
-It is writen in C++ with no STL and use [LodePNG](https://github.com/lvandeve/lodepng) to output PNG file.
+It is writen in C++ with no STL and use [LodePNG](https://github.com/lvandeve/lodepng) to output PNG file and use them 
+as texture, also use [NanoJPEG](https://keyj.emphy.de/nanojpeg/) to use jpeg file as texture, and can use use 
+[Lua 5.3](https://www.lua.org/) for 3D pattern definition and more to come on the Lua side later..
 
 
 Examples outputs
@@ -65,6 +68,8 @@ Bonus:
 **From Chapter 14 - Groups & Bounding boxes:**
 ![Chapter 14 rendering test](output/ch14_test.png)
 
+**From Chapter 15 - Triangles, Wavefrom OBJ files - Smooth trianges:**
+![Chapter 15 Triangles and teapots](output/ch15_teapot_objfile.png)
 
 **Bonus (from the forum):**
 

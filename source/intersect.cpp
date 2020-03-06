@@ -60,7 +60,7 @@ void Intersect::add(Intersection i)
         this->list = (Intersection **)realloc(this->list, sizeof(Intersection *) * this->allocated);
     }
 
-    this->list[this->num++] = new Intersection(i.t, i.object);
+    this->list[this->num++] = new Intersection(i.t, i.object, i.u, i.v);
 
     stats.setMaxIntersect(this->num);
 

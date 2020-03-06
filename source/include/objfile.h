@@ -26,9 +26,13 @@ private:
     Point* *vertexList;
     uint32_t vertexCount;
 
+    uint32_t allocatedVertexNormalCount;
+    Vector* *vertexNormalList;
+    uint32_t vertexNormalCount;
+
 private:
     Intersect localIntersect(Ray r);
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
     /* Some stats */
@@ -37,6 +41,7 @@ public:
 protected:
     void addGroup(Group *group);
     void addVertex(Point *vertex);
+    void addVertexNormal(Vector *vertexNormal);
 
     void parseLine(char *line, uint32_t currentLine);
     int execLine(int argc, char *argv[], uint32_t currentLine);
@@ -50,6 +55,7 @@ public:
 
     /* OBJ file expect the first vertice to be 1 and not 0 */
     Point vertices(uint32_t i) { return *this->vertexList[i - 1]; };
+    Vector verticesNormal(uint32_t i) { return *this->vertexNormalList[i - 1]; };
     Group *groups(uint32_t i) { return this->faceGroupList[i];  };
     Intersect intersect(Ray r);
     BoundingBox getLocalBounds();

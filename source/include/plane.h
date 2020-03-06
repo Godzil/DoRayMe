@@ -13,9 +13,9 @@
 
 class Plane : public Shape
 {
-private:
+protected:
     Intersect localIntersect(Ray r);
-    Tuple localNormalAt(Tuple point);
+    Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
     Plane() : Shape(SHAPE_PLANE) { stats.addPlane(); };

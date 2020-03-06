@@ -72,7 +72,7 @@ Intersect Group::localIntersect(Ray r)
     return Intersect();
 }
 
-Tuple Group::localNormalAt(Tuple point)
+Tuple Group::localNormalAt(Tuple point, Intersection *hit)
 {
     return Vector(1, 0, 0);
 }
