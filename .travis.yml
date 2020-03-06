@@ -19,7 +19,8 @@ script:
   - cmake ..
   - make
   - make test
-  - ./tests/testMyRays
+  - cd tests
+  - ./testMyRays
 
 jobs:
   include:
