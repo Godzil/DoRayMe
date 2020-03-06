@@ -17,10 +17,17 @@ target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest
 target_sources(testMyRays PRIVATE ${TESTS_SRC})
 target_link_libraries(testMyRays gtest gtest_main Threads::Threads)
 
+add_custom_command(
+        TARGET testMyRays POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/triangles.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/
+)
+
 gtest_discover_tests(testMyRays
    WORKING_DIRECTORY ${PROJECT_DIR}
    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_DIR}"
-   )
+)
 
 
 add_executable(hw3render)
@@ -64,6 +71,15 @@ target_sources(ch13_cone PRIVATE ch13_cone.cpp)
 
 add_executable(ch14_test)
 target_sources(ch14_test PRIVATE ch14_test.cpp)
+
+add_executable(ch15_teapot_objfile)
+target_sources(ch15_teapot_objfile PRIVATE ch15_teapot_objfile.cpp)
+add_custom_command(
+        TARGET ch15_teapot_objfile POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/external/teapot*.obj
+        ${CMAKE_CURRENT_BINARY_DIR}/
+)
 
 add_executable(arealight_test)
 target_sources(arealight_test PRIVATE arealight_test.cpp)

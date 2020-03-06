@@ -9,20 +9,22 @@
 #ifndef DORAYME_OBJFILE_H
 #define DORAYME_OBJFILE_H
 
+#include <stdint.h>
+#include <tuple.h>
 #include <shape.h>
+#include <group.h>
 #include <renderstat.h>
 
 class OBJFile : public Shape
 {
 private:
     uint32_t allocatedFaceGroupCount;
-    Shape* *faceGroupList;
+    Group* *faceGroupList;
     uint32_t faceGroupCount;
 
     uint32_t allocatedVertexCount;
-    Tuple* *vertexList;
+    Point* *vertexList;
     uint32_t vertexCount;
-
 
 private:
     Intersect localIntersect(Ray r);
@@ -33,11 +35,11 @@ public:
     uint32_t ignoredLines;
 
 protected:
-    void addGroup(Shape *group);
-    void addVertex(Tuple *vertex);
+    void addGroup(Group *group);
+    void addVertex(Point *vertex);
 
-    void parseLine(char *line);
-    int execLine(int argc, char *argv[]);
+    void parseLine(char *line, uint32_t currentLine);
+    int execLine(int argc, char *argv[], uint32_t currentLine);
     BoundingBox bounds;
 
 public:
@@ -46,7 +48,9 @@ public:
 
     int parseOBJFile(const char *content);
 
-
+    /* OBJ file expect the first vertice to be 1 and not 0 */
+    Point vertices(uint32_t i) { return *this->vertexList[i - 1]; };
+    Group *groups(uint32_t i) { return this->faceGroupList[i];  };
     Intersect intersect(Ray r);
     BoundingBox getLocalBounds();
     BoundingBox getBounds();
