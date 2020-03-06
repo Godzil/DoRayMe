@@ -63,9 +63,9 @@ BoundingBox Triangle::getLocalBounds()
 {
     BoundingBox ret;
 
-    ret | this->objectToWorld(p1);
-    ret | this->objectToWorld(p2);
-    ret | this->objectToWorld(p3);
+    ret | p1;
+    ret | p2;
+    ret | p3;
 
     return ret;
 }
