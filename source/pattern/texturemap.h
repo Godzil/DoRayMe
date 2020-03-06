@@ -153,18 +153,17 @@ public:
         double u,v;
         if (this->type == CUBIC_MAP)
         {
-            CubeFaces face = this->faceFromPoint(point);
+            CubeFaces face = TextureMap::faceFromPoint(point);
             UVPattern *facePat;
-            double u, v;
             switch(face)
             {
             default:
-            case CUBE_LEFT:  facePat = this->leftPat;  this->cubeUBLeft(point, u, v);  break;
-            case CUBE_RIGHT: facePat = this->rightPat; this->cubeUBRight(point, u, v); break;
-            case CUBE_FRONT: facePat = this->frontPat; this->cubeUBFront(point, u, v); break;
-            case CUBE_BACK:  facePat = this->backPat;  this->cubeUBBack(point, u, v);  break;
-            case CUBE_UP:    facePat = this->upPat;    this->cubeUBUp(point, u, v);    break;
-            case CUBE_DOWN:  facePat = this->downPat;  this->cubeUBDown(point, u, v);  break;
+            case CUBE_LEFT:  facePat = this->leftPat;  TextureMap::cubeUBLeft(point, u, v);  break;
+            case CUBE_RIGHT: facePat = this->rightPat; TextureMap::cubeUBRight(point, u, v); break;
+            case CUBE_FRONT: facePat = this->frontPat; TextureMap::cubeUBFront(point, u, v); break;
+            case CUBE_BACK:  facePat = this->backPat;  TextureMap::cubeUBBack(point, u, v);  break;
+            case CUBE_UP:    facePat = this->upPat;    TextureMap::cubeUBUp(point, u, v);    break;
+            case CUBE_DOWN:  facePat = this->downPat;  TextureMap::cubeUBDown(point, u, v);  break;
             }
 
             return facePat->uvPatternAt(u, v);
