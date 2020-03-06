@@ -59,7 +59,7 @@ TEST(CylinderTest, A_ray_hit_a_cylinder)
     double t0s[] = { 5, 4, 6.80798 };
     double t1s[] = { 5, 6, 7.08872 };
 
-    int i, j;
+    int i;
     for(i = 0; i < 3; i++)
     {
         Tuple direction = Directions[i].normalise();

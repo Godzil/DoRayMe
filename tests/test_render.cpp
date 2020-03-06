@@ -54,7 +54,7 @@ int main()
     Plane p4 = Plane();
     p3.setTransform(translation(6, 0, 0) * rotationZ(M_PI/2) );
     p3.material.pattern = new CheckersPattern(Colour(1, 1, 1), Colour(0.1, 0.1, 0.1));
-    w.addObject(&p3);
+    w.addObject(&p4);
 
     Plane p5 = Plane();
     p5.material.pattern = new CheckersPattern(Colour(1, 1, 1), Colour(0.1, 0.1, 0.1));

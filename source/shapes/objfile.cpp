@@ -299,7 +299,6 @@ static int parseFaceVertex(char *buf, uint32_t &v, uint32_t  &vt, uint32_t  &vn)
 {
     uint32_t bufPos = 0;
     uint32_t lineLength = strlen(buf);
-    char *tmp = buf;
     vt = INT32_MAX;
     vn = INT32_MAX;
     int ret = 0;

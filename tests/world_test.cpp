@@ -44,7 +44,7 @@ TEST(WorldTest, The_default_world)
     ASSERT_TRUE(w.lightIsIn(l));
     ASSERT_TRUE(w.objectIsIn(s1));
     ASSERT_TRUE(w.objectIsIn(s2));
-};
+}
 
 TEST(WorldTest, Intersect_a_world_with_a_ray)
 {
@@ -169,7 +169,7 @@ TEST(WorldTest, Shade_hit_is_given_an_intersection_in_shadow)
     Tuple c = w.shadeHit(comps);
 
     ASSERT_EQ(c, Colour(0.1, 0.1, 0.1));
-};
+}
 
 TEST(WorldTest, The_reflected_colour_for_a_non_reflective_material)
 {

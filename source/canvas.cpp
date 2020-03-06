@@ -132,12 +132,12 @@ Canvas::~Canvas()
     }
 }
 
-void Canvas::putPixel(uint32_t x, uint32_t y, Tuple colour)
+void Canvas::putPixel(uint32_t x, uint32_t y, Tuple c)
 {
     uint32_t offset = y * this->stride + x * BytePP;
-    this->bitmap[offset + 0] = MAX(MIN(colour.x * 255, 255), 0);
-    this->bitmap[offset + 1] = MAX(MIN(colour.y * 255, 255), 0);
-    this->bitmap[offset + 2] = MAX(MIN(colour.z * 255, 255), 0);
+    this->bitmap[offset + 0] = MAX(MIN(c.x * 255, 255), 0);
+    this->bitmap[offset + 1] = MAX(MIN(c.y * 255, 255), 0);
+    this->bitmap[offset + 2] = MAX(MIN(c.z * 255, 255), 0);
 }
 
 Colour Canvas::getPixel(uint32_t x, uint32_t y)

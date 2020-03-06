@@ -31,7 +31,7 @@ int main()
     Light light = Light(POINT_LIGHT, Point(0, 100, 0), Colour(1, 1, 1));
     w.addLight(&light);
 
-    Sphere sp = Sphere();;
+    Sphere sp = Sphere();
     sp.setTransform(translation(0, 0, 5) * scaling(0.75, 0.75, 0.75));
     sp.material.diffuse = 0.4;
     sp.material.specular = 0.6;

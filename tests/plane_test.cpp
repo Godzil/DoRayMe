@@ -73,7 +73,6 @@ TEST(PlaneTest, A_ray_intersecting_a_plane_from_below)
 TEST(PlaneTest, The_bounding_box_of_a_plane)
 {
     Plane t = Plane();
-    BoundingBox b = BoundingBox(Point(-8, -5, -8), Point(8, 8, 8));
     BoundingBox res = t.getBounds();
 
     ASSERT_FALSE(res.min.isRepresentable());

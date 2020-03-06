@@ -18,11 +18,11 @@ Group::Group() : Shape(SHAPE_GROUP)
 {
     stats.addGroup();
     this->allocatedObjectCount = MIN_ALLOC;
-    this->objectList = (Shape **)calloc(sizeof(Shape *), MIN_ALLOC);
+    this->objectList = (Shape **)calloc(sizeof(Shape **), MIN_ALLOC);
     this->objectCount = 0;
 
     this->allocatedUnboxableObjectCount = MIN_ALLOC;
-    this->unboxableObjectList = (Shape **)calloc(sizeof(Shape *), MIN_ALLOC);
+    this->unboxableObjectList = (Shape **)calloc(sizeof(Shape **), MIN_ALLOC);
     this->unboxableObjectCount = 0;
 
 }

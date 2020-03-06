@@ -40,6 +40,11 @@ Intersect CSG::localIntersect(Ray r)
     return ret;
 }
 
+Intersect CSG::intersect(Ray r)
+{
+    return localIntersect(r);
+}
+
 Tuple CSG::localNormalAt(Tuple point, Intersection *hit)
 {
     return Vector(1, 0, 0);

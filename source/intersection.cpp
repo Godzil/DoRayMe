@@ -45,7 +45,7 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
     if ((xs != nullptr)  && (xs->hit().object->material.transparency > 0))
     {
         List containers;
-        int j, k;
+        int j;
 
         for (j = 0 ; j < xs->count() ; j++)
         {

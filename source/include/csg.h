@@ -42,6 +42,8 @@ protected:
 public:
     CSG(OperationType operation, Shape *left, Shape *right);
 
+    Intersect intersect(Ray r);
+
     bool includes(Shape *b);
 
     void updateTransform();

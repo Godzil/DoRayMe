@@ -41,7 +41,6 @@ double Light::intensityAt(World &w, Tuple point)
             }
         }
         return total / this->samples;
-        break;
     }
 }
 
