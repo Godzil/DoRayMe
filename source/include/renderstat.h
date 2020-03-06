@@ -24,6 +24,7 @@ private:
     uint64_t triangleCount;              /* Total number of triangle        */
     uint64_t smoothTriangleCount;        /* Total number of smooth triangle */
     uint64_t objfileCount;               /* Total number of OBJ File        */
+    uint64_t csgCount;                   /* Total number of CSG             */
 
     uint64_t pixelCount;                 /* Total number of rendered pixels */
     uint64_t rayCount;                   /* Total number of rays */
@@ -42,7 +43,7 @@ public:
     RenderStats() : coneCount(0), cylinderCount(0), cubeCount(0), groupCount(0), lightCount(0), planeCount(0), sphereCount(0), triangleCount(0),
                     pixelCount(0), rayCount(0), lightRayEmitedCount(0), reflectionRayCount(0), refractedRayCount(0),
                     intersectCount(0), intersectionCount(0), reallocCallCount(0), mallocCallCount(0), smoothTriangleCount(0),
-                    discardedIntersectCount(0), maxDepthAttained(UINT64_MAX), maxIntersectOnARay(0), objfileCount(0) {};
+                    discardedIntersectCount(0), maxDepthAttained(UINT64_MAX), maxIntersectOnARay(0), objfileCount(0), csgCount(0) {};
 #ifdef RENDER_STATS
     void addCone();
     void addCylinder();
@@ -51,6 +52,7 @@ public:
     void addLight();
     void addPlane();
     void addSphere();
+    void addCsg();
     void addOBJFile();
     void addTriangle();
     void addSmoothTriangle();
@@ -90,7 +92,8 @@ public:
     static void addMalloc() {};
     static void addRealloc() {};
     static void setMaxIntersect(uint32_t count) {};
-    static void void RenderStats::addOBJFile() {};
+    static void addOBJFile() {};
+    static void addCsg() {};
 #endif
 };
 

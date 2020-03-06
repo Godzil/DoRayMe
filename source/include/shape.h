@@ -31,6 +31,7 @@ enum ShapeType
     SHAPE_TRIANGLE,
     SHAPE_OBJFILE,
     SHAPE_SMOOTHTRIANGLE,
+    SHAPE_CSG,
 };
 
 /* Base class for all object that can be presented in the world */
@@ -58,7 +59,6 @@ public:
     Shape(ShapeType = SHAPE_NONE);
 
     virtual Intersect intersect(Ray r);
-    virtual Intersect intersectOOB(Ray r) { return this->intersect(r); };
     Tuple normalAt(Tuple point, Intersection *hit = nullptr);
 
     /* Bounding box points are always world value */
@@ -68,6 +68,8 @@ public:
 
     virtual void updateTransform();
 
+    virtual bool includes(Shape *b) { return this == b; };
+
     virtual void dumpMe(FILE *fp);
 
     Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };
@@ -75,9 +77,9 @@ public:
     Tuple normalToWorld(Tuple normalVector);
 
     void setTransform(Matrix transform);
-    void setMaterial(Material material) { this->material = material; };
-    Ray transform(Ray r) {  return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
-    Ray invTransform(Ray r) {  return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
+    void setMaterial(Material material) { this->material = material; this->materialSet = true; };
+    Ray transform(Ray r) { return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
+    Ray invTransform(Ray r) { return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
 
     bool operator==(const Shape &b) const { return this->material == b.material &&
                                                    this->type == b.type &&

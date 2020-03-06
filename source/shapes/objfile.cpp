@@ -130,6 +130,22 @@ Intersect OBJFile::intersect(Ray r)
     return ret;
 }
 
+bool OBJFile::includes(Shape *b)
+{
+    int i;
+    if (this->faceGroupCount > 0)
+    {
+        for (i = 0 ; i < this->faceGroupCount ; i++)
+        {
+            if (this->faceGroupList[i] == b)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 Intersect OBJFile::localIntersect(Ray r)
 {
     return Intersect();

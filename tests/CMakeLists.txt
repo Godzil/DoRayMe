@@ -10,7 +10,7 @@ link_libraries(rayonnement)
 set(TESTS_SRC math_test.cpp tuple_test.cpp colour_test.cpp canvas_test.cpp matrix_test.cpp transformation_test.cpp
         ray_test.cpp intersect_test.cpp sphere_test.cpp light_test.cpp material_test.cpp world_test.cpp camera_test.cpp
         shape_test.cpp plane_test.cpp pattern_test.cpp cube_test.cpp cylinder_test.cpp cone_test.cpp group_test.cpp
-        boundingbox_test.cpp triangle_test.cpp sequence_test.cpp objfile_test.cpp smoothtriangle_test.cpp)
+        boundingbox_test.cpp triangle_test.cpp sequence_test.cpp objfile_test.cpp smoothtriangle_test.cpp csg_test.cpp)
 
 add_executable(testMyRays)
 target_include_directories(testMyRays PUBLIC ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
@@ -81,6 +81,9 @@ add_custom_command(
         ${CMAKE_CURRENT_BINARY_DIR}/
 )
 
+add_executable(ch16_test)
+target_sources(ch16_test PRIVATE ch16_test.cpp)
+
 add_executable(arealight_test)
 target_sources(arealight_test PRIVATE arealight_test.cpp)
 
@@ -148,6 +151,7 @@ add_test(NAME Chapter13_Test COMMAND $<TARGET_FILE:ch13_test>)
 add_test(NAME Chapter13_ConeBonus COMMAND $<TARGET_FILE:ch13_cone>)
 add_test(NAME Chapter14_Test COMMAND $<TARGET_FILE:ch14_test>)
 add_test(NAME Chapter15_Teapots COMMAND $<TARGET_FILE:ch15_teapot_objfile>)
+add_test(NAME Chapter16_Test COMMAND $<TARGET_FILE:ch16_test>)
 add_test(NAME AreaLight_Test COMMAND $<TARGET_FILE:arealight_test>)
 add_test(NAME UVMap_CheckeredSphere COMMAND $<TARGET_FILE:uvmap_checkeredsphere>)
 add_test(NAME UVMap_CheckeredPlane COMMAND $<TARGET_FILE:uvmap_checkeredplane>)

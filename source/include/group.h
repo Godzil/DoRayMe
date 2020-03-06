@@ -44,6 +44,8 @@ public:
     void updateBoundingBox();
     void updateTransform();
 
+    bool includes(Shape *b);
+
     Group();
 
     void dumpMe(FILE * fp);

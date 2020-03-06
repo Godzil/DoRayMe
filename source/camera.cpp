@@ -62,9 +62,9 @@ Canvas Camera::render(World world, uint32_t depth)
     uint32_t x, y;
     Canvas image = Canvas(this->horizontalSize, this->verticalSize);
 
-#pragma omp parallel private(x, y) shared(image, stats)
+    #pragma omp parallel default(shared) private(x, y) shared(image, stats)
     {
-#pragma omp for
+        #pragma omp for schedule(dynamic, 5)
         for (y = 0 ; y < this->verticalSize ; y++)
         {
             for (x = 0 ; x < this->horizontalSize ; x++)

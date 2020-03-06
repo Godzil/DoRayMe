@@ -133,6 +133,13 @@ void RenderStats::addDiscardedIntersect()
     this->discardedIntersectCount++;
 };
 
+void RenderStats::addCsg()
+{
+#pragma omp atomic
+    this->csgCount++;
+};
+
+
 void RenderStats::setMaxDepth(uint32_t depth)
 {
     if (this->maxDepthAttained > depth)
@@ -162,6 +169,7 @@ void RenderStats::printStats()
     printf("Triangles               : %lld\n", this->triangleCount);
     printf("Smooth Triangles        : %lld\n", this->smoothTriangleCount);
     printf("OBJ File                : %lld\n", this->objfileCount);
+    printf("CSG                     : %lld\n", this->csgCount);
     printf("==================================================\n");
     printf("Pixel rendered          : %lld\n", this->pixelCount);
     printf("Ray casted              : %lld\n", this->rayCount);

@@ -67,6 +67,35 @@ Intersect Group::intersect(Ray r)
     return ret;
 }
 
+bool Group::includes(Shape *b)
+{
+    if (this->objectCount > 0)
+    {
+        int i;
+        for (i = 0 ; i < this->objectCount ; i++)
+        {
+            if (this->objectList[i] == b)
+            {
+                return true;
+            }
+        }
+    }
+
+    /* We are force to do them all the time */
+    if (this->unboxableObjectCount > 0)
+    {
+        int i;
+        for(i = 0; i < this->unboxableObjectCount; i++)
+        {
+            if (this->unboxableObjectList[i] == b)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 Intersect Group::localIntersect(Ray r)
 {
     return Intersect();

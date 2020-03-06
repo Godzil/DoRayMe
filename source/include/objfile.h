@@ -61,6 +61,8 @@ public:
     BoundingBox getLocalBounds();
     BoundingBox getBounds();
 
+    bool includes(Shape *b);
+
     void updateBoundingBox();
     void updateTransform();
 
