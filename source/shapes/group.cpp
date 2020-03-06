@@ -157,7 +157,6 @@ void Group::updateTransform()
         }
     }
 
-    /* We are force to do them all the time */
     if (this->unboxableObjectCount > 0)
     {
         for(i = 0; i < this->unboxableObjectCount; i++)

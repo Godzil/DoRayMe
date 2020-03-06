@@ -36,6 +36,8 @@ protected:
     void addGroup(Shape *group);
     void addVertex(Tuple *vertex);
 
+    void parseLine(char *line);
+    int execLine(int argc, char *argv[]);
     BoundingBox bounds;
 
 public:
@@ -44,8 +46,15 @@ public:
 
     int parseOBJFile(const char *content);
 
+
+    Intersect intersect(Ray r);
     BoundingBox getLocalBounds();
-    bool haveFiniteBounds() { return true; };
+    BoundingBox getBounds();
+
+    void updateBoundingBox();
+    void updateTransform();
+
+    void dumpMe(FILE * fp);
 };
 
 #endif /* DORAYME_OBJFILE_H */

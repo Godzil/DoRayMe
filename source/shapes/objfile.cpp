@@ -88,17 +88,83 @@ void OBJFile::addVertex(Tuple *vertex)
     this->vertexList[this->vertexCount++] = vertex;
 }
 
+Intersect OBJFile::intersect(Ray r)
+{
+    Intersect ret;
+    int i, j;
+    if (this->faceGroupCount > 0)
+    {
+        if (this->bounds.intesectMe(r))
+        {
+            for (i = 0 ; i < this->faceGroupCount ; i++)
+            {
+                Intersect xs = this->faceGroupList[i]->intersect(r);
+                if (xs.count() > 0)
+                {
+                    for (j = 0 ; j < xs.count() ; j++)
+                    {
+                        ret.add(xs[j]);
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 Intersect OBJFile::localIntersect(Ray r)
 {
-
+    return Intersect();
 }
 
 Tuple OBJFile::localNormalAt(Tuple point)
 {
-
+    return Vector(0, 1, 0);
 }
 
 BoundingBox OBJFile::getLocalBounds()
+{
+    return this->bounds;
+}
+
+BoundingBox OBJFile::getBounds()
+{
+    if (this->bounds.isEmpty()) { this->updateBoundingBox(); }
+    return this->bounds;
+}
+
+void OBJFile::updateBoundingBox()
+{
+    int i;
+    this->bounds.reset();
+
+    for(i = 0; i < this->faceGroupCount; i++)
+    {
+        if (this->faceGroupList[i]->haveFiniteBounds())
+        {
+            BoundingBox objB = this->faceGroupList[i]->getBounds();
+            this->bounds | objB;
+        }
+    }
+}
+
+void OBJFile::updateTransform()
+{
+    int i;
+
+    Shape::updateTransform();
+    for (i = 0 ; i < this->faceGroupCount ; i++)
+    {
+        this->faceGroupList[i]->updateTransform();
+    }
+
+    /* Once the full stack being notified of the changes, let's update the
+     * bounding box
+     */
+    this->updateBoundingBox();
+}
+
+void OBJFile::dumpMe(FILE * fp)
 {
 
 }
@@ -129,17 +195,59 @@ int OBJFile::parseOBJFile(const char *content)
         }
         if (lineLength >= MAX_LINE_LENGTH)
         {
-            printf("ERROR: Line %d is too long! (%d)\n", currentLineNum);
+            printf("ERROR: Line %d is too long! (%d)\n", currentLineNum, lineLength);
+            return -1;
         }
         memset(lineBuff, 0, MAX_LINE_LENGTH);
         strncpy(lineBuff, bufferPos, lineLength);
 
-        printf("line %d = %s\n", currentLineNum, lineBuff);
+        this->parseLine(lineBuff);
 
         bufferPos += lineLength + 1;
         currentLineNum++;
     }
+    return 0;
+}
 
+#define MAX_ARGS (15)
 
+/* Parse the line into a couple ofr argc/argv using space as argument separator */
+void OBJFile::parseLine(char *line)
+{
+    char *argv[MAX_ARGS];
+    uint32_t argc = 0;
 
+    char *buffer = line;
+    uint32_t lineLength = strlen(line);
+    uint32_t linePos = 0;
+
+    /* First argument */
+    argv[argc++] = line;
+
+    while(linePos < lineLength)
+    {
+        char *next = strchr(buffer, ' ');
+        if (next != nullptr)
+        {
+            *next = '\0';
+            linePos = next - line;
+            buffer = next + 1;
+            argv[argc++] = buffer;
+        }
+        else
+        {
+            linePos = lineLength;
+        }
+    }
+
+    if (this->execLine(argc, argv))
+    {
+        this->ignoredLines++;
+    }
+}
+
+/* Actually execute the line */
+int OBJFile::execLine(int argc, char *argv[])
+{
+    return 1;
 }
