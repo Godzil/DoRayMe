@@ -22,7 +22,7 @@ extern "C" {
 
 #define MIN_ALLOC (2)
 
-World::World() : lightCount(0)
+World::World() : lightCount(0), worldGroup("World")
 {
     this->allocatedLightCount = MIN_ALLOC;
     this->lightList = (Light **)calloc(sizeof(Light *), MIN_ALLOC);
