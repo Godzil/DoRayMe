@@ -26,22 +26,48 @@ OBJFile::OBJFile() : Shape(Shape::OBJFILE), ignoredLines(0)
 {
     stats.addOBJFile();
 
-    this->allocatedFaceGroupCount = MIN_ALLOC;
-    this->faceGroupList = (Group **)calloc(sizeof(Group **), MIN_ALLOC);
-    this->faceGroupCount = 0;
-
     this->allocatedVertexCount = MIN_ALLOC;
     this->vertexList = (Point **)calloc(sizeof(Point **), MIN_ALLOC);
     this->vertexCount = 0;
-
 
     this->allocatedVertexNormalCount = MIN_ALLOC;
     this->vertexNormalList = (Vector **)calloc(sizeof(Vector **), MIN_ALLOC);
     this->vertexNormalCount = 0;
 
-    /* There is always a default group */
-    this->addGroup(new Group());
+    /* The base group */
+    this->baseGroup = new Group(OBJ_DEFAULT_GROUP);
+    this->currentGroup = this->baseGroup;
 };
+
+OBJFile::~OBJFile()
+{
+    int i;
+    if (vertexCount > 0)
+    {
+        for(i = 0; i < vertexCount; i++)
+        {
+            delete this->vertexList[i];
+            this->vertexList[i] = nullptr;
+        }
+    }
+    free(this->vertexList);
+    this->vertexList = nullptr;
+
+    if (vertexNormalCount > 0)
+    {
+        for(i = 0; i < vertexNormalCount; i++)
+        {
+            delete this->vertexNormalList[i];
+            this->vertexNormalList[i] = nullptr;
+        }
+    }
+    free(this->vertexNormalList);
+    this->vertexNormalList = nullptr;
+
+    /* It is not our responsibility to clear the group object as this object may be destroyed before the
+     * render is done
+     */
+}
 
 OBJFile::OBJFile(const char *filepath) : OBJFile()
 {
@@ -71,18 +97,13 @@ OBJFile::OBJFile(const char *filepath) : OBJFile()
 
 void OBJFile::addGroup(Group *group)
 {
-    if ((this->faceGroupCount + 1) > this->allocatedFaceGroupCount)
-    {
-        this->allocatedFaceGroupCount *= 2;
-        this->faceGroupList = (Group **)realloc(this->faceGroupList, sizeof(Group **) * this->allocatedFaceGroupCount);
-    }
+    this->baseGroup->addObject(group);
 
     group->parent = this;
     group->updateTransform();
-
-    this->faceGroupList[this->faceGroupCount++] = group;
-
     this->bounds | group->getBounds();
+
+    this->currentGroup = group;
 }
 
 void OBJFile::addVertex(Point *vertex)
@@ -107,44 +128,40 @@ void OBJFile::addVertexNormal(Vector *vertexNormal)
     this->vertexNormalList[this->vertexNormalCount++] = vertexNormal;
 }
 
-Intersect OBJFile::intersect(Ray r)
+Group *OBJFile::groups(const char *groupName)
 {
-    Intersect ret;
-    int i, j;
-    if (this->faceGroupCount > 0)
+    if (strncmp(groupName, this->baseGroup->getName(), strlen(groupName)) == 0)
     {
-        if (this->bounds.intesectMe(r))
+        return this->baseGroup;
+    }
+
+    int i;
+    for(i = 0; i < this->baseGroup->getObjectCount(); i++)
+    {
+        Shape *cur = (*this->baseGroup)[i];
+
+        if (cur->getType() == Shape::GROUP)
         {
-            for (i = 0 ; i < this->faceGroupCount ; i++)
+            Group *curGrp = (Group *)cur;
+            if (strncmp(groupName, curGrp->getName(), strlen(groupName)) == 0)
             {
-                Intersect xs = this->faceGroupList[i]->intersect(r);
-                if (xs.count() > 0)
-                {
-                    for (j = 0 ; j < xs.count() ; j++)
-                    {
-                        ret.add(xs[j]);
-                    }
-                }
+                return curGrp;
             }
         }
     }
-    return ret;
+
+    /* Not found */
+    return nullptr;
+}
+
+Intersect OBJFile::intersect(Ray r)
+{
+    return this->baseGroup->intersect(r);
 }
 
 bool OBJFile::includes(Shape *b)
 {
-    int i;
-    if (this->faceGroupCount > 0)
-    {
-        for (i = 0 ; i < this->faceGroupCount ; i++)
-        {
-            if (this->faceGroupList[i] == b)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
+    return this->baseGroup->includes(b);
 }
 
 Intersect OBJFile::localIntersect(Ray r)
@@ -173,14 +190,7 @@ void OBJFile::updateBoundingBox()
     int i;
     this->bounds.reset();
 
-    for(i = 0; i < this->faceGroupCount; i++)
-    {
-        if (this->faceGroupList[i]->haveFiniteBounds())
-        {
-            BoundingBox objB = this->faceGroupList[i]->getBounds();
-            this->bounds | objB;
-        }
-    }
+    this->bounds | this->baseGroup->getBounds();
 }
 
 void OBJFile::updateTransform()
@@ -188,10 +198,8 @@ void OBJFile::updateTransform()
     int i;
 
     Shape::updateTransform();
-    for (i = 0 ; i < this->faceGroupCount ; i++)
-    {
-        this->faceGroupList[i]->updateTransform();
-    }
+
+    this->baseGroup->updateTransform();
 
     /* Once the full stack being notified of the changes, let's update the
      * bounding box
@@ -204,12 +212,7 @@ void OBJFile::dumpMe(FILE * fp)
     int i;
     fprintf(fp, "\"Type\": \"OBJFile\",\n");
     fprintf(fp, "\"Objects\": {\n");
-    for(i = 0; i < this->faceGroupCount; i++)
-    {
-        fprintf(fp, "\"%d\": {\n", i);
-        this->faceGroupList[i]->dumpMe(fp);
-        fprintf(fp, "},\n");
-    }
+    this->baseGroup->dumpMe(fp);
     fprintf(fp, "},\n");
 
     Shape::dumpMe(fp);
@@ -399,7 +402,7 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
                                        this->verticesNormal(vn[2]),
                                        this->verticesNormal(vn[3]));
             }
-            this->faceGroupList[this->faceGroupCount - 1]->addObject(t);
+            this->currentGroup->addObject(t);
             ret = 0;
         }
         else if (argc > 4)
@@ -423,7 +426,7 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
                                            this->verticesNormal(vn[i]),
                                            this->verticesNormal(vn[i + 1]));
                 }
-                this->faceGroupList[this->faceGroupCount - 1]->addObject(t);
+                this->currentGroup->addObject(t);
             }
             ret = 0;
         }
@@ -436,7 +439,7 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
     {
         if (argc == 2)
         {
-            this->addGroup(new Group());
+            this->addGroup(new Group(argv[1]));
         }
         else
         {

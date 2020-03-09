@@ -18,9 +18,9 @@
 class OBJFile : public Shape
 {
 private:
-    uint32_t allocatedFaceGroupCount;
-    Group* *faceGroupList;
-    uint32_t faceGroupCount;
+    Group *baseGroup;
+
+    Group *currentGroup;
 
     uint32_t allocatedVertexCount;
     Point* *vertexList;
@@ -51,15 +51,19 @@ public:
     OBJFile();
     OBJFile(const char *filepath);
 
+    ~OBJFile();
+
     int parseOBJFile(const char *content);
 
     /* OBJ file expect the first vertice to be 1 and not 0 */
     Point vertices(uint32_t i) { return *this->vertexList[i - 1]; };
     Vector verticesNormal(uint32_t i) { return *this->vertexNormalList[i - 1]; };
-    Group *groups(uint32_t i) { return this->faceGroupList[i];  };
+    Group *groups(const char *groupName);
     Intersect intersect(Ray r);
     BoundingBox getLocalBounds();
     BoundingBox getBounds();
+
+    Shape *getBaseGroup() { return this->baseGroup; };
 
     bool includes(Shape *b);
 
@@ -68,5 +72,7 @@ public:
 
     void dumpMe(FILE * fp);
 };
+
+#define OBJ_DEFAULT_GROUP "_DefaultObjGroup_"
 
 #endif /* DORAYME_OBJFILE_H */

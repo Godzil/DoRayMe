@@ -55,7 +55,7 @@ TEST(OBJFileTest, Parsing_triangle_faces)
     OBJFile parser = OBJFile();
     parser.parseOBJFile(file);
 
-    Group *g0 = parser.groups(0);
+    Group *g0 = parser.groups(OBJ_DEFAULT_GROUP);
 
     Triangle *t1 = (Triangle *)(*g0)[0];
     Triangle *t2 = (Triangle *)(*g0)[1];
@@ -82,7 +82,7 @@ TEST(OBJFileTest, Triangulating_polygons)
     OBJFile parser = OBJFile();
     parser.parseOBJFile(file);
 
-    Group *g0 = parser.groups(0);
+    Group *g0 = parser.groups(OBJ_DEFAULT_GROUP);
 
     Triangle *t1 = (Triangle *)(*g0)[0];
     Triangle *t2 = (Triangle *)(*g0)[1];
@@ -105,9 +105,12 @@ TEST(OBJFileTest, Triangle_in_groups)
 {
     OBJFile parser = OBJFile("triangles.obj");
 
-    /* TODO: Add group name search/test */
-    Group *g1 = parser.groups(1);
-    Group *g2 = parser.groups(2);
+    Group *g1 = parser.groups("FirstGroup");
+    Group *g2 = parser.groups("SecondGroup");
+
+    /* The groups must exists */
+    ASSERT_NE(g1, nullptr);
+    ASSERT_NE(g2, nullptr);
 
     Triangle *t1 = (Triangle *)(*g1)[0];
     Triangle *t2 = (Triangle *)(*g2)[0];
@@ -151,7 +154,7 @@ TEST(OBJFileTest, Faces_with_normal)
     OBJFile parser = OBJFile();
     parser.parseOBJFile(file);
 
-    Group *g0 = parser.groups(0);
+    Group *g0 = parser.groups(OBJ_DEFAULT_GROUP);
 
     SmoothTriangle *t1 = (SmoothTriangle *)(*g0)[0];
     SmoothTriangle *t2 = (SmoothTriangle *)(*g0)[1];
