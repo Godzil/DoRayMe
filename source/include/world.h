@@ -15,6 +15,7 @@
 #include <intersect.h>
 #include <ray.h>
 #include <stdio.h>
+#include <group.h>
 
 #ifdef ENABLE_LUA_SUPPORT
 extern "C" {
@@ -25,15 +26,13 @@ extern "C" {
 class World
 {
 public:
-    uint32_t objectCount;
     uint32_t lightCount;
 
 private:
-    uint32_t allocatedObjectCount;
     uint32_t allocatedLightCount;
-
     Light* *lightList;
-    Shape* *objectList;
+
+    Group worldGroup;
 
 #ifdef ENABLE_LUA_SUPPORT
     lua_State *L;
@@ -50,8 +49,11 @@ public:
     bool lightIsIn(Light &l);
     bool objectIsIn(Shape &s);
 
-    Shape *getObject(int i) { return this->objectList[i]; };
+    Shape *getObject(int i) { return this->worldGroup[i]; };
     Light *getLight(int i) { return this->lightList[i]; };
+
+    uint32_t getObjectCount() { return this->worldGroup.getObjectCount(); };
+    uint32_t getLightCount() { return this->lightCount; };
 
     Tuple shadeHit(Computation comps, uint32_t depthCount = 4);
     Tuple colourAt(Ray r, uint32_t depthCount = 4);

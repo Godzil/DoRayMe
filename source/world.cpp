@@ -22,15 +22,11 @@ extern "C" {
 
 #define MIN_ALLOC (2)
 
-World::World() : objectCount(0), lightCount(0)
+World::World() : lightCount(0)
 {
     this->allocatedLightCount = MIN_ALLOC;
     this->lightList = (Light **)calloc(sizeof(Light *), MIN_ALLOC);
     this->lightCount = 0;
-
-    this->allocatedObjectCount = MIN_ALLOC;
-    this->objectList = (Shape **)calloc(sizeof(Shape *), MIN_ALLOC);
-    this->objectCount = 0;
 
 #ifdef ENABLE_LUA_SUPPORT
     this->L = luaL_newstate();   /* opens Lua */
@@ -45,12 +41,10 @@ World::~World()
 
 void World::addObject(Shape *s)
 {
-    if ((this->objectCount + 1) > this->allocatedObjectCount)
-    {
-        this->allocatedObjectCount *= 2;
-        this->objectList = (Shape **)realloc(this->objectList, sizeof(Shape **) * this->allocatedObjectCount);
-    }
-    this->objectList[this->objectCount++] = s;
+    /* Cheaty but need to be done for now */
+    s->materialSet = true;
+
+    this->worldGroup.addObject(s);
 }
 
 void World::addLight(Light *l)
@@ -78,33 +72,12 @@ bool World::lightIsIn(Light &l)
 
 bool World::objectIsIn(Shape &s)
 {
-    int i;
-    for(i = 0; i < this->objectCount; i++)
-    {
-        if (*this->objectList[i] == s)
-        {
-            return true;
-        }
-    }
-    return false;
+    return this->worldGroup.includes(&s);
 }
 
 Intersect World::intersect(Ray r)
 {
-    Intersect ret;
-    int i, j;
-
-    for(i = 0; i < this->objectCount; i++)
-    {
-        Intersect xs = this->objectList[i]->intersect(r);
-
-        for(j = 0; j < xs.count(); j++)
-        {
-            ret.add(xs[j]);
-        }
-    }
-
-    return ret;
+    return this->worldGroup.intersect(r);
 }
 
 Tuple World::shadeHit(Computation comps, uint32_t depthCount)
@@ -230,12 +203,7 @@ void World::dumpMe(FILE *fp)
     fprintf(fp, "},\n");
 
     fprintf(fp, "\"Objects\": {\n");
-    for(i = 0; i < this->objectCount; i++)
-    {
-        fprintf(fp, "\"%d\": {\n", i);
-        this->objectList[i]->dumpMe(fp);
-        fprintf(fp, "},\n");
-    }
+    this->worldGroup.dumpMe(fp);
     fprintf(fp, "},\n");
 
     /* JSON Closing */

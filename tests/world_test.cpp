@@ -22,8 +22,8 @@ TEST(WorldTest, Creating_a_world)
 {
     World w;
 
-    ASSERT_EQ(w.lightCount, 0);
-    ASSERT_EQ(w.objectCount, 0);
+    ASSERT_EQ(w.getLightCount(), 0);
+    ASSERT_EQ(w.getObjectCount(), 0);
 }
 
 TEST(WorldTest, The_default_world)
@@ -41,9 +41,12 @@ TEST(WorldTest, The_default_world)
 
     s2.setTransform(scaling(0.5, 0.5,0.5));
 
+    Shape *obj0 = w.getObject(0);
+    Shape *obj1 = w.getObject(1);
+
     ASSERT_TRUE(w.lightIsIn(l));
-    ASSERT_TRUE(w.objectIsIn(s1));
-    ASSERT_TRUE(w.objectIsIn(s2));
+    ASSERT_EQ(*obj0, s1);
+    ASSERT_EQ(*obj1, s2);
 }
 
 TEST(WorldTest, Intersect_a_world_with_a_ray)

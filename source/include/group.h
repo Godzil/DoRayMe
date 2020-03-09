@@ -46,6 +46,8 @@ public:
 
     bool includes(Shape *b);
 
+    uint32_t getObjectCount() { return this->objectCount + this->unboxableObjectCount; };
+
     Group();
 
     void dumpMe(FILE * fp);
