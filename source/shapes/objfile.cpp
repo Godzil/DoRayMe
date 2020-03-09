@@ -53,7 +53,8 @@ OBJFile::OBJFile(const char *filepath) : OBJFile()
     {
         fseek(fp, 0, SEEK_END);
         fileSize = ftell(fp);
-        fileBuff = (char *)calloc(fileSize, 1);
+        /* Add one byte to the size to make sure it is null terminated */
+        fileBuff = (char *)calloc(fileSize + 1, 1);
         fseek(fp, 0, SEEK_SET);
         fileSize = fread(fileBuff, 1, fileSize, fp);
         fclose(fp);
@@ -221,7 +222,7 @@ int OBJFile::parseOBJFile(const char *content)
     /* I don't think we will handle lines of more than 512 characters... */
     char lineBuff[MAX_LINE_LENGTH];
     uint32_t currentLineNum = 1;
-
+    uint32_t totalLength = strlen(content);
     /* Need to process line by line */
     const char *bufferPos = content;
     const char *lineNewline;
@@ -249,6 +250,12 @@ int OBJFile::parseOBJFile(const char *content)
         this->parseLine(lineBuff, currentLineNum);
 
         bufferPos += lineLength + 1;
+
+        if ((bufferPos - content) >= totalLength)
+        {
+            /* We are past the length of the buffer, don't need to continue */
+            break;
+        }
         currentLineNum++;
     }
     return 0;
