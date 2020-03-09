@@ -23,6 +23,8 @@ protected:
 
 public:
     SmoothTriangle(Point p1, Point p2, Point p3, Vector n1, Vector n2, Vector n3);
+
+    void dumpMe(FILE *fp);
 };
 
 #endif /* DORAYME_SMOOTHTRIANGLE_H */

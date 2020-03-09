@@ -26,3 +26,17 @@ Tuple SmoothTriangle::localNormalAt(Tuple point, Intersection *hit)
             this->n3 * hit->v +
             this->n1 * (1 - hit->u - hit->v)).normalise();
 }
+
+void SmoothTriangle::dumpMe(FILE *fp)
+{
+    Tuple t = this->n1;
+    fprintf(fp, "\"n1\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->n2;
+    fprintf(fp, "\"n2\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->n3;
+    fprintf(fp, "\"n3\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    Triangle::dumpMe(fp);
+}

@@ -36,44 +36,56 @@ int main()
     /* ----------------------------- */
 
     /* Floor */
-    Plane p = Plane();
+    Material planesMaterial = Material();
     CheckersPattern checkered = CheckersPattern(Colour(0.35, 0.35, 0.35), Colour(0.4, 0.4, 0.4));
-    p.material.pattern = &checkered;
-    p.material.ambient = 1;
-    p.material.diffuse = 0;
-    p.material.specular = 0;
+    planesMaterial.pattern = &checkered;
+    planesMaterial.ambient = 1;
+    planesMaterial.diffuse = 0;
+    planesMaterial.specular = 0;
+
+
+    Plane p = Plane();
+    p.setMaterial(planesMaterial);
     p.material.reflective = 0.1;
     w.addObject(&p);
 
     Plane p2 = Plane();
     p2.setTransform(translation(0, 0, -10) * rotationX(M_PI/2));
-    p2.material.pattern = &checkered;
-    p2.material.ambient = 1;
-    p2.material.diffuse = 0;
-    p2.material.specular = 0;
+    p2.setMaterial(planesMaterial);
     w.addObject(&p2);
+
+    Material lowPoly = Material();
+    lowPoly.colour = Colour(1, 0.3, 0.2);
+    lowPoly.shininess = 5;
+    lowPoly.specular = 0.4;
 
     OBJFile teapot = OBJFile("teapot-low.obj");
     teapot.setTransform(translation(7, 0, 3) * rotationY(M_PI*23/22) * rotationX(-M_PI/2) * scaling(0.3, 0.3, 0.3));
-    teapot.material.colour = Colour(1, 0.3, 0.2);
-    teapot.material.shininess = 5;
-    teapot.material.specular = 0.4;
-    w.addObject(&teapot);
+    teapot.setMaterial(lowPoly);
+    w.addObject(teapot.getBaseGroup());
+
+    FILE *fpOut = fopen("lowpoly_teapot.json", "wt");
+    if (fpOut)
+    {
+        teapot.dumpMe(fpOut);
+        fclose(fpOut);
+    }
 
     OBJFile teapot2 = OBJFile("teapot-lowtri.obj");
     teapot2.setTransform(translation(-7, 0, 3) * rotationY(-M_PI*46/22) * rotationX(-M_PI/2) * scaling(0.3, 0.3, 0.3));
-    teapot2.material.colour = Colour(1, 0.3, 0.2);
-    teapot2.material.shininess = 5;
-    teapot2.material.specular = 0.4;
-    w.addObject(&teapot2);
+    teapot2.setMaterial(lowPoly);;
+    w.addObject(teapot2.getBaseGroup());
+
+    Material highPoly = Material();
+    highPoly.colour = Colour(0.3, 1, 0.2);
+    highPoly.shininess = 5;
+    highPoly.specular = 0.4;
+    highPoly.reflective = 0.5;
 
     OBJFile teapot3= OBJFile("teapot.obj");
     teapot3.setTransform(translation(0, 0, -5) * rotationY(-M_PI) * rotationX(-M_PI/2) * scaling(0.4, 0.4, 0.4));
-    teapot3.material.colour = Colour(0.3, 1, 0.2);
-    teapot3.material.shininess = 5;
-    teapot3.material.specular = 0.4;
-    teapot3.material.reflective = 0.5;
-    w.addObject(&teapot3);
+    teapot3.setMaterial(highPoly);
+    w.addObject(teapot3.getBaseGroup());
 
     /* ----------------------------- */
 

@@ -91,9 +91,12 @@ BoundingBox Shape::getBounds()
 
 void Shape::dumpMe(FILE *fp)
 {
-    fprintf(fp, "\"Material\": {\n");
-    this->material.dumpMe(fp);
-    fprintf(fp, "},\n");
+    if (this->materialSet)
+    {
+        fprintf(fp, "\"Material\": {\n");
+        this->material.dumpMe(fp);
+        fprintf(fp, "},\n");
+    }
     fprintf(fp, "\"DropShadow\": %d,\n", this->dropShadow);
     fprintf(fp, "\"BoundingBox\": {\n");
     this->getBounds().dumpMe(fp);

@@ -214,7 +214,20 @@ void OBJFile::dumpMe(FILE * fp)
     fprintf(fp, "\"Objects\": {\n");
     this->baseGroup->dumpMe(fp);
     fprintf(fp, "},\n");
-
+    fprintf(fp, "\"Vertices\": {\n");
+    for(i = 1; i < this->vertexCount + 1; i++)
+    {
+        fprintf(fp, "\"v[%d]\": { \"x\": %f, \"y\": %f, \"z\": %f },\n", i,
+                    this->vertices(i).x, this->vertices(i).y, this->vertices(i).z);
+    }
+    fprintf(fp, "},\n");
+    fprintf(fp, "\"NormalVertices\": {\n");
+    for(i = 1; i < this->vertexNormalCount + 1; i++)
+    {
+        fprintf(fp, "\"vn[%d]\": { \"x\": %f, \"y\": %f, \"z\": %f },\n", i,
+                this->verticesNormal(i).x, this->verticesNormal(i).y, this->verticesNormal(i).z);
+    }
+    fprintf(fp, "},\n");
     Shape::dumpMe(fp);
 }
 

@@ -73,6 +73,8 @@ BoundingBox Triangle::getLocalBounds()
 void Triangle::dumpMe(FILE *fp)
 {
     fprintf(fp, "\"Type\": \"Triangle\",\n");
+
+    /* World points*/
     Tuple t = this->transformMatrix * this->p1;
     fprintf(fp, "\"p1\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
             t.x, t.y, t.z);
@@ -81,6 +83,17 @@ void Triangle::dumpMe(FILE *fp)
             t.x, t.y, t.z);
     t = this->transformMatrix * this->p3;
     fprintf(fp, "\"p3\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+
+    /* Local points */
+    t = this->p1;
+    fprintf(fp, "\"lp1\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->p2;
+    fprintf(fp, "\"lp2\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
+            t.x, t.y, t.z);
+    t = this->p3;
+    fprintf(fp, "\"lp3\": { \"x\": %f, \"y\": %f, \"z\": %f}, \n",
             t.x, t.y, t.z);
     Shape::dumpMe(fp);
 }
