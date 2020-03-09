@@ -19,24 +19,25 @@ class Shape;
 #include <material.h>
 #include <boundingbox.h>
 
-enum ShapeType
-{
-    SHAPE_NONE,
-    SHAPE_SPHERE,
-    SHAPE_PLANE,
-    SHAPE_CUBE,
-    SHAPE_CYLINDER,
-    SHAPE_CONE,
-    SHAPE_GROUP,
-    SHAPE_TRIANGLE,
-    SHAPE_OBJFILE,
-    SHAPE_SMOOTHTRIANGLE,
-    SHAPE_CSG,
-};
-
 /* Base class for all object that can be presented in the world */
 class Shape
 {
+public:
+    enum ShapeType
+    {
+        NONE,
+        SPHERE,
+        PLANE,
+        CUBE,
+        CYLINDER,
+        CONE,
+        GROUP,
+        TRIANGLE,
+        OBJFILE,
+        SMOOTHTRIANGLE,
+        CSG,
+    };
+
 protected:
     ShapeType type;
     Matrix localTransformMatrix;
@@ -56,7 +57,9 @@ public:
     bool materialSet;
 
 public:
-    Shape(ShapeType = SHAPE_NONE);
+    Shape(ShapeType = Shape::NONE);
+
+    ShapeType getType() { return this->type; };
 
     virtual Intersect intersect(Ray r);
     Tuple normalAt(Tuple point, Intersection *hit = nullptr);

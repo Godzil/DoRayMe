@@ -16,7 +16,7 @@
 SmoothTriangle::SmoothTriangle(Point p1, Point p2, Point p3, Vector n1, Vector n2, Vector n3) : Triangle(p1, p2, p3),
                                                                                                 n1(n1), n2(n2), n3(n3)
 {
-    this->type = SHAPE_SMOOTHTRIANGLE;
+    this->type = Shape::SMOOTHTRIANGLE;
     stats.addSmoothTriangle();
 }
 

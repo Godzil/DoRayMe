@@ -14,7 +14,7 @@
 
 #define MIN_ALLOC (2)
 
-Group::Group() : Shape(SHAPE_GROUP)
+Group::Group(const char *name) : Shape(Shape::GROUP)
 {
     stats.addGroup();
     this->allocatedObjectCount = MIN_ALLOC;

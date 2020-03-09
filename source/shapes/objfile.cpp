@@ -22,7 +22,7 @@
 #define MIN_ALLOC (2)
 #define DEFAULT_GROUP (0)
 
-OBJFile::OBJFile() : Shape(SHAPE_OBJFILE), ignoredLines(0)
+OBJFile::OBJFile() : Shape(Shape::OBJFILE), ignoredLines(0)
 {
     stats.addOBJFile();
 

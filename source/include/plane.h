@@ -18,7 +18,7 @@ protected:
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
-    Plane() : Shape(SHAPE_PLANE) { stats.addPlane(); };
+    Plane() : Shape(Shape::PLANE) { stats.addPlane(); };
     BoundingBox getLocalBounds();
     bool haveFiniteBounds() { return false; };
 };

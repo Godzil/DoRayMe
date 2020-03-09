@@ -22,7 +22,7 @@ protected:
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
-    Sphere() : Shape(SHAPE_SPHERE) { stats.addSphere(); };
+    Sphere() : Shape(Shape::SPHERE) { stats.addSphere(); };
     /* All sphere are at (0, 0, 0) and radius 1 in the object space */
 
 

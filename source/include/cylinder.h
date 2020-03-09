@@ -30,7 +30,7 @@ public:
     double minCap;
     double maxCap;
 
-    Cylinder() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CYLINDER) { stats.addCylinder(); };
+    Cylinder() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(Shape::CYLINDER) { stats.addCylinder(); };
 
     BoundingBox getLocalBounds();
     bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };

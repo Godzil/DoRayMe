@@ -13,7 +13,7 @@
 #include <math_helper.h>
 
 
-CSG::CSG(OperationType operation, Shape *left, Shape *right) : Shape(SHAPE_CSG), operation(operation), left(left), right(right)
+CSG::CSG(OperationType operation, Shape *left, Shape *right) : Shape(Shape::CSG), operation(operation), left(left), right(right)
 {
     stats.addCsg();
 

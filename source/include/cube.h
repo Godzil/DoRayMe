@@ -24,7 +24,7 @@ protected:
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
-    Cube() : Shape(SHAPE_CUBE) { stats.addCube(); };
+    Cube() : Shape(Shape::CUBE) { stats.addCube(); };
 
     void dumpMe(FILE *fp);
 };

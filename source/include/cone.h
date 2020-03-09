@@ -29,7 +29,7 @@ public:
     double minCap;
     double maxCap;
 
-    Cone() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(SHAPE_CONE) { stats.addCone(); };
+    Cone() : minCap(-INFINITY), maxCap(INFINITY), isClosed(false), Shape(Shape::CONE) { stats.addCone(); };
     BoundingBox getLocalBounds();
     bool haveFiniteBounds() { return !(isinf(this->minCap) || isinf(this->maxCap)); };
 
