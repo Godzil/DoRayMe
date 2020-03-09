@@ -26,23 +26,29 @@ CSG::CSG(OperationType operation, Shape *left, Shape *right) : Shape(SHAPE_CSG),
 
 Intersect CSG::localIntersect(Ray r)
 {
-    int i;
-    Intersect leftxs = this->left->intersect(r);
-    Intersect rightxs = this->right->intersect(r);
-
-    for(i = 0; i < rightxs.count(); i++)
-    {
-        leftxs.add(rightxs[i]);
-    }
-
-    Intersect ret = this->filterIntersections(leftxs);
-
-    return ret;
+    return this->intersect(r);
 }
+
 
 Intersect CSG::intersect(Ray r)
 {
-    return localIntersect(r);
+    int i;
+    Intersect ret = Intersect();
+
+    if (this->bounds.intesectMe(r))
+    {
+        Intersect leftxs = this->left->intersect(r);
+        Intersect rightxs = this->right->intersect(r);
+
+        for (i = 0 ; i < rightxs.count() ; i++)
+        {
+            leftxs.add(rightxs[i]);
+        }
+
+        this->filterIntersections(leftxs, ret);
+    }
+
+    return ret;
 }
 
 Tuple CSG::localNormalAt(Tuple point, Intersection *hit)
