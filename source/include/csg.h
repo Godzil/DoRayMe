@@ -34,7 +34,7 @@ protected:
 
     bool intersectionAllowed(bool leftHit, bool inLeft, bool inRight);
 
-    Intersect filterIntersections(Intersect &xs);
+    void filterIntersections(Intersect &xs, Intersect &ret);
 
     void updateBoundingBox();
     BoundingBox getBounds();

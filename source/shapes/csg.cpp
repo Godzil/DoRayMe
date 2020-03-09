@@ -101,12 +101,10 @@ bool CSG::intersectionAllowed(bool leftHit, bool inLeft, bool inRight)
     return false;
 }
 
-Intersect CSG::filterIntersections(Intersect &xs)
+void CSG::filterIntersections(Intersect &xs, Intersect &ret)
 {
     bool inl = false;
     bool inr = false;
-
-    Intersect ret = Intersect();
 
     int i;
 
@@ -128,8 +126,6 @@ Intersect CSG::filterIntersections(Intersect &xs)
             inr = !inr;
         }
     }
-
-    return ret;
 }
 
 void CSG::dumpMe(FILE *fp)

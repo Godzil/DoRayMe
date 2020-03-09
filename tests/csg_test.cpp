@@ -31,8 +31,8 @@ public:
         return this->intersectionAllowed(leftHit, inLeft, inRight);
     };
 
-    Intersect doFilterIntersections(Intersect &xs) {
-        return this->filterIntersections(xs);
+    void doFilterIntersections(Intersect &xs, Intersect &ret) {
+        this->filterIntersections(xs, ret);
     }
 
     CSGTest(OperationType operation, Shape *left, Shape *right) : CSG(operation, left, right) {};
@@ -186,7 +186,8 @@ TEST(CSGTest, Filtering_a_list_of_intersections)
     for(i = 0; i < testCount; i++)
     {
         c.setOperation(testList[i]);
-        Intersect result = c.doFilterIntersections(xs);
+        Intersect result = Intersect();
+        c.doFilterIntersections(xs, result);
 
         ASSERT_EQ(result.count(), 2);
         ASSERT_EQ(result[0], xs[testResults[i][0]]);
