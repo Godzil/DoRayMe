@@ -50,7 +50,9 @@ public:
 
     uint32_t getObjectCount() { return this->objectCount + this->unboxableObjectCount; };
 
-    Group();
+    Group(const char *name = nullptr);
+
+    const char *getName() { return this->name; };
 
     void dumpMe(FILE * fp);
 };
