@@ -34,13 +34,9 @@ Shape *fir_branch()
     Group *ret = new Group();
     double length = 2;
     double radius = 0.025;
-#if 0
     int segments = 20;
     int perSegment = 24;
-#else
-    int segments = 5;
-    int perSegment = 24;
-#endif
+
     Cylinder *branch = new Cylinder();
     branch->minCap = 0;
     branch->maxCap = length;
@@ -81,7 +77,7 @@ Shape *fir_branch()
             Point p3 = Point(0, yTip, needleLenght);
             needle = new Triangle(p1, p2, p3);
             needle->setTransform(rotationY(yAngle));
-            needle->material.colour = Colour((1.0 / (double)perSegment)*i /*0.26*/, 0.36, /*0.16*/ (1. / (double)segments) * y);
+            needle->material.colour = Colour(0.26, 0.36, 0.16);
             needle->material.specular = 0.1;
             subGroup->addObject(needle);
         }
@@ -183,7 +179,7 @@ int main()
     s = fir_branch();
     s->setTransform(translation(-1, -1, 0) * rotationY(0.349) * rotationX(-1.5708) * translation(0, -0.5, 0));
     w.addObject(s);
-    /*
+
     s = fir_branch();
     s->setTransform(translation(-1, 1, 0) * rotationY(0.349) * rotationX(-1.5708) * translation(0, -0.5, 0));
     w.addObject(s);
@@ -223,7 +219,6 @@ int main()
     s = fir_branch();
     s->setTransform(translation(1.5, -0.5, 0) * rotationY(-0.1754) * rotationX(0.087) * rotationX(-1.5708) * translation(0, -0.5, 0));
     w.addObject(s);
-    */
 
     /* ----------------------------- */
 
