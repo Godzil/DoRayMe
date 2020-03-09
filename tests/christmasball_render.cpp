@@ -46,11 +46,12 @@ Shape *fir_branch()
     branch->material.ambient = 0.2;
     branch->material.specular = 0;
     branch->material.diffuse = 0.6;
+    branch->materialSet = true;
     ret->addObject(branch);
 
     double seq_size = length / (segments - 1);
     double theta = 2.1 * M_PI / perSegment;
-    double maxLenght = 20 * radius;
+    double maxLength = 20 * radius;
 
     int y, i;
     Triangle *needle;
@@ -69,7 +70,7 @@ Shape *fir_branch()
              * around the branch */
             double yAngle = i * theta + frand() * theta;
             /* How long is the needle? */
-            double needleLenght = maxLenght / 2 * (1 + frand());
+            double needleLenght = maxLength / 2 * (1 + frand());
             /* How much is the needle offset fomr the center of the branch? */
             double ofs = radius / 2;
             Point p1 = Point(ofs, yBase, ofs);
@@ -79,6 +80,7 @@ Shape *fir_branch()
             needle->setTransform(rotationY(yAngle));
             needle->material.colour = Colour(0.26, 0.36, 0.16);
             needle->material.specular = 0.1;
+            needle->materialSet = true;
             subGroup->addObject(needle);
         }
         ret->addObject(subGroup);
@@ -104,6 +106,7 @@ int main()
     light1Sphere.material.ambient = 0.6;
     light1Sphere.material.diffuse = 0;
     light1Sphere.material.specular = 0;
+    light1Sphere.materialSet = true;
     w.addObject(&light1Sphere);
 
     Light light2 = Light(POINT_LIGHT, Point(10, 10, -10), Colour(0.6, 0.6, 0.6));
@@ -115,6 +118,7 @@ int main()
     light2Sphere.material.ambient = 0.6;
     light2Sphere.material.diffuse = 0;
     light2Sphere.material.specular = 0;
+    light2Sphere.materialSet = true;
     w.addObject(&light2Sphere);
 
     Light light3 = Light(POINT_LIGHT, Point(-2, 1, -6), Colour(0.2, 0.1, 0.1));
@@ -126,6 +130,7 @@ int main()
     light3Sphere.material.ambient = 0.6;
     light3Sphere.material.diffuse = 0;
     light3Sphere.material.specular = 0;
+    light3Sphere.materialSet = true;
     w.addObject(&light3Sphere);
 
     Light light4 = Light(POINT_LIGHT, Point(-1, -2, -6), Colour(0.1, 0.2, 0.1));
@@ -137,6 +142,7 @@ int main()
     light4Sphere.material.ambient = 0.6;
     light4Sphere.material.diffuse = 0;
     light4Sphere.material.specular = 0;
+    light4Sphere.materialSet = true;
     w.addObject(&light4Sphere);
 
     Light light5 = Light(POINT_LIGHT, Point(3, -1, -6), Colour(0.2, 0.2, 0.2));
@@ -148,6 +154,7 @@ int main()
     light5Sphere.material.ambient = 0.6;
     light5Sphere.material.diffuse = 0;
     light5Sphere.material.specular = 0;
+    light5Sphere.materialSet = true;
     w.addObject(&light5Sphere);
 
     /* ----------------------------- */
@@ -158,6 +165,7 @@ int main()
     theBall.material.specular = 0;
     theBall.material.diffuse = 0.5;
     theBall.material.reflective = 0.5;
+    theBall.materialSet = true;
     w.addObject(&theBall);
 
     Cylinder crown = Cylinder();
@@ -171,6 +179,7 @@ int main()
     crown.material.specular = 0.8;
     crown.material.shininess = 20;
     crown.material.reflective = 0.05;
+    crown.materialSet = true;
     w.addObject(&crown);
 
     /* ----------------------------- */
