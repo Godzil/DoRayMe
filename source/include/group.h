@@ -25,6 +25,8 @@ private:
     Shape* *unboxableObjectList;
     uint32_t unboxableObjectCount;
 
+    char name[32 + 1];
+
 protected:
     Intersect localIntersect(Ray r);
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);

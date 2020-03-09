@@ -11,6 +11,7 @@
 #include <group.h>
 #include <math_helper.h>
 #include <renderstat.h>
+#include <string.h>
 
 #define MIN_ALLOC (2)
 
@@ -25,6 +26,14 @@ Group::Group(const char *name) : Shape(Shape::GROUP)
     this->unboxableObjectList = (Shape **)calloc(sizeof(Shape **), MIN_ALLOC);
     this->unboxableObjectCount = 0;
 
+    if (name != nullptr)
+    {
+        strncpy(this->name, name, 32);
+    }
+    else
+    {
+        strncpy(this->name, "untitled", 32);
+    }
 }
 
 Intersect Group::intersect(Ray r)
@@ -204,6 +213,7 @@ void Group::dumpMe(FILE *fp)
 {
     int i;
     fprintf(fp, "\"Type\": \"Group\",\n");
+    fprintf(fp, "\"Name\": \"%s\",\n", this->name);
     if (this->objectCount > 0)
     {
         fprintf(fp, "\"Objects\": {\n");
