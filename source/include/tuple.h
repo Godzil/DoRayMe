@@ -39,9 +39,6 @@ public:
                                                           this->z * b, this->w * b); };
     Tuple operator/(const double &b) const { return Tuple(this->x / b, this->y / b,
                                                           this->z / b, this->w / b); };
-
-    void fixPoint();
-    void fixVector();
     bool isRepresentable();
 
     void set(double nX, double nY, double nZ) { this->x = nX; this->y = nY; this->z = nZ; };
