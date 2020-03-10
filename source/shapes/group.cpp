@@ -149,6 +149,37 @@ void Group::addObject(Shape *s)
     }
 }
 
+void Group::removeObject(Shape *s)
+{
+    int i;
+    if (s->haveFiniteBounds())
+    {
+        for (i = 0; i < this->objectCount; i++)
+        {
+            if (this->objectList[i] == s)
+            {
+                this->objectCount --;
+                this->objectList[i] = this->objectList[this->objectCount];
+                this->objectList[this->objectCount] = nullptr;
+                break;
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < this->unboxableObjectCount; i++)
+        {
+            if (this->unboxableObjectList[i] == s)
+            {
+                this->unboxableObjectCount --;
+                this->unboxableObjectList[i] = this->unboxableObjectList[this->unboxableObjectCount];
+                this->unboxableObjectList[this->unboxableObjectCount] = nullptr;
+                break;
+            }
+        }
+    }
+}
+
 bool Group::isEmpty()
 {
     return (this->objectCount == 0) && (this->unboxableObjectCount == 0);

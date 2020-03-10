@@ -37,7 +37,10 @@ public:
     bool isEmpty();
 
     void addObject(Shape *s);
-    Shape *operator[](const int p) { return this->objectList[p]; }
+    void removeObject(Shape *s);
+
+    Shape *operator[](const int p) { return this->objectList[p]; };
+    Shape *getUnboxable(const int p) { return this->unboxableObjectList[p]; };
 
     Intersect intersect(Ray r);
     BoundingBox getLocalBounds();
@@ -48,7 +51,8 @@ public:
 
     bool includes(Shape *b);
 
-    uint32_t getObjectCount() { return this->objectCount + this->unboxableObjectCount; };
+    uint32_t getObjectCount() { return this->objectCount; };
+    uint32_t getUnboxableCount() { return this->unboxableObjectCount; };
 
     Group(const char *name = nullptr);
 

@@ -98,3 +98,35 @@ TEST(GroupTest, Group_bounding_box)
     ASSERT_EQ(res.min, b.min);
     ASSERT_EQ(res.max, b.max);
 }
+
+TEST(GroupTest, Removing_an_object)
+{
+    Group g = Group();
+    Sphere s1 = Sphere();
+    Sphere s2 = Sphere();
+    Sphere s3 = Sphere();
+
+    s1.setTransform(translation(-1, 0, 0));
+    s2.setTransform(scaling(0.5, 0.5, 0.5));
+
+    g.addObject(&s1);
+    g.addObject(&s2);
+
+    ASSERT_EQ(g.getObjectCount(), 2);
+    ASSERT_EQ(*(g[0]), s1);
+    ASSERT_EQ(*(g[1]), s2);
+
+    g.removeObject(&s1);
+
+    ASSERT_EQ(g.getObjectCount(), 1);
+    ASSERT_EQ(*(g[0]), s2);
+    ASSERT_EQ(g[1], nullptr);
+
+    g.removeObject(&s3);
+    ASSERT_EQ(g.getObjectCount(), 1);
+
+    g.removeObject(&s2);
+    ASSERT_EQ(g.getObjectCount(), 0);
+    ASSERT_EQ(g[0], nullptr);
+}
+
