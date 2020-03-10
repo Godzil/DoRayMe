@@ -90,7 +90,6 @@ bool Group::includes(Shape *b)
         }
     }
 
-    /* We are force to do them all the time */
     if (this->unboxableObjectCount > 0)
     {
         int i;
@@ -126,7 +125,7 @@ void Group::addObject(Shape *s)
             this->objectList = (Shape **)realloc(this->objectList, sizeof(Shape **) * this->allocatedObjectCount);
         }
 
-        s->parent = this;
+        s->setParent(this);
         s->updateTransform();
 
         this->objectList[this->objectCount++] = s;
@@ -142,7 +141,7 @@ void Group::addObject(Shape *s)
             this->unboxableObjectList = (Shape **)realloc(this->unboxableObjectList, sizeof(Shape **) * this->allocatedUnboxableObjectCount);
         }
 
-        s->parent = this;
+        s->setParent(this);
         s->updateTransform();
 
         this->unboxableObjectList[this->unboxableObjectCount++] = s;
@@ -269,4 +268,28 @@ void Group::dumpMe(FILE *fp)
         fprintf(fp, "},\n");
     }
     Shape::dumpMe(fp);
+}
+
+void Group::lock()
+{
+    Shape::lock();
+
+    /* Now notify included object they have to lock */
+    int i;
+    if (this->objectCount > 0)
+    {
+        for (i = 0 ; i < this->objectCount ; i++)
+        {
+            this->objectList[i]->lock();
+        }
+    }
+
+    if (this->unboxableObjectCount > 0)
+    {
+        for(i = 0; i < this->unboxableObjectCount; i++)
+        {
+            this->unboxableObjectList[i]->lock();
+        }
+    }
+
 }

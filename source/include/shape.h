@@ -41,6 +41,7 @@ public:
 protected:
     ShapeType type;
     Matrix localTransformMatrix;
+    bool locked;
 
 protected:
     virtual Intersect localIntersect(Ray r) = 0;
@@ -75,9 +76,19 @@ public:
 
     virtual void dumpMe(FILE *fp);
 
+    /* When an object is locked, the matrix transformation and bounding box can't be updated. This is
+     * usefull to move object between group without changing the real hierarchy between them.
+     * It will also not change the parent member.
+     * This is supposed to be used only before a render is going to start so we can optimise the
+     * way the object are stored to prefer lots of un-needed intersections.
+     */
+    virtual void lock() { this->locked = true; };
+
     Tuple worldToObject(Tuple point) { return this->inverseTransform * point; };
     Tuple objectToWorld(Tuple point) { return this->transformMatrix * point; };
     Tuple normalToWorld(Tuple normalVector);
+
+    void setParent(Shape *parent) { if (!this->locked) { this->parent = parent; };};
 
     void setTransform(Matrix transform);
     void setMaterial(Material material) { this->material = material; this->materialSet = true; };

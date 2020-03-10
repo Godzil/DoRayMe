@@ -99,7 +99,7 @@ void OBJFile::addGroup(Group *group)
 {
     this->baseGroup->addObject(group);
 
-    group->parent = this;
+    group->setParent(this);
     group->updateTransform();
     this->bounds | group->getBounds();
 
@@ -460,4 +460,11 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
         }
     }
     return ret;
+}
+
+void OBJFile::lock()
+{
+    Shape::lock();
+
+    this->baseGroup->lock();
 }

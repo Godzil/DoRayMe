@@ -15,12 +15,14 @@
 
 Shape::Shape(ShapeType type)
 {
+    this->locked = false;
     this->parent = nullptr;
     this->dropShadow = true;
     this->type = type;
     this->localTransformMatrix = Matrix4().identity();
-    this->updateTransform();
     this->materialSet = false;
+
+    this->updateTransform();
 }
 
 Intersect Shape::intersect(Ray r)
@@ -51,6 +53,8 @@ Tuple Shape::normalAt(Tuple point, Intersection *hit)
 
 void Shape::updateTransform()
 {
+    if (this->locked) return;
+
     this->transformMatrix = this->localTransformMatrix;
     if (this->parent != nullptr)
     {
@@ -63,6 +67,8 @@ void Shape::updateTransform()
 
 void Shape::setTransform(Matrix transform)
 {
+    if (this->locked) return;
+
     this->localTransformMatrix = transform;
     this->updateTransform();
 }

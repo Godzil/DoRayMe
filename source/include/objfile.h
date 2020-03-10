@@ -70,6 +70,8 @@ public:
     void updateBoundingBox();
     void updateTransform();
 
+    void lock();
+
     void dumpMe(FILE * fp);
 };
 

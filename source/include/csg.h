@@ -48,6 +48,8 @@ public:
 
     void updateTransform();
 
+    void lock();
+
     void dumpMe(FILE *fp);
 };
 

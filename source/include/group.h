@@ -56,6 +56,8 @@ public:
 
     Group(const char *name = nullptr);
 
+    void lock();
+
     const char *getName() { return this->name; };
 
     void dumpMe(FILE * fp);

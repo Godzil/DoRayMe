@@ -201,3 +201,25 @@ TEST(ShapeTest, Test_the_bouding_box_of_the_translated_shape)
     ASSERT_EQ(res.min, b.min);
     ASSERT_EQ(res.max, b.max);
 }
+
+TEST(ShapeTest, A_lock_shape_can_t_have_transformation_changed)
+{
+    TestShape t = TestShape();
+    t.setTransform(translation(10, 0, 0));
+
+    BoundingBox b = BoundingBox(Point(9, -1, -1), Point(11, 1, 1));
+
+    BoundingBox res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+
+    t.lock();
+
+    t.setTransform(translation(-10, -10,-10));
+
+    res = t.getBounds();
+
+    ASSERT_EQ(res.min, b.min);
+    ASSERT_EQ(res.max, b.max);
+}

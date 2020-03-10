@@ -17,8 +17,8 @@ CSG::CSG(OperationType operation, Shape *left, Shape *right) : Shape(Shape::CSG)
 {
     stats.addCsg();
 
-    this->left->parent = this;
-    this->right->parent = this;
+    this->left->setParent(this);
+    this->right->setParent(this);
 
     this->bounds | this->left->getBounds();
     this->bounds | this->right->getBounds();
@@ -131,6 +131,19 @@ void CSG::filterIntersections(Intersect &xs, Intersect &ret)
         {
             inr = !inr;
         }
+    }
+}
+
+void CSG::lock()
+{
+    Shape::lock();
+    if(this->left)
+    {
+        this->left->lock();
+    }
+    if(this->right)
+    {
+        this->right->lock();
     }
 }
 
