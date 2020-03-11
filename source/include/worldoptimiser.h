@@ -11,25 +11,39 @@
 
 #include <group.h>
 
-/* World Optimiser subclasses will created move objcet around to try to optimise the parsing of the world.
+/* World Optimiser subclasses will created move objects around to try to optimise the raytrace of the world, to
+ * have as least as possible object to intersect per ray.
  * This class is abstract to we can implement different type and change at runtime or build time
  */
 class WorldOptimiser
 {
+protected:
+    Group *root;
+    void moveInfiniteObjects(Shape *s = nullptr);
+    void moveAllObjects(Shape *s = nullptr);
 public:
-    virtual void run(Group *root) = 0;
+    void setRoot(Group *root) { this->root = root; };
+    virtual void run() = 0;
 };
 
 class NoWorldOptimisation : public WorldOptimiser
 {
 public:
-    void run(Group *root) {};
+    void run() {};
+};
+
+class BVHOptimisation : public WorldOptimiser
+{
+public:
+    void run();
 };
 
 class OctreeOptimisation : public WorldOptimiser
 {
+private:
+    void makeTree(Group *leaf);
 public:
-    void run(Group *root) {};
+    void run();
 };
 
 #endif /* DORAYME_WORLDOPTIMISER_H */

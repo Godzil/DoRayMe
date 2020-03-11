@@ -189,11 +189,12 @@ Colour World::refractedColour(Computation comps, uint32_t depthCount)
 
 void World::finalise(WorldOptimiser &opt)
 {
-    /* First lock eveyrything */
+    /* First lock everything */
     this->worldGroup.lock();
 
     /* Now run the optimiser */
-    opt.run(&this->worldGroup);
+    opt.setRoot(&this->worldGroup);
+    opt.run();
 }
 
 void World::dumpMe(FILE *fp)

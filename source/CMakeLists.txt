@@ -12,7 +12,7 @@ file(GLOB RAY_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${CMAKE_CURRENT_SO
                       ${CMAKE_CURRENT_SOURCE_DIR}/uvpattern/*.h)
 
 file(GLOB RAY_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/shapes/*.cpp
-                      ${CMAKE_CURRENT_SOURCE_DIR}/worldbuilder/*.cpp)
+                      ${CMAKE_CURRENT_SOURCE_DIR}/worldbuilder/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/worldoptimiser/*.cpp)
 
 target_include_directories(rayonnement PUBLIC include pattern)
 

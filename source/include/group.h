@@ -39,7 +39,8 @@ public:
     void addObject(Shape *s);
     void removeObject(Shape *s);
 
-    Shape *operator[](const int p) { return this->objectList[p]; };
+    Shape *operator[](const int p) { return this->getObject(p); };
+    Shape *getObject(const int p) { return this->objectList[p]; };
     Shape *getUnboxable(const int p) { return this->unboxableObjectList[p]; };
 
     Intersect intersect(Ray r);
