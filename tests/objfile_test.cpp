@@ -174,6 +174,4 @@ TEST(OBJFileTest, Faces_with_normal)
     ASSERT_EQ(t2->n1, parser.verticesNormal(3));
     ASSERT_EQ(t2->n2, parser.verticesNormal(1));
     ASSERT_EQ(t2->n3, parser.verticesNormal(2));
-
-
 }

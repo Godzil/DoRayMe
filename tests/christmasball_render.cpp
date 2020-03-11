@@ -86,7 +86,6 @@ Shape *fir_branch()
         ret->addObject(subGroup);
     }
 
-
     return ret;
 }
 
