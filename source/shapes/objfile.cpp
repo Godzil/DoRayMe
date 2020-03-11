@@ -37,6 +37,7 @@ OBJFile::OBJFile() : Shape(Shape::OBJFILE), ignoredLines(0)
     /* The base group */
     this->baseGroup = new Group(OBJ_DEFAULT_GROUP);
     this->currentGroup = this->baseGroup;
+    this->baseGroup->parent = this;
 };
 
 OBJFile::~OBJFile()
