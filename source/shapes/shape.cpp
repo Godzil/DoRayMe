@@ -104,7 +104,17 @@ void Shape::dumpMe(FILE *fp)
         fprintf(fp, "},\n");
     }
     fprintf(fp, "\"DropShadow\": %d,\n", this->dropShadow);
-    fprintf(fp, "\"BoundingBox\": {\n");
-    this->getBounds().dumpMe(fp);
-    fprintf(fp, "},\n");
+    fprintf(fp, "\"Locked\": %d,\n", this->locked);
+    fprintf(fp, "\"MaterialSet\": %d,\n", this->materialSet);
+    if (this->haveFiniteBounds())
+    {
+        fprintf(fp, "\"BoundingBox\": {\n");
+        this->getBounds().dumpMe(fp);
+        fprintf(fp, "},\n");
+    }
+    fprintf(fp, "\"id\": %p,\n", this);
+    if (this->parent)
+    {
+        fprintf(fp, "\"parentId\": %p,\n", this->parent);
+    }
 }
