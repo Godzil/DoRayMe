@@ -17,10 +17,15 @@
 #include <math_helper.h>
 #include <group.h>
 #include <triangle.h>
+#include <sphere.h>
 #include <smoothtriangle.h>
+#include <transformation.h>
+#include <cone.h>
+#include <cylinder.h>
 
 #define MIN_ALLOC (2)
-#define DEFAULT_GROUP (0)
+
+//#define DEBUG_NORMAL
 
 OBJFile::OBJFile() : Shape(Shape::OBJFILE), ignoredLines(0)
 {
@@ -358,6 +363,58 @@ static int parseFaceVertex(char *buf, uint32_t &v, uint32_t  &vt, uint32_t  &vn)
     return ret;
 }
 
+#ifdef DEBUG_NORMAL
+Shape *makeVector(Point pos, Vector verNorm, Colour c, double scale = 1)
+{
+    Group *ret = new Group("Vector");
+    Sphere *sp = new Sphere();
+    Colour c2 = c;
+    sp->material.colour = c2;
+    sp->material.ambient = 1;
+    sp->material.refractiveIndex = 0;
+    sp->material.reflective = 0;
+    sp->material.specular = 0;
+    sp->materialSet = true;
+    sp->setTransform(translation(pos.x, pos.y, pos.z) * scaling(0.1, 0.1, 0.1));
+    ret->addObject(sp);
+
+    double theta = atan2(verNorm.x, verNorm.z);
+    double radius = verNorm.magnitude();
+    double phi = acos(verNorm.y / radius);
+
+    sp = new Sphere();
+
+    c2 = c;
+    c2.x /=3; c2.y /=3; c2.y /=3;
+
+    sp->material.colour = c2;
+    sp->material.ambient = 1;
+    sp->material.refractiveIndex = 0;
+    sp->material.transparency = 0;
+    sp->material.specular = 0;
+    sp->materialSet = true;
+    sp->setTransform(translation(pos.x, pos.y, pos.z) * translation(verNorm.x, verNorm.y, verNorm.z) * scaling(0.1, 0.1, 0.1));
+    ret->addObject(sp);
+
+    c2 = c;
+    c2.x /=2; c2.y /=3; c2.y /=2;
+
+    Cone *cn = new Cone();
+    cn->minCap = 0;
+    cn->maxCap = 1;
+    cn->material.colour = c2;
+    cn->material.ambient = 1;
+    cn->material.refractiveIndex = 0;
+    cn->material.reflective = 0;
+    cn->material.specular = 0;
+    cn->materialSet = true;
+    cn->setTransform(translation(pos.x, pos.y, pos.z) * rotationY(theta) * rotationX(phi) * scaling(0.1, radius, 0.1));
+    ret->addObject(cn);
+
+    return ret;
+}
+#endif
+
 /* Actually execute the line */
 int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
 {
@@ -409,18 +466,44 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
             }
             else
             {
+#ifdef DEBUG_NORMAL
+                this->currentGroup->addObject(makeVector(this->vertices(v[1]),
+                                                         this->verticesNormal(vn[1]),
+                                                         Colour(1, 0, 1)));
+                this->currentGroup->addObject(makeVector(this->vertices(v[2]),
+                                                         this->verticesNormal(vn[2]),
+                                                         Colour(0.5, 0, 0.5)));
+                this->currentGroup->addObject(makeVector(this->vertices(v[3]),
+                                                         this->verticesNormal(vn[3]),
+                                                         Colour(0.5, 0, 1)));
                 t = new SmoothTriangle(this->vertices(v[1]),
                                        this->vertices(v[2]),
                                        this->vertices(v[3]),
                                        this->verticesNormal(vn[1]),
                                        this->verticesNormal(vn[2]),
                                        this->verticesNormal(vn[3]));
+#endif
             }
             this->currentGroup->addObject(t);
             ret = 0;
         }
         else if (argc > 4)
         {
+#ifdef DEBUG_NORMAL
+            if (vn[1] != INT32_MAX)
+            {
+                for(i = 2; i < (argc); i++)
+                {
+                    this->currentGroup->addObject(makeVector(this->vertices(v[i]),
+                                                             this->verticesNormal(vn[i]),
+                                                             Colour(1, 1, 0)));
+                }
+
+                this->currentGroup->addObject(makeVector(this->vertices(v[1]),
+                                                         this->verticesNormal(vn[1]),
+                                                         Colour(0, 1, 0)));
+            }
+#endif
             for(i = 2; i < (argc - 1); i++)
             {
 
@@ -440,6 +523,7 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
                                            this->verticesNormal(vn[i]),
                                            this->verticesNormal(vn[i + 1]));
                 }
+
                 this->currentGroup->addObject(t);
             }
             ret = 0;
