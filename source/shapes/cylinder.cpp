@@ -25,7 +25,7 @@ bool Cylinder::checkCap(Ray r, double t)
 
 void Cylinder::intersectCaps(Ray r, Intersect &xs)
 {
-    /* Caps only mattter is the cylinder is closed, and might possibly be
+    /* Caps only matter if the cylinder is closed, and might possibly be
      * intersected by the ray
      */
     if ((this->isClosed) && (fabs(r.direction.y) > getEpsilon()))
