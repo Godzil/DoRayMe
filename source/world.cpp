@@ -187,6 +187,15 @@ Colour World::refractedColour(Computation comps, uint32_t depthCount)
     return Colour(hitColour.x, hitColour.y, hitColour.z);
 }
 
+void World::finalise(WorldOptimiser &opt)
+{
+    /* First lock eveyrything */
+    this->worldGroup.lock();
+
+    /* Now run the optimiser */
+    opt.run(&this->worldGroup);
+}
+
 void World::dumpMe(FILE *fp)
 {
     int i;

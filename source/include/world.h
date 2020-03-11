@@ -16,6 +16,7 @@
 #include <ray.h>
 #include <stdio.h>
 #include <group.h>
+#include <worldoptimiser.h>
 
 #ifdef ENABLE_LUA_SUPPORT
 extern "C" {
@@ -63,6 +64,8 @@ public:
     Colour refractedColour(Computation comps, uint32_t depthCount = 4);
 
     Intersect intersect(Ray r);
+
+    void finalise(WorldOptimiser &opt);
 
     void dumpMe(FILE *fp);
 };
