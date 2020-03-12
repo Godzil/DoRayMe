@@ -24,6 +24,8 @@
 
 #include <transformation.h>
 
+#include <worldoptimiser.h>
+
 int main()
 {
     World w = World();
@@ -197,6 +199,9 @@ int main()
     w.addObject(&mirror);
 
     /* ----------------------------- */
+
+    BVHOptimisation opt;
+    w.finalise(opt);
 
     /* Set the camera */
     Camera camera = Camera(400, 200, 0.785);

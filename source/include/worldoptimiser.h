@@ -34,6 +34,8 @@ public:
 
 class BVHOptimisation : public WorldOptimiser
 {
+private:
+    void makeTree(Group *leaf, int depth = 0);
 public:
     void run();
 };

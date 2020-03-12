@@ -89,6 +89,9 @@ int main()
 
     /* ----------------------------- */
 
+    BVHOptimisation opt;
+    w.finalise(opt);
+
     /* Set the camera */
     Camera camera = Camera(80, 40, M_PI/2);
     camera.setTransform(viewTransform(Point(0, 7, 13),
