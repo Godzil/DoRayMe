@@ -10,6 +10,32 @@
 #include <shape.h>
 #include <list.h>
 
+double Computation::schlick()
+{
+    /* Find the cos of the angle betzeen the eye and normal vector */
+    double cos = this->eyeVector.dot(this->normalVector);
+    double r0;
+    /* Total internal reflection can only occur when n1 > n2 */
+    if (this->n1 > this->n2)
+    {
+    double n, sin2_t;
+    n = this->n1 / this->n2;
+    sin2_t = (n * n) * (1.0 - (cos * cos));
+    if (sin2_t > 1.0)
+    {
+    return 1.0;
+    }
+    /* Compute the cos of theta */
+    cos = sqrt(1.0 - sin2_t);
+    }
+
+
+    r0 = ((this->n1 - this->n2) / (this->n1 + this->n2));
+    r0 = r0 * r0;
+
+    return r0 + (1 - r0) *  ((1 - cos)*(1 - cos)*(1 - cos)*(1 - cos)*(1 - cos));
+};
+
 Computation Intersection::prepareComputation(Ray r, Intersect *xs)
 {
     double n1 = 1.0;
@@ -42,7 +68,7 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
     Tuple reflectV = r.direction.reflect(normalV);
 
     /* If the hit object is not transparent, there is no need to do that. I think .*/
-    if ((xs != nullptr)  && (xs->hit().object->material.transparency > 0))
+    if ((xs != nullptr) && (xs->hit().object->getMaterial()->transparency > 0))
     {
         List containers;
         int j;
@@ -54,7 +80,7 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
             {
                 if (!containers.isEmpty())
                 {
-                    n1 = containers.last()->material.refractiveIndex;
+                    n1 = containers.last()->getMaterial()->refractiveIndex;
                 }
             }
 
@@ -71,7 +97,7 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
             {
                 if (!containers.isEmpty())
                 {
-                    n2 = containers.last()->material.refractiveIndex;
+                    n2 = containers.last()->getMaterial()->refractiveIndex;
                 }
 
                 /* End the loop */
@@ -80,10 +106,7 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
         }
     }
 
-    Shape *s = this->object;
-
-    /* For now don't get root group material */
-    while((!s->materialSet) && (s->parent != nullptr)) { s = s->parent; }
+    Material *m = this->object->getMaterial();
 
     return Computation(this->object,
                        this->t,
@@ -96,5 +119,5 @@ Computation Intersection::prepareComputation(Ray r, Intersect *xs)
                        n1,
                        n2,
                        underHitP,
-                       &s->material);
+                       m);
 }

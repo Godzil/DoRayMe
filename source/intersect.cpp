@@ -24,9 +24,17 @@ Intersect::Intersect()
 {
     this->allocated = MIN_ALLOC;
     this->list = (Intersection **)calloc(sizeof(Intersection *), MIN_ALLOC);
-    stats.addMalloc();
-    stats.addIntersect();
-    this->num = 0;
+    if (this->list != nullptr)
+    {
+        stats.addMalloc();
+        stats.addIntersect();
+        this->num = 0;
+    }
+    else
+    {
+        printf("ABORT: Allocation error [%s]!\n", __FUNCTION__);
+        exit(-1);
+    }
 }
 
 Intersect::~Intersect()
@@ -34,12 +42,17 @@ Intersect::~Intersect()
     int i;
     for(i = 0; i < this->num; i++)
     {
-        delete this->list[i];
+        if (this->list[i] != nullptr)
+        {
+            delete this->list[i];
+            this->list[i] = nullptr;
+        }
     }
     /* Free stuff */
     if (this->list != nullptr)
     {
         free(this->list);
+        this->list = nullptr;
     }
 }
 

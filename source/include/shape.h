@@ -42,10 +42,13 @@ protected:
     ShapeType type;
     Matrix localTransformMatrix;
     bool locked;
+    uint64_t objectId;
 
 protected:
     virtual void localIntersect(Ray r, Intersect &xs) = 0;
     virtual Tuple localNormalAt(Tuple point, Intersection *hit) = 0;
+
+    static uint64_t newObjectId();
 
 public:
     Matrix transformMatrix;
@@ -64,6 +67,9 @@ public:
 
     virtual void intersect(Ray &r, Intersect &xs);
     Tuple normalAt(Tuple point, Intersection *hit = nullptr);
+
+    uint64_t getObjectId() { return this->objectId; };
+    void setObjectId(uint64_t oid) { this->objectId = oid; };
 
     /* Bounding box points are always world value */
     virtual BoundingBox getLocalBounds();
@@ -92,6 +98,7 @@ public:
 
     void setTransform(Matrix transform);
     void setMaterial(Material material) { this->material = material; this->materialSet = true; };
+    Material *getMaterial();
     Ray transform(Ray &r) { return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
     Ray invTransform(Ray &r) { return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
 

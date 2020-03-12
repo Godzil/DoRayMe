@@ -15,6 +15,7 @@
 
 Shape::Shape(ShapeType type)
 {
+    this->objectId = Shape::newObjectId();
     this->locked = false;
     this->parent = nullptr;
     this->dropShadow = true;
@@ -24,6 +25,17 @@ Shape::Shape(ShapeType type)
 
     this->updateTransform();
 }
+
+uint64_t Shape::newObjectId()
+{
+    static uint64_t id = 0;
+    uint64_t ret;
+
+    ret = id++;
+
+    return ret;
+}
+
 
 void Shape::intersect(Ray &r, Intersect &xs)
 {
@@ -95,6 +107,16 @@ BoundingBox Shape::getBounds()
     return ret;
 }
 
+Material *Shape::getMaterial()
+{
+    Shape *s = this;
+    while((!s->materialSet) && (s->parent != nullptr))
+    {
+        s = s->parent;
+    }
+    return &s->material;
+}
+
 void Shape::dumpMe(FILE *fp)
 {
     if (this->materialSet)
@@ -112,9 +134,9 @@ void Shape::dumpMe(FILE *fp)
         this->getBounds().dumpMe(fp);
         fprintf(fp, "},\n");
     }
-    fprintf(fp, "\"id\": %p,\n", this);
+    fprintf(fp, "\"id\": %ld,\n", this->getObjectId());
     if (this->parent)
     {
-        fprintf(fp, "\"parentId\": %p,\n", this->parent);
+        fprintf(fp, "\"parentId\": %ld,\n", this->parent->getObjectId());
     }
 }

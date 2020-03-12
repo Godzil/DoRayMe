@@ -25,31 +25,7 @@ struct Computation
           object(object), t(t), hitPoint(point), eyeVector(eyev), normalVector(normalv), inside(inside),
           overHitPoint(overHitP), underHitPoint(underHitP), reflectVector(reflectV), n1(n1), n2(n2), material(objMat) { };
 
-    double schlick()
-    {
-        /* Find the cos of the angle betzeen the eye and normal vector */
-        double cos = this->eyeVector.dot(this->normalVector);
-        double r0;
-        /* Total internal reflection can only occur when n1 > n2 */
-        if (this->n1 > this->n2)
-        {
-            double n, sin2_t;
-            n = this->n1 / this->n2;
-            sin2_t = (n * n) * (1.0 - (cos * cos));
-            if (sin2_t > 1.0)
-            {
-                return 1.0;
-            }
-            /* Compute the cos of theta */
-            cos = sqrt(1.0 - sin2_t);
-        }
-
-
-        r0 = ((this->n1 - this->n2) / (this->n1 + this->n2));
-        r0 = r0 * r0;
-
-        return r0 + (1 - r0) *  ((1 - cos)*(1 - cos)*(1 - cos)*(1 - cos)*(1 - cos));
-    };
+    double schlick();
 
     Shape *object;
     double t;
@@ -73,7 +49,6 @@ class Intersection
 public:
     double t;
     Shape *object;
-
     double u, v;
 
 public:

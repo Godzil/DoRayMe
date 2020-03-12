@@ -156,8 +156,8 @@ TEST(OBJFileTest, Faces_with_normal)
 
     Group *g0 = parser.groups(OBJ_DEFAULT_GROUP);
 
-    SmoothTriangle *t1 = (SmoothTriangle *)(*g0)[0];
-    SmoothTriangle *t2 = (SmoothTriangle *)(*g0)[1];
+    SmoothTriangle *t1 = (SmoothTriangle *)g0->getObject(0);
+    SmoothTriangle *t2 = (SmoothTriangle *)g0->getObject(1);
 
     ASSERT_EQ(t1->p1, parser.vertices(1));
     ASSERT_EQ(t1->p2, parser.vertices(2));

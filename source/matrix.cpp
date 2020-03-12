@@ -101,13 +101,15 @@ Matrix Matrix::operator*(const Matrix &b) const
     return ret;
 }
 
+#define FastGet4(_x, _y) (this->data[4 * (_x) + (_y)])
+
 /* TODO: Check if we can optimise this function. It is called a lot */
 Tuple Matrix::operator*(const Tuple &b) const
 {
-    return Tuple(b.x * this->get(0, 0) + b.y * this->get(0, 1) + b.z * this->get(0, 2) + b.w * this->get(0, 3),
-                 b.x * this->get(1, 0) + b.y * this->get(1, 1) + b.z * this->get(1, 2) + b.w * this->get(1, 3),
-                 b.x * this->get(2, 0) + b.y * this->get(2, 1) + b.z * this->get(2, 2) + b.w * this->get(2, 3),
-                 b.x * this->get(3, 0) + b.y * this->get(3, 1) + b.z * this->get(3, 2) + b.w * this->get(3, 3));
+    return Tuple(b.x * FastGet4(0, 0) + b.y * FastGet4(0, 1) + b.z * FastGet4(0, 2) + b.w * FastGet4(0, 3),
+                 b.x * FastGet4(1, 0) + b.y * FastGet4(1, 1) + b.z * FastGet4(1, 2) + b.w * FastGet4(1, 3),
+                 b.x * FastGet4(2, 0) + b.y * FastGet4(2, 1) + b.z * FastGet4(2, 2) + b.w * FastGet4(2, 3),
+                 b.x * FastGet4(3, 0) + b.y * FastGet4(3, 1) + b.z * FastGet4(3, 2) + b.w * FastGet4(3, 3));
 }
 
 Matrix Matrix::identity()

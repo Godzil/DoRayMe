@@ -484,6 +484,9 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
                                        this->verticesNormal(vn[2]),
                                        this->verticesNormal(vn[3]));
             }
+            /* Set the object id to the OBJ one */
+            t->setObjectId(this->getObjectId());
+
             this->currentGroup->addObject(t);
             ret = 0;
         }
@@ -523,7 +526,7 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
                                            this->verticesNormal(vn[i]),
                                            this->verticesNormal(vn[i + 1]));
                 }
-
+                t->setObjectId(this->getObjectId());
                 this->currentGroup->addObject(t);
             }
             ret = 0;

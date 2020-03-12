@@ -181,7 +181,7 @@ void RenderStats::printStats()
     printf("Malloc called           : %lld\n", this->mallocCallCount);
     printf("Realloc called          : %lld\n", this->reallocCallCount);
     printf("Bounding box missed     : %lld\n", this->discardedIntersectCount);
-    printf("Min depth atteined      : %lld\n", this->maxDepthAttained);
+    printf("Min depth attained      : %lld\n", this->maxDepthAttained);
     printf("Max intersect count     : %lld\n", this->maxIntersectOnARay);
     printf("==================================================\n");
 };

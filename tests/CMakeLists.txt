@@ -128,13 +128,33 @@ file(DOWNLOAD
         )
 add_custom_command(
         TARGET uvmap_skybox POST_BUILD
-        COMMAND unzip -o ${CMAKE_SOURCE_DIR}/external/LancellottiChapel.zip -d LancellottiChapel
+        COMMAND unzip -qq -o ${CMAKE_SOURCE_DIR}/external/LancellottiChapel.zip -d LancellottiChapel
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/external/
 )
 add_custom_command(
         TARGET uvmap_skybox POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/external/LancellottiChapel/*.jpg
+        ${CMAKE_CURRENT_BINARY_DIR}/
+)
+
+# Dragon scene
+add_executable(dragon_scene)
+target_sources(dragon_scene PRIVATE dragon_scene.cpp)
+file(DOWNLOAD
+        http://raytracerchallenge.com/bonus/assets/dragon.zip
+        ${CMAKE_SOURCE_DIR}/external/dragon.zip
+        EXPECTED_HASH MD5=308b0f2aca1d48d24e6fc4584dfdf345
+        )
+add_custom_command(
+        TARGET dragon_scene POST_BUILD
+        COMMAND unzip -qq -o ${CMAKE_SOURCE_DIR}/external/dragon.zip
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/external/
+)
+add_custom_command(
+        TARGET dragon_scene POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/external/dragon.obj
         ${CMAKE_CURRENT_BINARY_DIR}/
 )
 
@@ -160,6 +180,7 @@ add_test(NAME UVMap_AlignCheckPlane COMMAND $<TARGET_FILE:uvmap_aligncheckplane>
 add_test(NAME UVMap_CheckeredCube COMMAND $<TARGET_FILE:uvmap_checkeredcube>)
 add_test(NAME UVMap_Earth COMMAND $<TARGET_FILE:uvmap_earth>)
 add_test(NAME UVMap_Skybox COMMAND $<TARGET_FILE:uvmap_skybox>)
+add_test(NAME Dragon_Sceme COMMAND $<TARGET_FILE:dragon_scene>)
 add_test(NAME Test_Rendering COMMAND $<TARGET_FILE:test_render>)
 add_test(NAME Triangle_RenderTest COMMAND $<TARGET_FILE:triangle_rendertest>)
 add_test(NAME ChristmasBall_Rendering COMMAND $<TARGET_FILE:christmasball_render>)
