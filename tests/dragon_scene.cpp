@@ -129,7 +129,7 @@ int main()
     w.finalise(opt);
 
     /* Set the camera */
-    Camera camera = Camera(800, 600, M_PI/2);
+    Camera camera = Camera(40, 30, M_PI/2);
     camera.setTransform(viewTransform(Point(-5, 10, 13),
                                       Point(0, 1, 0),
                                       Vector(0, 1, 0)));
