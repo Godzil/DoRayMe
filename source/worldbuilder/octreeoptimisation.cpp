@@ -7,8 +7,10 @@
  *
  */
 #include <worldoptimiser.h>
+#include <cube.h>
+#include <transformation.h>
 
-void OctreeOptimisation::makeTree(Group *leaf)
+void OctreeOptimisation::makeTree(Group *leaf, int depth)
 {
     /* Let's take the bounding box of the root */
     BoundingBox rootBB = leaf->getBounds();
@@ -23,10 +25,10 @@ void OctreeOptimisation::makeTree(Group *leaf)
 
     int i;
 
-    if (leaf->getObjectCount() > 4)
+    if (leaf->getObjectCount() > 2)
     {
         /* Split the main bounding box into 8 boxes */
-        QuadrantBB[0] | rootBB.min;
+        QuadrantBB[0] | Point(rootBB.min.x, rootBB.min.y, rootBB.min.z);
         QuadrantBB[0] | Point(midX, midY, midZ);
 
         QuadrantBB[1] | Point(midX, rootBB.min.y, rootBB.min.z);
@@ -42,7 +44,7 @@ void OctreeOptimisation::makeTree(Group *leaf)
         QuadrantBB[4] | Point(midX, rootBB.max.y, rootBB.max.z);
 
         QuadrantBB[5] | Point(midX, midY, midZ);
-        QuadrantBB[5] | rootBB.max;
+        QuadrantBB[5] | Point(rootBB.max.x, rootBB.max.y, rootBB.max.z);
 
         QuadrantBB[6] | Point(rootBB.min.x, rootBB.min.y, midZ);
         QuadrantBB[6] | Point(midX, midY, rootBB.max.z);
@@ -69,8 +71,12 @@ void OctreeOptimisation::makeTree(Group *leaf)
                         if (Quadrants[quadrantIdx] == nullptr)
                         {
                             char name[32];
-                            snprintf(name, 32, "Quadrant %d", quadrantIdx);
+                            snprintf(name, 32, "%d_Quadrant %d", depth, quadrantIdx);
+                            //for(int j=0; j < depth; j++) { printf(" "); }
+                            //printf("%s\n", name);
                             Quadrants[quadrantIdx] = new Group(name);
+
+                            Quadrants[quadrantIdx]->setBounds(QuadrantBB[quadrantIdx]);
                         }
 
                         Quadrants[quadrantIdx]->addObject(shp);
@@ -90,13 +96,40 @@ void OctreeOptimisation::makeTree(Group *leaf)
             }
         }
 
-        /* Now add the quadrant to the root and recurse in it */
-        for (quadrantIdx = 0 ; quadrantIdx < 8 ; quadrantIdx++)
+        //if (depth < 1)
         {
-            if (Quadrants[quadrantIdx] != nullptr)
+            /* Now add the quadrant to the root and recurse in it */
+            for (quadrantIdx = 0 ; quadrantIdx < 8 ; quadrantIdx++)
             {
-                this->makeTree(Quadrants[quadrantIdx]);
-                leaf->addObject(Quadrants[quadrantIdx]);
+                if (Quadrants[quadrantIdx] != nullptr)
+                {
+                    this->makeTree(Quadrants[quadrantIdx], depth + 1);
+
+                    Quadrants[quadrantIdx]->updateBoundingBox();
+
+                    leaf->addObject(Quadrants[quadrantIdx]);
+#if 0
+                    Cube *cb = new Cube();
+                    double sx = QuadrantBB[quadrantIdx].max.x - QuadrantBB[quadrantIdx].min.x;
+                    double sy = QuadrantBB[quadrantIdx].max.y - QuadrantBB[quadrantIdx].min.y;
+                    double sz = QuadrantBB[quadrantIdx].max.z - QuadrantBB[quadrantIdx].min.z;
+
+                    cb->setTransform(translation(QuadrantBB[quadrantIdx].min.x, QuadrantBB[quadrantIdx].min.y,
+                                                 QuadrantBB[quadrantIdx].min.z) * scaling(sx, sy, sz));
+                    cb->material.colour = Colour(0.01, 0.01, 0);
+                    cb->materialSet = true;
+                    cb->dropShadow = false;
+                    cb->material.ambient = 0.1;
+                    cb->material.reflective = 0;
+                    cb->material.transparency = 0.95;
+                    cb->material.refractiveIndex = 1;
+                    cb->material.specular = 0;
+                    leaf->addObject(cb);
+
+                    printf("%s: %d objs\n", Quadrants[quadrantIdx]->getName(),
+                           Quadrants[quadrantIdx]->getObjectCount());
+#endif
+                }
             }
         }
     }
@@ -111,5 +144,5 @@ void OctreeOptimisation::run()
     this->moveAllObjects();
 
     /* Now.. The fun start ! */
-    makeTree(this->root);
+    makeTree(this->root, 0);
 }
