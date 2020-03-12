@@ -476,13 +476,13 @@ int OBJFile::execLine(int argc, char *argv[], uint32_t currentLine)
                 this->currentGroup->addObject(makeVector(this->vertices(v[3]),
                                                          this->verticesNormal(vn[3]),
                                                          Colour(0.5, 0, 1)));
+#endif
                 t = new SmoothTriangle(this->vertices(v[1]),
                                        this->vertices(v[2]),
                                        this->vertices(v[3]),
                                        this->verticesNormal(vn[1]),
                                        this->verticesNormal(vn[2]),
                                        this->verticesNormal(vn[3]));
-#endif
             }
             this->currentGroup->addObject(t);
             ret = 0;
