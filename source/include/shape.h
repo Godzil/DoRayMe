@@ -44,7 +44,7 @@ protected:
     bool locked;
 
 protected:
-    virtual Intersect localIntersect(Ray r) = 0;
+    virtual void localIntersect(Ray r, Intersect &xs) = 0;
     virtual Tuple localNormalAt(Tuple point, Intersection *hit) = 0;
 
 public:
@@ -62,7 +62,7 @@ public:
 
     ShapeType getType() { return this->type; };
 
-    virtual Intersect intersect(Ray r);
+    virtual void intersect(Ray &r, Intersect &xs);
     Tuple normalAt(Tuple point, Intersection *hit = nullptr);
 
     /* Bounding box points are always world value */
@@ -92,8 +92,8 @@ public:
 
     void setTransform(Matrix transform);
     void setMaterial(Material material) { this->material = material; this->materialSet = true; };
-    Ray transform(Ray r) { return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
-    Ray invTransform(Ray r) { return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
+    Ray transform(Ray &r) { return Ray(this->transformMatrix * r.origin, this->transformMatrix * r.direction); };
+    Ray invTransform(Ray &r) { return Ray(this->inverseTransform * r.origin, this->inverseTransform * r.direction); };
 
     bool operator==(const Shape &b) const { return this->material == b.material &&
                                                    this->type == b.type &&

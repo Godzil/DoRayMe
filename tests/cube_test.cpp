@@ -43,7 +43,7 @@ TEST(CubeTest, A_ray_intersects_a_cube)
     for(i = 0; i < 7; i++)
     {
         Ray r = Ray(Origins[i], Directions[i]);
-        Intersect xs = c.intersect(r);
+        Intersect xs; c.intersect(r, xs);
 
         ASSERT_EQ(xs.count(), 2);
         EXPECT_EQ(xs[0].t, t1[i]);
@@ -77,7 +77,7 @@ TEST(CubeTest, A_ray_miss_a_cube)
     for(i = 0; i < 6; i++)
     {
         Ray r = Ray(Origins[i], Directions[i]);
-        Intersect xs = c.intersect(r);
+        Intersect xs; c.intersect(r, xs);
 
         ASSERT_EQ(xs.count(), 0);
     }

@@ -39,7 +39,7 @@ TEST(GroupTest, Intersecting_a_ray_with_an_empty_group)
 {
     Group g = Group();
     Ray r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
-    Intersect xs = g.intersect(r);
+    Intersect xs; g.intersect(r, xs);
     ASSERT_EQ(xs.count(), 0);
 }
 
@@ -58,7 +58,7 @@ TEST(GroupTest, Intersecting_a_ray_with_an_nonempty_group)
     g.addObject(&s3);
 
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
-    Intersect xs = g.intersect(r);
+    Intersect xs; g.intersect(r, xs);
     ASSERT_EQ(xs.count(), 4);
     EXPECT_EQ(xs[0].object, &s2);
     EXPECT_EQ(xs[1].object, &s2);
@@ -77,7 +77,7 @@ TEST(GroupTest, Intersecting_a_transformed_group)
     g.addObject(&s);
 
     Ray r = Ray(Point(10, 0, -50), Vector(0, 0, 1));
-    Intersect xs = g.intersect(r);
+    Intersect xs; g.intersect(r, xs);
     ASSERT_EQ(xs.count(), 2);
 }
 

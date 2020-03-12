@@ -53,7 +53,7 @@ TEST(ShapeTest, Intersecting_a_scaled_shape_with_a_ray)
     TestShape s = TestShape();
 
     s.setTransform(scaling(2, 2, 2));
-    Intersect xs = s.intersect(r);
+    Intersect xs; s.intersect(r, xs);
 
     ASSERT_EQ(s.localRay.origin, Point(0, 0, -2.5));
     ASSERT_EQ(s.localRay.direction, Vector(0, 0, 0.5));
@@ -65,7 +65,7 @@ TEST(ShapeTest, Intersecting_a_translated_shape_with_a_ray)
     TestShape s = TestShape();
 
     s.setTransform(translation(5, 0, 0));
-    Intersect xs = s.intersect(r);
+    Intersect xs; s.intersect(r, xs);
 
     ASSERT_EQ(s.localRay.origin, Point(-5, 0, -5));
     ASSERT_EQ(s.localRay.direction, Vector(0, 0, 1));

@@ -51,10 +51,8 @@ void Cone::intersectCaps(Ray r, Intersect &xs)
     }
 }
 
-Intersect Cone::localIntersect(Ray r)
+void Cone::localIntersect(Ray r, Intersect &xs)
 {
-    Intersect ret;
-
     double A = (r.direction.x * r.direction.x) -
                (r.direction.y * r.direction.y) +
                (r.direction.z * r.direction.z);
@@ -70,7 +68,7 @@ Intersect Cone::localIntersect(Ray r)
     if ((fabs(A) <= getEpsilon()) && (fabs(B) >= getEpsilon()))
     {
         double t = -C / (2*B);
-        ret.add(Intersection(t, this));
+        xs.add(Intersection(t, this));
     }
     else if (fabs(A) >= getEpsilon())
     {
@@ -83,20 +81,18 @@ Intersect Cone::localIntersect(Ray r)
             double y0 = r.origin.y + t0 * r.direction.y;
             if ((this->minCap < y0) && (y0 < this->maxCap))
             {
-                ret.add(Intersection(t0, this));
+                xs.add(Intersection(t0, this));
             }
 
             double y1 = r.origin.y + t1 * r.direction.y;
             if ((this->minCap < y1) && (y1 < this->maxCap))
             {
-                ret.add(Intersection(t1, this));
+                xs.add(Intersection(t1, this));
             }
         }
     }
 
-    this->intersectCaps(r, ret);
-
-    return ret;
+    this->intersectCaps(r, xs);
 }
 
 Tuple Cone::localNormalAt(Tuple point, Intersection *hit)

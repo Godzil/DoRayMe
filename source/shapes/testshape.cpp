@@ -13,10 +13,9 @@ TestShape::TestShape() : localRay(Point(0, 0, 0), Vector(0, 0, 0))
 {
 }
 
-Intersect TestShape::localIntersect(Ray r)
+void TestShape::localIntersect(Ray r, Intersect &xs)
 {
     this->localRay = r;
-    return Intersect();
 }
 
 Tuple TestShape::localNormalAt(Tuple point, Intersection *hit)

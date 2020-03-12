@@ -31,7 +31,7 @@ TEST(PlaneTest, Intersect_with_a_ray_parallel_to_the_plane)
     Plane p = Plane();
     Ray r = Ray(Point(0, 10, 0), Vector(0, 0, 1));
 
-    Intersect xs = p.intersect(r);
+    Intersect xs; p.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 0);
 }
@@ -41,7 +41,7 @@ TEST(PlaneTest, Intersect_with_a_coplanar_ray)
     Plane p = Plane();
     Ray r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
 
-    Intersect xs = p.intersect(r);
+    Intersect xs; p.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 0);
 }
@@ -51,7 +51,7 @@ TEST(PlaneTest, A_ray_intersecting_a_plane_from_above)
     Plane p = Plane();
     Ray r = Ray(Point(0, 1, 0), Vector(0, -1, 0));
 
-    Intersect xs = p.intersect(r);
+    Intersect xs; p.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 1);
     ASSERT_EQ(xs[0].t, 1);
@@ -63,7 +63,7 @@ TEST(PlaneTest, A_ray_intersecting_a_plane_from_below)
     Plane p = Plane();
     Ray r = Ray(Point(0, -1, 0), Vector(0, 1, 0));
 
-    Intersect xs = p.intersect(r);
+    Intersect xs; p.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 1);
     ASSERT_EQ(xs[0].t, 1);

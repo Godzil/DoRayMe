@@ -25,9 +25,9 @@ Shape::Shape(ShapeType type)
     this->updateTransform();
 }
 
-Intersect Shape::intersect(Ray r)
+void Shape::intersect(Ray &r, Intersect &xs)
 {
-    return this->localIntersect(this->invTransform(r));
+    this->localIntersect(this->invTransform(r), xs);
 };
 
 Tuple Shape::normalToWorld(Tuple normalVector)

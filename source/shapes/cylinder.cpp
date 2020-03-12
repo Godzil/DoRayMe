@@ -51,10 +51,8 @@ void Cylinder::intersectCaps(Ray r, Intersect &xs)
     }
 }
 
-Intersect Cylinder::localIntersect(Ray r)
+void Cylinder::localIntersect(Ray r, Intersect &xs)
 {
-    Intersect ret;
-
     double A = r.direction.x * r.direction.x + r.direction.z * r.direction.z;
 
     /* Ray is parallel to the Y axis */
@@ -74,20 +72,18 @@ Intersect Cylinder::localIntersect(Ray r)
             double y0 = r.origin.y + t0 * r.direction.y;
             if ((this->minCap < y0) && (y0 < this->maxCap))
             {
-                ret.add(Intersection(t0, this));
+                xs.add(Intersection(t0, this));
             }
 
             double y1 = r.origin.y + t1 * r.direction.y;
             if ((this->minCap < y1) && (y1 < this->maxCap))
             {
-                ret.add(Intersection(t1, this));
+                xs.add(Intersection(t1, this));
             }
         }
     }
 
-    this->intersectCaps(r, ret);
-
-    return ret;
+    this->intersectCaps(r, xs);
 }
 
 Tuple Cylinder::localNormalAt(Tuple point, Intersection *hit)

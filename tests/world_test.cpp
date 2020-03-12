@@ -54,7 +54,8 @@ TEST(WorldTest, Intersect_a_world_with_a_ray)
     World w = DefaultWorld();
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
 
-    Intersect xs = w.intersect(r);
+    Intersect xs;
+    w.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 4);
     ASSERT_EQ(xs[0].t, 4);

@@ -57,7 +57,7 @@ TEST(IntersectTest, Intersect_sets_the_object_on_the_intersection)
 {
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
     Sphere s = Sphere();
-    Intersect xs = s.intersect(r);
+    Intersect xs; s.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 2);
     ASSERT_EQ(xs[0].object, (Shape *)&s);

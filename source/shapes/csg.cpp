@@ -24,31 +24,24 @@ CSG::CSG(OperationType operation, Shape *left, Shape *right) : Shape(Shape::CSG)
     this->bounds | this->right->getBounds();
 }
 
-Intersect CSG::localIntersect(Ray r)
+void CSG::localIntersect(Ray r, Intersect &xs)
 {
-    return this->intersect(r);
+    this->intersect(r, xs);
 }
 
 
-Intersect CSG::intersect(Ray r)
+void CSG::intersect(Ray &r, Intersect &xs)
 {
     int i;
-    Intersect ret = Intersect();
+    Intersect tmp = Intersect();
 
     if (this->bounds.intesectMe(r))
     {
-        Intersect leftxs = this->left->intersect(r);
-        Intersect rightxs = this->right->intersect(r);
+        this->left->intersect(r, tmp);
+        this->right->intersect(r, tmp);
 
-        for (i = 0 ; i < rightxs.count() ; i++)
-        {
-            leftxs.add(rightxs[i]);
-        }
-
-        this->filterIntersections(leftxs, ret);
+        this->filterIntersections(tmp, xs);
     }
-
-    return ret;
 }
 
 Tuple CSG::localNormalAt(Tuple point, Intersection *hit)

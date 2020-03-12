@@ -14,9 +14,9 @@ class SmoothTriTest : public SmoothTriangle
 {
 public:
     SmoothTriTest(Point p1, Point p2, Point p3, Vector n1, Vector n2, Vector n3) : SmoothTriangle(p1, p2, p3, n1, n2, n3) {};
-    Intersect doLocalIntersect(Ray ray)
+    void doLocalIntersect(Ray ray, Intersect &xs)
     {
-        return this->localIntersect(ray);
+        this->localIntersect(ray, xs);
     };
 
     Tuple doLocalNormalAt(Tuple point, Intersection *hit)
@@ -48,7 +48,7 @@ TEST(SmoothTriangleTest, An_intersection_with_a_smooth_triangle_stores_u_v)
 {
     Ray r = Ray(Point(-0.2, 0.3, -2), Vector(0, 0, 1));
 
-    Intersect xs = tri.doLocalIntersect(r);
+    Intersect xs; tri.doLocalIntersect(r, xs);
 
     ASSERT_TRUE(double_equal(xs[0].u, 0.45));
     ASSERT_TRUE(double_equal(xs[0].v, 0.25));

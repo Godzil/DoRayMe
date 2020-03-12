@@ -18,8 +18,8 @@
 class CSGTest : public CSG
 {
 public:
-    Intersect doLocalIntersect(Ray r) {
-        return this->localIntersect(r);
+    void doLocalIntersect(Ray r, Intersect &xs) {
+        return this->localIntersect(r, xs);
     };
     Tuple doLocalNormalAt(Tuple point, Intersection *hit = nullptr) {
         return this->localNormalAt(point, hit);
@@ -202,7 +202,7 @@ TEST(CSGTest, A_ray_misses_a_csg_object)
     CSGTest c = CSGTest(CSG::UNION, &s1, &s2);
 
     Ray r = Ray(Point(0, 2, -5), Vector(0, 0, 1));
-    Intersect xs = c.doLocalIntersect(r);
+    Intersect xs; c.doLocalIntersect(r, xs);
 
     ASSERT_EQ(xs.count(), 0);
 }
@@ -217,7 +217,7 @@ TEST(CSGTest, A_ray_hits_a_csg_object)
     CSGTest c = CSGTest(CSG::UNION, &s1, &s2);
 
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
-    Intersect xs = c.doLocalIntersect(r);
+    Intersect xs; c.doLocalIntersect(r, xs);
 
     ASSERT_EQ(xs.count(), 2);
     ASSERT_TRUE(double_equal(xs[0].t, 4));

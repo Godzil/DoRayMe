@@ -28,7 +28,7 @@ protected:
     BoundingBox bounds;
 
 protected:
-    Intersect localIntersect(Ray r);
+    void localIntersect(Ray r, Intersect &xs);
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
     BoundingBox getLocalBounds();
 
@@ -42,7 +42,7 @@ protected:
 public:
     CSG(OperationType operation, Shape *left, Shape *right);
 
-    Intersect intersect(Ray r);
+    void intersect(Ray &r, Intersect &xs);
 
     bool includes(Shape *b);
 

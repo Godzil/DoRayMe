@@ -36,9 +36,8 @@ Group::Group(const char *name) : Shape(Shape::GROUP)
     }
 }
 
-Intersect Group::intersect(Ray r)
+void Group::intersect(Ray &r, Intersect &xs)
 {
-    Intersect ret;
     int i, j;
     if (this->objectCount > 0)
     {
@@ -46,14 +45,7 @@ Intersect Group::intersect(Ray r)
         {
             for (i = 0 ; i < this->objectCount ; i++)
             {
-                Intersect xs = this->objectList[i]->intersect(r);
-                if (xs.count() > 0)
-                {
-                    for (j = 0 ; j < xs.count() ; j++)
-                    {
-                        ret.add(xs[j]);
-                    }
-                }
+                this->objectList[i]->intersect(r, xs);
             }
         }
     }
@@ -63,17 +55,9 @@ Intersect Group::intersect(Ray r)
     {
         for(i = 0; i < this->unboxableObjectCount; i++)
         {
-            Intersect xs = this->unboxableObjectList[i]->intersect(r);
-            if (xs.count() > 0)
-            {
-                for(j = 0; j < xs.count(); j++)
-                {
-                    ret.add(xs[j]);
-                }
-            }
+            this->unboxableObjectList[i]->intersect(r, xs);
         }
     }
-    return ret;
 }
 
 bool Group::includes(Shape *b)
@@ -104,9 +88,9 @@ bool Group::includes(Shape *b)
     return false;
 }
 
-Intersect Group::localIntersect(Ray r)
+void Group::localIntersect(Ray r, Intersect &xs)
 {
-    return Intersect();
+    this->intersect(r, xs);
 }
 
 Tuple Group::localNormalAt(Tuple point, Intersection *hit)

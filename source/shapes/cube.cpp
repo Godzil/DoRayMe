@@ -36,10 +36,8 @@ void Cube::checkAxis(double axeOrigin, double axeDirection, double *axeMin, doub
     }
 }
 
-Intersect Cube::localIntersect(Ray r)
+void Cube::localIntersect(Ray r, Intersect &xs)
 {
-    Intersect ret;
-
     double xtMin, xtMax, ytMin, ytMax, ztMin, ztMax;
     double tMin, tMax;
 
@@ -52,11 +50,9 @@ Intersect Cube::localIntersect(Ray r)
 
     if (tMin <= tMax)
     {
-        ret.add(Intersection(tMin, this));
-        ret.add(Intersection(tMax, this));
+        xs.add(Intersection(tMin, this));
+        xs.add(Intersection(tMax, this));
     }
-
-    return ret;
 }
 
 Tuple Cube::localNormalAt(Tuple point, Intersection *hit)

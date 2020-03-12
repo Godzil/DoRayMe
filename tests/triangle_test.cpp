@@ -44,7 +44,7 @@ TEST(TriangleTest, Intersecting_a_ray_parallel_to_the_triangle)
     Triangle t = Triangle(Point(0, 1, 0), Point(-1, 0, 0), Point(1, 0, 0));
     Ray r = Ray(Point(0, -1, -2), Vector(0, 1, 0));
 
-    Intersect xs = t.intersect(r);
+    Intersect xs; t.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 0);
 }
@@ -54,7 +54,7 @@ TEST(TriangleTest, A_ray_miss_the_p1_p3_edge)
     Triangle t = Triangle(Point(0, 1, 0), Point(-1, 0, 0), Point(1, 0, 0));
     Ray r = Ray(Point(1, 1, -2), Vector(0, 0, 1));
 
-    Intersect xs = t.intersect(r);
+    Intersect xs; t.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 0);
 }
@@ -64,7 +64,7 @@ TEST(TriangleTest, A_ray_miss_the_p1_p2_edge)
     Triangle t = Triangle(Point(0, 1, 0), Point(-1, 0, 0), Point(1, 0, 0));
     Ray r = Ray(Point(-1, 1, -2), Vector(0, 0, 1));
 
-    Intersect xs = t.intersect(r);
+    Intersect xs; t.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 0);
 }
@@ -74,7 +74,7 @@ TEST(TriangleTest, A_ray_miss_the_p2_p3_edge)
     Triangle t = Triangle(Point(0, 1, 0), Point(-1, 0, 0), Point(1, 0, 0));
     Ray r = Ray(Point(0, -1, -2), Vector(0, 0, 1));
 
-    Intersect xs = t.intersect(r);
+    Intersect xs; t.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 0);
 }
@@ -84,7 +84,7 @@ TEST(TriangleTest, A_ray_strikes_a_triangle)
     Triangle t = Triangle(Point(0, 1, 0), Point(-1, 0, 0), Point(1, 0, 0));
     Ray r = Ray(Point(0, .5, -2), Vector(0, 0, 1));
 
-    Intersect xs = t.intersect(r);
+    Intersect xs; t.intersect(r, xs);
 
     ASSERT_EQ(xs.count(), 1);
     EXPECT_EQ(xs[0].t, 2);

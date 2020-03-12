@@ -13,9 +13,8 @@
 #include <tuple.h>
 #include <intersect.h>
 
-Intersect Sphere::localIntersect(Ray r)
+void Sphere::localIntersect(Ray r, Intersect &xs)
 {
-    Intersect ret;
     double a, b, c, discriminant;
 
     Tuple sphere_to_ray = r.origin - Point(0, 0, 0);
@@ -28,11 +27,9 @@ Intersect Sphere::localIntersect(Ray r)
 
     if (discriminant >= 0)
     {
-        ret.add(Intersection((-b - sqrt(discriminant)) / (2 * a), this));
-        ret.add(Intersection((-b + sqrt(discriminant)) / (2 * a), this));
+        xs.add(Intersection((-b - sqrt(discriminant)) / (2 * a), this));
+        xs.add(Intersection((-b + sqrt(discriminant)) / (2 * a), this));
     }
-
-    return ret;
 }
 
 Tuple Sphere::localNormalAt(Tuple point, Intersection *hit)

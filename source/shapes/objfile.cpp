@@ -160,9 +160,9 @@ Group *OBJFile::groups(const char *groupName)
     return nullptr;
 }
 
-Intersect OBJFile::intersect(Ray r)
+void OBJFile::intersect(Ray &r, Intersect &xs)
 {
-    return this->baseGroup->intersect(r);
+    this->baseGroup->intersect(r, xs);
 }
 
 bool OBJFile::includes(Shape *b)
@@ -170,9 +170,9 @@ bool OBJFile::includes(Shape *b)
     return this->baseGroup->includes(b);
 }
 
-Intersect OBJFile::localIntersect(Ray r)
+void OBJFile::localIntersect(Ray r, Intersect &xs)
 {
-    return Intersect();
+    this->intersect(r, xs);
 }
 
 Tuple OBJFile::localNormalAt(Tuple point, Intersection *hit)

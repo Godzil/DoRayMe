@@ -75,9 +75,9 @@ bool World::objectIsIn(Shape &s)
     return this->worldGroup.includes(&s);
 }
 
-Intersect World::intersect(Ray r)
+void World::intersect(Ray &r, Intersect &xs)
 {
-    return this->worldGroup.intersect(r);
+    this->worldGroup.intersect(r, xs);
 }
 
 Tuple World::shadeHit(Computation comps, uint32_t depthCount)
@@ -108,7 +108,8 @@ Tuple World::shadeHit(Computation comps, uint32_t depthCount)
 
 Tuple World::colourAt(Ray r, uint32_t depthCount)
 {
-    Intersect allHits = this->intersect(r);
+    Intersect allHits;
+    this->intersect(r, allHits);
     Intersection hit = allHits.hit();
 
     stats.setMaxDepth(depthCount);
@@ -131,7 +132,8 @@ bool World::isShadowed(Tuple point, Tuple lightPosition)
 
     Ray r = Ray(point, direction);
     stats.addLightRay();
-    Intersect xs = this->intersect(r);
+    Intersect xs;
+    this->intersect(r, xs);
 
     int i;
     for(i = 0; i < xs.count(); i++)

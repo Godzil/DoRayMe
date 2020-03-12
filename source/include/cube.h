@@ -19,7 +19,7 @@ class Cube : public Shape {
 protected:
     void checkAxis(double axeOrigin, double axeDirection, double *axeMin, double *axeMax);
 
-    Intersect localIntersect(Ray r);
+    void localIntersect(Ray r, Intersect &xs);
 
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 

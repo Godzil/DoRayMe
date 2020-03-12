@@ -12,22 +12,20 @@
 #include <plane.h>
 #include <math_helper.h>
 
-Intersect Plane::localIntersect(Ray r)
+void Plane::localIntersect(Ray r, Intersect &xs)
 {
     double t;
-    Intersect ret = Intersect();
 
     if (fabs(r.direction.y) < getEpsilon())
     {
         /* With a direction == 0, the ray can't intersect the plane */
-        return ret;
     }
+    else
+    {
+        t = -r.origin.y / r.direction.y;
 
-    t = -r.origin.y / r.direction.y;
-
-    ret.add(Intersection(t, this));
-
-    return ret;
+        xs.add(Intersection(t, this));
+    }
 }
 
 Tuple Plane::localNormalAt(Tuple point, Intersection *hit)

@@ -63,7 +63,7 @@ public:
     Colour reflectColour(Computation comps, uint32_t depthCount = 4);
     Colour refractedColour(Computation comps, uint32_t depthCount = 4);
 
-    Intersect intersect(Ray r);
+    void intersect(Ray &r, Intersect &xs);
 
     void finalise(WorldOptimiser &opt);
 

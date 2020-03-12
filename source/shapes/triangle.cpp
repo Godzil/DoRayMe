@@ -21,15 +21,13 @@ Triangle::Triangle(Point p1, Point p2, Point p3) : Shape(Shape::TRIANGLE), p1(p1
     this->normal = e2.cross(e1).normalise();
 }
 
-Intersect Triangle::localIntersect(Ray r)
+void Triangle::localIntersect(Ray r, Intersect &xs)
 {
-    Intersect ret;
-
     Tuple dirCrossE2 = r.direction.cross(this->e2);
     double determinant = this->e1.dot(dirCrossE2);
     if (fabs(determinant) < getEpsilon())
     {
-        return ret;
+        return;
     }
 
     double f = 1.0 / determinant;
@@ -40,18 +38,16 @@ Intersect Triangle::localIntersect(Ray r)
 
     if ((u < 0) || (u > 1))
     {
-        return ret;
+        return;
     }
 
     if ((v < 0) || ((u + v) > 1))
     {
-        return ret;
+        return;
     }
 
     double t = f * this->e2.dot(originCrossE1);
-    ret.add(Intersection(t, this, u, v));
-
-    return ret;
+    xs.add(Intersection(t, this, u, v));
 }
 
 Tuple Triangle::localNormalAt(Tuple point, Intersection *hit)

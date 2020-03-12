@@ -31,7 +31,7 @@ private:
     uint32_t vertexNormalCount;
 
 private:
-    Intersect localIntersect(Ray r);
+    void localIntersect(Ray r, Intersect &xs);
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
 public:
@@ -59,7 +59,7 @@ public:
     Point vertices(uint32_t i) { return *this->vertexList[i - 1]; };
     Vector verticesNormal(uint32_t i) { return *this->vertexNormalList[i - 1]; };
     Group *groups(const char *groupName);
-    Intersect intersect(Ray r);
+    void intersect(Ray &r, Intersect &xs);
     BoundingBox getLocalBounds();
     BoundingBox getBounds();
 

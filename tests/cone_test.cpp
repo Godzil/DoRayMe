@@ -46,7 +46,7 @@ TEST(ConeTest, Intersecting_a_cone_with_a_ray)
         Tuple direction = Directions[i].normalise();
         Ray r = Ray(Origins[i], direction);
 
-        Intersect xs = cone.intersect(r);
+        Intersect xs; cone.intersect(r, xs);
 
         /* Temporary lower the precision */
         set_equal_precision(0.00001);
@@ -64,7 +64,7 @@ TEST(ConeTest, Intersecting_a_cone_with_a_ray_parall_to_one_of_its_halves)
     Cone cone = Cone();
     Tuple direction = Vector(0, 1, 1).normalise();
     Ray r = Ray(Point(0, 0, -1), direction);
-    Intersect xs = cone.intersect(r);
+    Intersect xs; cone.intersect(r, xs);
     ASSERT_EQ(xs.count(), 1);
 
     /* Temporary lower the precision */
@@ -102,7 +102,8 @@ TEST(ConeTest, Intersecting_a_cone_end_cap)
         Tuple direction = Directions[i].normalise();
         Ray r = Ray(Origins[i], direction);
 
-        Intersect xs = cone.intersect(r);
+        Intersect xs;
+        cone.intersect(r, xs);
 
         ASSERT_EQ(xs.count(), Counts[i]);
     }

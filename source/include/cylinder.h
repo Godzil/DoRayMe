@@ -18,7 +18,7 @@
 class Cylinder : public Shape {
 
 protected:
-    Intersect localIntersect(Ray r);
+    void localIntersect(Ray r, Intersect &xs);
 
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 

@@ -28,7 +28,7 @@ private:
     char name[32 + 1];
 
 protected:
-    Intersect localIntersect(Ray r);
+    void localIntersect(Ray r, Intersect &xs);
     Tuple localNormalAt(Tuple point, Intersection *hit = nullptr);
 
     BoundingBox bounds;
@@ -43,7 +43,7 @@ public:
     Shape *getObject(const int p) { return this->objectList[p]; };
     Shape *getUnboxable(const int p) { return this->unboxableObjectList[p]; };
 
-    Intersect intersect(Ray r);
+    void intersect(Ray &r, Intersect &xs);
     BoundingBox getLocalBounds();
     BoundingBox getBounds();
 
@@ -58,6 +58,8 @@ public:
     Group(const char *name = nullptr);
 
     void lock();
+
+    void setBounds(BoundingBox &bb) { this->bounds | bb; };
 
     const char *getName() { return this->name; };
 

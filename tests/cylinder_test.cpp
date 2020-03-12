@@ -34,7 +34,7 @@ TEST(CylinderTest, A_ray_miss_a_cylinder)
         Tuple direction = Directions[i].normalise();
         Ray r = Ray(Origins[i], direction);
 
-        Intersect xs = cyl.intersect(r);
+        Intersect xs; cyl.intersect(r, xs);
 
         ASSERT_EQ(xs.count(), 0);
     }
@@ -65,7 +65,7 @@ TEST(CylinderTest, A_ray_hit_a_cylinder)
         Tuple direction = Directions[i].normalise();
         Ray r = Ray(Origins[i], direction);
 
-        Intersect xs = cyl.intersect(r);
+        Intersect xs; cyl.intersect(r, xs);
 
         /* Temporary lower the precision */
         set_equal_precision(0.00001);
@@ -142,7 +142,7 @@ TEST(CylinderTest, Intersecting_a_constrained_cylinder)
         Tuple direction = Directions[i].normalise();
         Ray r = Ray(Origins[i], direction);
 
-        Intersect xs = cyl.intersect(r);
+        Intersect xs; cyl.intersect(r, xs);
 
         ASSERT_EQ(xs.count(), Counts[i]);
     }
@@ -184,7 +184,7 @@ TEST(CylinderTest, Intersecting_the_caps_of_a_close_cylinder)
         Tuple direction = Directions[i].normalise();
         Ray r = Ray(Origins[i], direction);
 
-        Intersect xs = cyl.intersect(r);
+        Intersect xs; cyl.intersect(r, xs);
         ASSERT_EQ(xs.count(), Counts[i]);
     }
 }
