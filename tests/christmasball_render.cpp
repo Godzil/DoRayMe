@@ -229,13 +229,14 @@ int main()
     w.addObject(s);
 
     /* ----------------------------- */
-
+    /*
     FILE *fpOut = fopen("christmas_worlddump.json", "wt");
     if (fpOut)
     {
         w.dumpMe(fpOut);
         fclose(fpOut);
     }
+    */
     /* ----------------------------- */
 
 

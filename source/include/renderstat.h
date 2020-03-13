@@ -27,7 +27,8 @@ private:
     uint64_t csgCount;                   /* Total number of CSG             */
 
     uint64_t pixelCount;                 /* Total number of rendered pixels */
-    uint64_t rayCount;                   /* Total number of rays */
+    uint64_t rayCount;                   /* Total number of rays object created */
+    uint64_t rayCasted;                  /* Total number of rays actually casted */
     uint64_t lightRayEmitedCount;        /* Total number of ray launched for light tests */
     uint64_t reflectionRayCount;         /* Total number of reflection ray launched */
     uint64_t refractedRayCount;          /* Total number of refracted ray launched */
@@ -43,7 +44,8 @@ public:
     RenderStats() : coneCount(0), cylinderCount(0), cubeCount(0), groupCount(0), lightCount(0), planeCount(0), sphereCount(0), triangleCount(0),
                     pixelCount(0), rayCount(0), lightRayEmitedCount(0), reflectionRayCount(0), refractedRayCount(0),
                     intersectCount(0), intersectionCount(0), reallocCallCount(0), mallocCallCount(0), smoothTriangleCount(0),
-                    discardedIntersectCount(0), maxDepthAttained(UINT64_MAX), maxIntersectOnARay(0), objfileCount(0), csgCount(0) {};
+                    discardedIntersectCount(0), maxDepthAttained(UINT64_MAX), maxIntersectOnARay(0), objfileCount(0),
+                    csgCount(0), rayCasted(0) {};
 #ifdef RENDER_STATS
     void addCone();
     void addCylinder();
@@ -59,6 +61,7 @@ public:
     void printStats();
     void addPixel();
     void addRay();
+    void addCastedRay();
     void addLightRay();
     void addReflectRay();
     void addRefractRay();
@@ -82,6 +85,7 @@ public:
     static void printStats() {};
     static void addPixel() {};
     static void addRay() {};
+    static void addCastedRay() {};
     static void addLightRay() {};
     static void addReflectRay() {};
     static void addRefractRay() {};

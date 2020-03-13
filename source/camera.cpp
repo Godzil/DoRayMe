@@ -54,6 +54,7 @@ Ray Camera::rayForPixel(uint32_t pixelX, uint32_t pixelY)
     Tuple origin = this->inverseTransform * Point(0, 0, 0);
     Tuple direction = (pixel - origin).normalise();
 
+    stats.addCastedRay();
     return Ray(origin, direction);
 }
 

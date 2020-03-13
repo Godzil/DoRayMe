@@ -65,7 +65,7 @@ public:
 
     ShapeType getType() { return this->type; };
 
-    virtual void intersect(Ray &r, Intersect &xs);
+    virtual void intersect(Ray &r, Intersect &xs) { this->localIntersect(this->invTransform(r), xs); };
     Tuple normalAt(Tuple point, Intersection *hit = nullptr);
 
     uint64_t getObjectId() { return this->objectId; };

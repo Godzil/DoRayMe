@@ -12,9 +12,15 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/external/covera
 option(PACKAGE_TESTS "Build the tests" ON)
 option(ENABLE_COVERAGE "Build for code coverage" OFF)
 
-option(SHOW_STATS "Show rendering stat" ON)
+option(SHOW_STATS "Show rendering stat" OFF)
 if (SHOW_STATS)
     add_compile_options(-DRENDER_STATS)
+endif()
+
+option(USE_GPROF "Enable profiling" OFF)
+if (USE_GPROF)
+    add_compile_options(-pg)
+    add_link_options(-pg)
 endif()
 
 option(USE_LUA "Enable the use of Lua" ON)

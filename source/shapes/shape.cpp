@@ -36,12 +36,6 @@ uint64_t Shape::newObjectId()
     return ret;
 }
 
-
-void Shape::intersect(Ray &r, Intersect &xs)
-{
-    this->localIntersect(this->invTransform(r), xs);
-};
-
 Tuple Shape::normalToWorld(Tuple normalVector)
 {
     Tuple world_normal = this->transposedInverseTransform * normalVector;

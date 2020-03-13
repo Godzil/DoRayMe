@@ -85,20 +85,32 @@ void RenderStats::addRay()
     this->rayCount++;
 };
 
+void RenderStats::addCastedRay()
+{
+#pragma omp atomic
+    this->rayCasted++;
+};
+
 void RenderStats::addLightRay()
 {
+    this->addCastedRay();
+
 #pragma omp atomic
     this->lightRayEmitedCount++;
 };
 
 void RenderStats::addReflectRay()
 {
+    this->addCastedRay();
+
 #pragma omp atomic
     this->reflectionRayCount++;
 };
 
 void RenderStats::addRefractRay()
 {
+    this->addCastedRay();
+
 #pragma omp atomic
     this->refractedRayCount++;
 };
@@ -172,7 +184,8 @@ void RenderStats::printStats()
     printf("CSG                     : %lld\n", this->csgCount);
     printf("==================================================\n");
     printf("Pixel rendered          : %lld\n", this->pixelCount);
-    printf("Ray casted              : %lld\n", this->rayCount);
+    printf("Ray created             : %lld\n", this->rayCount);
+    printf("Ray casted              : %lld\n", this->rayCasted);
     printf("Light Ray casted        : %lld\n", this->lightRayEmitedCount);
     printf("Reflection ray casted   : %lld\n", this->reflectionRayCount);
     printf("Refraction ray casted   : %lld\n", this->refractedRayCount);

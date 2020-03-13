@@ -117,14 +117,7 @@ int main()
     w.addObject(dragon);
 
     /* ----------------------------- */
-/*
-    FILE *fpOut = fopen("dragon_worlddump.json", "wt");
-    if (fpOut)
-    {
-        w.dumpMe(fpOut);
-        fclose(fpOut);
-    }
-*/
+
     OctreeOptimisation opt;
     w.finalise(opt);
 
