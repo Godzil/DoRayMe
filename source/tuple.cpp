@@ -26,7 +26,7 @@ Tuple Tuple::normalise()
 
     return Tuple(this->x / mag, this->y / mag, this->z / mag, this->w / mag);
 }
-
+/*
 double Tuple::dot(const Tuple &b)
 {
     return this->x * b.x + this->y * b.y + this->z * b.z + this->w * b.w;
@@ -39,7 +39,7 @@ Tuple Tuple::cross(const Tuple &b) const
                  this->x * b.y - this->y * b.x,
                  0);
 }
-
+*/
 Tuple Tuple::reflect(const Tuple &normal)
 {
     return *this - normal * 2 * this->dot(normal);

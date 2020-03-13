@@ -19,6 +19,8 @@
 #undef minor
 #endif
 
+#define FastGet4(_x, _y) (this->data[4 * (_x) + (_y)])
+
 class Matrix
 {
 protected:
@@ -46,7 +48,12 @@ public:
     bool isInvertible() { return this->determinant() != 0; }
 
     Matrix operator*(const Matrix &b) const;
-    Tuple operator*(const Tuple &b) const;
+    Tuple operator*(const Tuple &b) const {
+        return Tuple(b.x * FastGet4(0, 0) + b.y * FastGet4(0, 1) + b.z * FastGet4(0, 2) + b.w * FastGet4(0, 3),
+                     b.x * FastGet4(1, 0) + b.y * FastGet4(1, 1) + b.z * FastGet4(1, 2) + b.w * FastGet4(1, 3),
+                     b.x * FastGet4(2, 0) + b.y * FastGet4(2, 1) + b.z * FastGet4(2, 2) + b.w * FastGet4(2, 3),
+                     b.x * FastGet4(3, 0) + b.y * FastGet4(3, 1) + b.z * FastGet4(3, 2) + b.w * FastGet4(3, 3));
+    }
 };
 
 class Matrix4: public Matrix

@@ -44,8 +44,18 @@ public:
     void set(double nX, double nY, double nZ) { this->x = nX; this->y = nY; this->z = nZ; };
     double magnitude();
     Tuple normalise();
-    double dot(const Tuple &b);
-    Tuple cross(const Tuple &b) const;
+
+    double dot(const Tuple &b) {
+        return this->x * b.x + this->y * b.y + this->z * b.z + this->w * b.w;
+    }
+
+    Tuple cross(const Tuple &b) const {
+        return Tuple(this->y * b.z - this->z * b.y,
+                     this->z * b.x - this->x * b.z,
+                     this->x * b.y - this->y * b.x,
+                     0);
+    }
+
     Tuple reflect(const Tuple &normal);
 };
 
