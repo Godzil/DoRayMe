@@ -8,6 +8,7 @@
  */
 #include <worldoptimiser.h>
 #include <cube.h>
+#include <objfile.h>
 #include <transformation.h>
 
 void BVHOptimisation::makeTree(Group *leaf, int depth)
@@ -63,37 +64,35 @@ void BVHOptimisation::makeTree(Group *leaf, int depth)
     for (i = 0 ; i < leaf->getObjectCount(); i++)
     {
         Shape *shp = leaf->getObject(i);
-        if ((shp->getType() != Shape::GROUP) && (shp->getType() != Shape::OBJFILE))
+        BoundingBox objBB = shp->getBounds();
+
+        for (sliceIdx = 0 ; sliceIdx < 2 ; sliceIdx++)
         {
-            BoundingBox objBB = shp->getBounds();
-
-            for (sliceIdx = 0 ; sliceIdx < 2 ; sliceIdx++)
+            if (SlicesBB[sliceIdx].fitsIn(objBB))
             {
-                if (SlicesBB[sliceIdx].fitsIn(objBB))
+                if (Slices[sliceIdx] == nullptr)
                 {
-                    if (Slices[sliceIdx] == nullptr)
-                    {
-                        char name[32];
-                        snprintf(name, 32, "%d_Slice %d", depth, sliceIdx);
-                        //for(int j=0; j < depth; j++) { printf(" "); }
-                        //printf("%s\n", name);
-                        Slices[sliceIdx] = new Group(name);
+                    char name[32];
+                    snprintf(name, 32, "%d_Slice %d", depth, sliceIdx);
+                    Slices[sliceIdx] = new Group(name);
 
-                        Slices[sliceIdx]->setBounds(SlicesBB[sliceIdx]);
-                    }
-
-                    Slices[sliceIdx]->addObject(shp);
-                    leaf->removeObject(shp);
-
-                    i -= 1;
-                    break;
+                    Slices[sliceIdx]->setBounds(SlicesBB[sliceIdx]);
                 }
+
+                Slices[sliceIdx]->addObject(shp);
+                leaf->removeObject(shp);
+
+                i -= 1;
+                break;
             }
         }
-        else
+        if (shp->getType() == Shape::GROUP)
         {
-            leaf->removeObject(shp);
-            i -= 1;
+            this->makeTree((Group *)shp, depth + 1);
+        }
+        else if (shp->getType() == Shape::OBJFILE)
+        {
+            this->makeTree((Group *)((OBJFile *)shp)->getBaseGroup(), depth + 1);
         }
     }
 
@@ -138,7 +137,7 @@ void BVHOptimisation::run()
     this->moveInfiniteObjects();
 
     /* Then let's have some fun! */
-    this->moveAllObjects();
+    //this->moveAllObjects();
 
     /* Now.. The fun start ! */
     makeTree(this->root, 0);
