@@ -69,3 +69,8 @@ double frand()
 {
     return rand() / ((double) RAND_MAX);
 }
+
+double frandclip(double min, double max)
+{
+    return (frand() * (max - min)) + min;
+}

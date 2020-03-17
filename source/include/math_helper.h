@@ -22,6 +22,7 @@ double min3(double a, double b, double c);
 double max3(double a, double b, double c);
 
 double frand();
+double frandclip(double min, double max);
 
 static double modulo(double a, double b)
 {
