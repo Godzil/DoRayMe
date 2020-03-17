@@ -34,7 +34,11 @@ public:
 
 public:
     Camera(uint32_t hsize, uint32_t vsize, double fov);
-    setFocal(double focal, double aperture, uint32_t rayCount);
+    void setFocal(double focal, double aperture, uint32_t rayCount) {
+        this->focalDistance = focal;
+        this->apertureSize = aperture;
+        this->rayCount = rayCount;
+    }
     void setTransform(Matrix transform);
     Ray rayForPixel(uint32_t pixelX, uint32_t pixelY, double horzOffset = 0, double vertOffset = 0);
     Canvas render(World w, uint32_t depth = 5);
