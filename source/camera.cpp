@@ -15,8 +15,8 @@
 #include <stdio.h>
 #include <renderstat.h>
 
-Camera::Camera(uint32_t hsize, uint32_t vsize, double fov, double focal, double aperture, uint32_t rayCount) : verticalSize(vsize),
-               horizontalSize(hsize), fieldOfView(fov), focalDistance(focal), apertureSize(aperture), rayCount(rayCount)
+Camera::Camera(uint32_t hsize, uint32_t vsize, double fov) : verticalSize(vsize),
+               horizontalSize(hsize), fieldOfView(fov), focalDistance(1), apertureSize(0), rayCount(1)
 {
     double aspectRatio = (double)hsize / (double)vsize;
     double halfView = tan(fov / 2.0) * this->focalDistance;

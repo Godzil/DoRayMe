@@ -33,7 +33,8 @@ public:
     Matrix inverseTransform;
 
 public:
-    Camera(uint32_t hsize, uint32_t vsize, double fov, double focal = 1, double aperture = 0, uint32_t rayCount = 1);
+    Camera(uint32_t hsize, uint32_t vsize, double fov);
+    setFocal(double focal, double aperture, uint32_t rayCount);
     void setTransform(Matrix transform);
     Ray rayForPixel(uint32_t pixelX, uint32_t pixelY, double horzOffset = 0, double vertOffset = 0);
     Canvas render(World w, uint32_t depth = 5);
