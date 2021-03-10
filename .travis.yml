@@ -22,6 +22,11 @@ script:
   - cd tests
   - ./testMyRays
 
+addons:
+  homebrew:
+    packages:
+    - imagemagick
+
 jobs:
   include:
     - stage: "Coverage"
@@ -35,8 +40,3 @@ jobs:
         - cmake --build . --target coveralls
       after_success:
         - bash <(curl -s https://codecov.io/bash)
-
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew unlink python@2 ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install imagemagick ; fi
