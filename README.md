@@ -97,3 +97,6 @@ Examples outputs
 
 ###### Skybox:
 ![Skybox](output/uvmap_skybox.png)
+
+###### Large OBJ file:
+![Dragon](output/dragon_scene.png)
