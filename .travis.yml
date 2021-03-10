@@ -54,11 +54,6 @@ jobs:
       arch: arm64
       compiler: gcc
 
-    - os: linux
-      dist: bionic
-      arch: arm64
-      compiler: gcc
-
     - os: osx
       compiler: clang
       osx_image: xcode10.3
@@ -73,6 +68,8 @@ jobs:
 
     - stage: "Coverage"
       os: linux
+      dist: bionic
+      arch: amd64
       compiler: gcc
       script:
         - mkdir coverage
@@ -88,10 +85,3 @@ jobs:
       arch: arm64
 
     - os: osx
-      osx_image: xcode10.3
-
-    - os: osx
-      osx_image: xcode11.6
-
-    - os: osx
-      osx_image: xcode12
